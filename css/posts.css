@@ -1,0 +1,33 @@
+/* css/posts.css */
+/* ... Your existing styles ... */
+
+.vertical-header {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100px; /* Adjust the width as needed */
+    height: 100vh; /* Set the header height to the full viewport height */
+    background-color: #f0f0f0; /* Set the background color for the header */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px; /* Add some top padding for better appearance */
+}
+
+.vertical-header img {
+    width: 60px; /* Adjust the image size as needed */
+    height: 60px;
+    border-radius: 50%; /* To create a circular profile image, adjust this as needed */
+    margin-bottom: 20px; /* Add some bottom margin for spacing */
+}
+
+.header-button {
+    margin-bottom: 10px; /* Add margin between buttons */
+    padding: 10px 20px;
+    background-color: #ccc; /* Set button background color */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* ... Your existing styles ... */

@@ -1,0 +1,57 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <title>posts</title>
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="css/posts.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="vertical-header">
+        <!-- Profile Image (linked to the user profile page) -->
+        <a href="user_profile.html">
+            <!-- <img src="path/to/profile_image.png" alt="Profile Image"> -->
+            <button>User</button>
+        </a>
+        
+        <!-- Messages Button -->
+        <button class="header-button">Messages</button>
+
+        <!-- Posts Button -->
+        <button class="header-button">Posts</button>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h1>Welcome to My Social Media App!</h1>
+
+        <!-- Posts Container -->
+        <div class="posts-container">
+            <!-- Display posts here (you can use JavaScript to populate this) -->
+            <!-- Example post structure:
+            <div class="post">
+                <p>Post content goes here...</p>
+            </div>
+            -->
+        </div>
+
+        <!-- New Post Form -->
+        <div class="new-post">
+            <textarea rows="4" cols="50" placeholder="Write your new post here..."></textarea>
+            <button onclick="submitPost()">Submit</button>
+        </div>
+    </div>
+
+    <!-- Empty Footer -->
+    <footer>
+        <!-- Your footer content goes here -->
+    </footer>
+
+    <!-- Add any JavaScript scripts here if needed -->
+    <!-- <script type="module" src="js/auth.js"></script> -->
+    <script type="module" src="js/posts.js"></script>
+    
+</body>
+</html>
