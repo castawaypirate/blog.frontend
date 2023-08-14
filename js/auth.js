@@ -2,34 +2,32 @@ import config from './config.js';
 
 export default class Auth {
     constructor() {
-
+        // this.user = null;
     }
 
-    async validateToken(accessToken) {
-        let validation = false; // Declare 'validation' variable
+ 
+    async validateUser() {
+        let accessToken = localStorage.getItem("accessToken");
+        if (!accessToken) {
+            // console.log("Access token not found.");
+            // return;
+            throw new Error("Access token not found.");
+        }
 
-        if (accessToken) {
-            try {
-                const response = await this.sendToken(accessToken); // Use async/await
-                if (response) {
-                    // document.querySelector("body").style.display = "block";
-                    return true;
-                    // validation = true;
-
-                }
-            } catch (error) {
-                console.log("Request failed:", error);
-                return false;
+        try {
+            const response = await this.sendToken(accessToken);
+            if (response.success) {
+                // this.user = response.user;
+                return response;
+            } else {
+                throw new Error("Token validation failed.");
             }
-        }
-
-        if (!validation) {
-            return false;
-            // window.location.replace("/access.html");
+        } catch (error) {
+            throw new Error("Token validation failed due to an error:", error.message);
         }
     }
 
-    async sendToken(token) { // Use async/await
+    async sendToken(token) {
         const options = {
             method: "GET",
             headers: {
@@ -39,16 +37,20 @@ export default class Auth {
         };
 
         try {
-            const response = await fetch(`${config.apiUrl}/users/validateUser`, options); // Use await here
-            const result = await response.json(); // Use await here
-            if (result.success) {
+            const response = await fetch(`${config.apiUrl}/users/validateUser`, options);
+            const result = await response.json();
+
+            if (response.ok) {
                 return result;
             } else {
-                return false;
+                throw new Error("Invalid response from the server.");
             }
         } catch (error) {
-            console.log('error', error);
-            return false;
+            throw new Error("Failed to fetch data from the server:", error.message);
         }
     }
+
+    // async getUser() {
+    //     return await this.user;
+    // }
 }

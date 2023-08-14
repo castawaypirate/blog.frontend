@@ -2,56 +2,43 @@
 <!DOCTYPE html>
 <html>
 <head>
-    
-    <title>posts</title>
+    <title>posts.</title>
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <link rel="stylesheet" type="text/css" href="css/posts.css">
 </head>
 <body>
-    <!-- Header -->
     <header class="vertical-header">
-        <!-- Profile Image (linked to the user profile page) -->
-        <a href="user_profile.html">
-            <!-- <img src="path/to/profile_image.png" alt="Profile Image"> -->
-            <button>User</button>
-        </a>
-        
-        <!-- Messages Button -->
-        <button class="header-button">Messages</button>
-
-        <!-- Posts Button -->
-        <button class="header-button">Posts</button>
+        <div class="dropdown">
+            <button class="dropbtn">
+                <img src="https://i.pravatar.cc/85" alt="User Profile Image">
+            </button>
+            <div class="dropdown-content">
+                <a href="#" id="profile-link">profile</a>
+                <a href="#" id="messages-link">messages</a>
+                <a href="#" id="logout-link">log out</a>
+            </div>
+        </div>
     </header>
 
-    <!-- Main Content -->
     <div class="container">
-        <h1>Welcome to My Social Media App!</h1>
-
-        <!-- Posts Container -->
+        <h1><a class="title-link" href="/posts.html">posts.</a></h1>
+        <p class="description">Hello there. This is a blog where you can post whatever you want.
+             There is no content moderation algorithm that evaluates posts. For each post, there will be two counters.
+             One for likes and one for dislikes. Also, there is no registration or login. Usernames are not unique.
+             The same username with a new password means a new user. That's our policy. Thank you for joining our community.
+        </p>
         <div class="posts-container">
-            <!-- Display posts here (you can use JavaScript to populate this) -->
-            <!-- Example post structure:
-            <div class="post">
-                <p>Post content goes here...</p>
+            <div class="new-post">
+                <textarea rows="4" cols="50" placeholder="Write your new post here..."></textarea>
+                <button>Submit</button>
             </div>
-            -->
-        </div>
-
-        <!-- New Post Form -->
-        <div class="new-post">
-            <textarea rows="4" cols="50" placeholder="Write your new post here..."></textarea>
-            <button onclick="submitPost()">Submit</button>
         </div>
     </div>
 
-    <!-- Empty Footer -->
     <footer>
-        <!-- Your footer content goes here -->
     </footer>
 
-    <!-- Add any JavaScript scripts here if needed -->
-    <!-- <script type="module" src="js/auth.js"></script> -->
     <script type="module" src="js/posts.js"></script>
-    
+    <!-- <script type="module" src="js/router.js"></script> -->
 </body>
 </html>

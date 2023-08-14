@@ -1,25 +1,6 @@
 import config from './config.js';
 import Auth from './auth.js';
 
-
-// document.addEventListener("DOMContentLoaded", function() {
-//   // document.querySelector("body").style.display = "none";
-//     const auth = new Auth();
-
-//     auth.validateToken(localStorage.getItem("accessToken"))
-//         .then(isValidToken => {
-//         if (isValidToken) {
-//           window.location.replace("/posts.html");
-//         } else {
-//           // document.querySelector("body").style.display = "block";
-//         }
-//         })
-//         .catch(error => {
-//         console.log("An error occurred:", error);
-//         // Handle the error here if needed
-//         });
-// });
-
 document.getElementById('form').addEventListener('submit', function(event) {
     event.preventDefault();
   
@@ -49,12 +30,12 @@ function access(data) {
       .then(result => {
         if(result.success){
           localStorage.setItem('accessToken', result.token);
-          // console.log(localStorage.getItem('accessToken'));
 
-          const currentPath = window.location.pathname;
-          const baseURL = window.location.origin;
-          const newPath = currentPath.substring(0, currentPath.lastIndexOf("/")) + "/posts.html";
-          window.location.href = baseURL + newPath;
+          // const currentPath = window.location.pathname;
+          // const baseURL = window.location.origin;
+          // const newPath = currentPath.substring(0, currentPath.lastIndexOf("/")) + "/posts.html";
+          // window.location.href = baseURL + newPath;
+          window.location.replace("/posts")
 
           const form = document.getElementById('form');
           form.submit();

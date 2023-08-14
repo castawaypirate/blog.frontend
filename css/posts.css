@@ -1,33 +1,91 @@
-/* css/posts.css */
-/* ... Your existing styles ... */
+body {
+  /* font-family: 'GitHub Sans', sans-serif; */
+  font-family: "Source Code Pro", monospace;
+}
+
+.description {
+  width: 66%;
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.title-link {
+    text-decoration: none; /* Remove underline */
+    color: #000; /* Set the link color */
+}
 
 .vertical-header {
     position: fixed;
     top: 0;
     right: 0;
-    width: 100px; /* Adjust the width as needed */
-    height: 100vh; /* Set the header height to the full viewport height */
-    background-color: #f0f0f0; /* Set the background color for the header */
+    width: 3rem; /* Adjust the width as needed */
+    height: 3rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 20px; /* Add some top padding for better appearance */
+    padding-top: 20px;
+    margin-right: 3rem;
 }
 
-.vertical-header img {
-    width: 60px; /* Adjust the image size as needed */
-    height: 60px;
-    border-radius: 50%; /* To create a circular profile image, adjust this as needed */
-    margin-bottom: 20px; /* Add some bottom margin for spacing */
+.dropdown {
+  /* display: flex; */
+  /* float: right; */
+  position: relative;
+  display: inline-block;
 }
 
-.header-button {
-    margin-bottom: 10px; /* Add margin between buttons */
-    padding: 10px 20px;
-    background-color: #ccc; /* Set button background color */
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+.dropbtn {
+  background-color: white;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 50%;
+
+  /* Adjust the width and height for the button */
+  width: 3.5rem;
+  height: 3.5rem;
+
+  /* Use flexbox for center alignment */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* ... Your existing styles ... */
+.dropbtn img {
+  border-radius: 50%;
+
+  /* Adjust the max width and max height for the image */
+  max-width: 110%;
+  max-height: 110%;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  /* background-color: #f9f9f9; */
+  /* min-width: 160px; */
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 1rem 1rem;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
+}
+
+/* Show dropdown content when the button is focused */
+.dropdown:focus-within .dropdown-content {
+  display: block;
+}
+
+/* Change button color on hover and focus */
+.dropbtn:hover, .dropbtn:focus {
+  background-color: #ff91a1;
+}
