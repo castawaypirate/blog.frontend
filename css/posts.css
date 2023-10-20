@@ -4,27 +4,28 @@ body {
 }
 
 .description {
-  width: 66%;
+  width: 93%;
   margin-top: 0.5rem;
   margin-bottom: 1.5rem;
 }
 
 .title-link {
-    text-decoration: none; /* Remove underline */
-    color: #000; /* Set the link color */
+    text-decoration: none;
+    color: #000;
 }
 
 .vertical-header {
     position: fixed;
+    height: 95%;
     top: 0;
     right: 0;
-    width: 3rem; /* Adjust the width as needed */
-    height: 3rem;
+    width: 3%; 
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     align-items: center;
     padding-top: 20px;
-    margin-right: 3rem;
+    margin-right: 2%;
 }
 
 .dropdown {
@@ -89,3 +90,37 @@ body {
 .dropbtn:hover, .dropbtn:focus {
   background-color: #ff91a1;
 }
+
+.add-button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #FFB6C1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s; /* Add a transition for smoother hover effect */
+}
+
+.add-button::before, .add-button::after {
+  content: '';
+  width: 20px;
+  height: 4px;
+  background-color: white;
+  position: absolute;
+}
+
+.add-button::before {
+  transform: rotate(90deg);
+}
+
+.add-button::after {
+  transform: rotate(0deg);
+}
+
+/* Add a hover effect */
+.add-button:hover {
+  background-color: #ff91a1; /* Change the background color on hover */
+}
+

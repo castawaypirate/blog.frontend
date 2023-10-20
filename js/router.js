@@ -28,8 +28,6 @@ const urlRouteNotFound = {
 	}
 };
 
-
-
 // create a function that watches the url and calls the urlLocationHandler
 const urlRoute = (event) => {
 	event = event || window.event; // get window.event if event argument not provided
@@ -41,9 +39,9 @@ const urlRoute = (event) => {
 
 // create a function that handles the url location
 const urlLocationHandler = async () => {
-	const location = window.location.pathname; // get the url path
+	let location = window.location.pathname; // get the url path
 	// if the path length is 0, set it to primary page route
-	if (location.length == 0) {
+	if (location.length === 0) {
 		location = "/";
 	}
 	let out = true;

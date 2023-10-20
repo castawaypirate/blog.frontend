@@ -1,1 +1,9 @@
 /images/
+# Default ignored files
+/shelf/
+/workspace.xml
+/.idea/
+/.vscode/
+# Editor-based HTTP Client requests
+/httpRequests/
+*.iml
