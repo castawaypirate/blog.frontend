@@ -1,0 +1,12 @@
+body {
+    font-family: "Source Code Pro", monospace;
+}
+
+.text {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box; /* Include padding and border in the total width */
+    width: 100%; /* Set all items to occupy the full width of the container */
+}

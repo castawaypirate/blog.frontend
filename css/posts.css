@@ -1,10 +1,9 @@
 body {
-  /* font-family: 'GitHub Sans', sans-serif; */
   font-family: "Source Code Pro", monospace;
 }
 
 .description {
-  width: 93%;
+  width: 91%;
   margin-top: 0.5rem;
   margin-bottom: 1.5rem;
 }
@@ -33,6 +32,7 @@ body {
   /* float: right; */
   position: relative;
   display: inline-block;
+  visibility: hidden;
 }
 
 .dropbtn {
@@ -92,8 +92,9 @@ body {
 }
 
 .add-button {
-  width: 50px;
-  height: 50px;
+  width: 3.5rem;
+  height: 3.5rem;
+  margin-bottom: 0.5rem;
   border-radius: 50%;
   background-color: #FFB6C1;
   display: flex;

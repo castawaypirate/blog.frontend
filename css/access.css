@@ -7,6 +7,26 @@ body {
     margin: 0;
 }
 
+/* Style the popup */
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    display: none;
+    transition: top 0.5s;
+  }
+  
+  /* Add styles for animation (slide down) */
+  .popup.show {
+    top: 0;
+    display: block;
+  }
+  
 .container {
     max-width: 300px;
     padding: 20px;
@@ -15,6 +35,9 @@ body {
     display: flex;
     flex-direction: column;
     align-items: stretch;
+    margin-top: 40%;
+    margin-bottom: 50%;
+
     /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);  */
 }
 

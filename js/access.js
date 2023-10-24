@@ -1,6 +1,50 @@
 import config from './config.js';
 import Auth from './auth.js';
 
+async function checkUserLoginStatus() {
+  let loggedIn = false;
+  if (localStorage.getItem("accessToken")) {
+    try {
+      const authInstance = new Auth();
+      const user = await authInstance.validateUser();
+      if (user) {
+        loggedIn = true;
+      } else {
+        loggedIn = false;
+      }
+    } catch (error) {
+      loggedIn = false;
+    }
+  }
+  return loggedIn;
+}
+
+document.addEventListener("DOMContentLoaded", async function() {
+  // Redirect to homepage (posts.html) if user is logged in
+  const loggedIn = await checkUserLoginStatus();
+  if(loggedIn){
+    window.location.assign("posts.html")
+  }
+
+  const redirectedFromAddButton = localStorage.getItem("redirectedFromAddButton");
+
+  if (redirectedFromAddButton === "true") {
+    const popup = document.getElementById("popup");
+
+    // Display the popup
+    popup.classList.add("show");
+
+    // Automatically hide the popup after a set duration (e.g., 5 seconds)
+    setTimeout(function() {
+      popup.classList.remove("show");
+    }, 3000); // 5000 milliseconds (5 seconds)
+
+    // Clear the flag in localStorage
+    localStorage.removeItem("redirectedFromAddButton");
+  }
+});
+
+
 document.getElementById('form').addEventListener('submit', function(event) {
     event.preventDefault();
   
@@ -15,7 +59,7 @@ document.getElementById('form').addEventListener('submit', function(event) {
   });
 
 
-function access(data) {
+async function access(data) {
     const options = {
         method: 'POST',
         headers: {
@@ -24,24 +68,16 @@ function access(data) {
         body: JSON.stringify(data), // Convert the data to JSON format
       };
 
-    fetch(`${config.apiUrl}/users/access`, options)
-      .then(response => response.json())
-      .then(result => {
-        if(result.success){
+      try {
+        const response = await fetch(`${config.apiUrl}/users/access`, options);
+        const result = await response.json();
+    
+        if (result.success) {
           localStorage.setItem('accessToken', result.token);
-          console.log(localStorage.getItem('accessToken'));
-          // const currentPath = window.location.pathname;
-          // const baseURL = window.location.origin;
-          // const newPath = currentPath.substring(0, currentPath.lastIndexOf("/")) + "/posts.html";
-          // window.location.href = baseURL + newPath;
-
-          window.location.replace("/posts")
-
-          const form = document.getElementById('form');
-          form.submit();
+          window.location.assign("posts.html");
         }
-      }).catch(error => {
+      } catch (error) {
         throw new Error("Error: " + error);
-    });
+      }
 
 }
