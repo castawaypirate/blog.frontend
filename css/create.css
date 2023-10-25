@@ -1,12 +1,50 @@
+html,
 body {
     font-family: "Source Code Pro", monospace;
 }
 
-.text {
+.container {
+    height: 97vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.create {
+    margin-top: 0.5%;
+    margin-bottom: 0.5%;
+}
+
+.container textarea,
+.container input,
+.container button {
     padding: 10px;
-    margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    box-sizing: border-box; /* Include padding and border in the total width */
-    width: 100%; /* Set all items to occupy the full width of the container */
+    box-sizing: border-box;
+    width: 100%;
+}
+
+#postTitle {
+    margin-bottom: 1%;
+    resize: none;
+    overflow: hidden;
+    padding: 0.8rem;
+}
+
+#postContent {
+    margin-bottom: 1%;
+    height: 100%;
+}
+
+.container button {
+    background-color: #FFB6C1;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 125px;
+}
+
+.container button:hover {
+    background-color: #ff91a1;
 }
