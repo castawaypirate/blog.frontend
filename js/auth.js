@@ -1,23 +1,17 @@
 import config from './config.js';
 
 export default class Auth {
-    constructor() {
-        // this.user = null;
-    }
+    constructor() {}
 
- 
     async validateUser() {
         let accessToken = localStorage.getItem("accessToken");
         if (!accessToken) {
-            // console.log("Access token not found.");
-            // return;
             throw new Error("Access token not found.");
         }
         let responseStatus;
         try {
             const response = await this.sendToken(accessToken);
             if (response.success) {
-                // this.user = response.user;
                 return response;
             } else {
                 responseStatus = "Unsuccessful\n";
@@ -51,8 +45,4 @@ export default class Auth {
                 "Failed to fetch data from the server:" + error.message);
         }
     }
-
-    // async getUser() {
-    //     return await this.user;
-    // }
 }

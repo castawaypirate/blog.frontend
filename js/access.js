@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", async function() {
   // Redirect to homepage (posts.html) if user is logged in
   const loggedIn = await checkUserLoginStatus();
   if(loggedIn){
-    window.location.assign("posts.html")
+    window.location.assign("posts.html");
   }
 
   const redirectedFromAddButton = localStorage.getItem("redirectedFromAddButton");
@@ -46,38 +46,37 @@ document.addEventListener("DOMContentLoaded", async function() {
 
 
 document.getElementById('form').addEventListener('submit', function(event) {
-    event.preventDefault();
-  
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
+  event.preventDefault();
 
-    const data = {
-        username: username,
-        password: password
-    };
-    access(data);
-  });
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+
+  const data = {
+      username: username,
+      password: password
+  };
+  access(data);
+});
 
 
 async function access(data) {
-    const options = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json', // Set the content type to JSON
-        },
-        body: JSON.stringify(data), // Convert the data to JSON format
-      };
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json', // Set the content type to JSON
+    },
+    body: JSON.stringify(data), // Convert the data to JSON format
+  };
 
-      try {
-        const response = await fetch(`${config.apiUrl}/users/access`, options);
-        const result = await response.json();
-    
-        if (result.success) {
-          localStorage.setItem('accessToken', result.token);
-          window.location.assign("posts.html");
-        }
-      } catch (error) {
-        throw new Error("Error: " + error);
-      }
+  try {
+    const response = await fetch(`${config.apiUrl}/users/access`, options);
+    const result = await response.json();
 
+    if (result.success) {
+      localStorage.setItem('accessToken', result.token);
+      window.location.assign("posts.html");
+    }
+  } catch (error) {
+    throw new Error("Error: " + error);
+  }
 }

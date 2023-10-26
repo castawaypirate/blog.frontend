@@ -8,10 +8,12 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="create">create.</h1>
-        <input id="postTitle" rows="1"></input>
-        <textarea id="postContent"></textarea>
-        <button type="create">create</button>
+        <h1 class="create" action="/posts.html">create.</h1>
+        <form id="postForm" >
+            <input id="postTitle" rows="1" required></input>
+            <textarea id="postContent" required></textarea>
+            <button id="createButton" type="create">create</button>
+        </form>
     </div>
 
     <script type="module" src="js/create.js"></script>

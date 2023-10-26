@@ -4,36 +4,43 @@ body {
 }
 
 .container {
-    height: 97vh;
     display: flex;
     flex-direction: column;
+    height: 96vh;
 }
 
-.create {
-    margin-top: 0.5%;
-    margin-bottom: 0.5%;
-}
-
-.container textarea,
 .container input,
+.container textarea,
 .container button {
-    padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     box-sizing: border-box;
-    width: 100%;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.create {
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+    margin-top: 0.1rem;
+    margin-bottom: 0.1rem;
 }
 
 #postTitle {
-    margin-bottom: 1%;
     resize: none;
     overflow: hidden;
-    padding: 0.8rem;
+    padding: 0.75rem;
+}
+
+#postForm {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 #postContent {
-    margin-bottom: 1%;
     height: 100%;
+    padding: 0.75rem;
 }
 
 .container button {
@@ -43,6 +50,8 @@ body {
     border-radius: 5px;
     cursor: pointer;
     width: 125px;
+    padding: 0.7rem;
+    margin-top: 1rem;
 }
 
 .container button:hover {
