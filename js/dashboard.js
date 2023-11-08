@@ -41,7 +41,7 @@ document.getElementById("add-button").addEventListener("click", async function (
 function logout() {
   // Clear the access token from local storage
   localStorage.removeItem("accessToken");
-  window.location.assign("posts.html")
+  window.location.assign("dashboard.html")
 }
 
 // Add an event listener to the "Log Out" link
@@ -53,6 +53,11 @@ document.getElementById("logout-link").addEventListener("click", function (event
 document.getElementById("profile-link").addEventListener("click", function (event) {
   event.preventDefault();
   window.location.assign("profile.html")
+});
+
+document.getElementById("posts-link").addEventListener("click", function (event) {
+  event.preventDefault();
+  window.location.assign("posts.html")
 });
 
 document.getElementById("messages-link").addEventListener("click", function (event) {

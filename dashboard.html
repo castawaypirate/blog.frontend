@@ -1,0 +1,40 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>dashboard.</title>
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="css/dashboard.css">
+</head>
+<body>
+    <header class="vertical-header">
+        <div id="user-button" class="dropdown">
+            <button class="dropbtn">
+                <img src="images/user-profile-pic.png" alt="User Profile Image">
+            </button>
+            <div class="dropdown-content">
+                <a href="#" id="profile-link">profile</a>
+                <a href="#" id="posts-link">posts</a>
+                <a href="#" id="messages-link">messages</a>
+                <a href="#" id="logout-link">log out</a>
+            </div>
+        </div>
+        <div id="add-button" class="add-button"></div>
+    </header>
+
+    <div class="container">
+        <h1><a class="title-link" href="/dashboard.html">dashboard.</a></h1>
+        <p class="description">Hello there. This is a blog where you can post whatever you want.
+             There is no content moderation algorithm that evaluates posts. For each post, there will be two counters.
+             One for likes and one for dislikes. Also, there is no registration or login. Usernames are not unique.
+             The same username with a new password means a new user. That's our policy. Thank you for joining our community.
+        </p>
+    </div>
+
+    <footer>
+    </footer>
+
+    <script type="module" src="js/dashboard.js"></script>
+</body>
+</html>

@@ -20,10 +20,10 @@ async function checkUserLoginStatus() {
 }
 
 document.addEventListener("DOMContentLoaded", async function() {
-  // Redirect to homepage (posts.html) if user is logged in
+  // Redirect to homepage (dashboard.html) if user is logged in
   const loggedIn = await checkUserLoginStatus();
   if(loggedIn){
-    window.location.assign("posts.html");
+    window.location.assign("dashboard.html");
   }
 
   const redirectedFromAddButton = localStorage.getItem("redirectedFromAddButton");
@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", async function() {
 });
 
 
-document.getElementById('form').addEventListener('submit', function(event) {
+document.getElementById('accessForm').addEventListener('submit', function(event) {
   event.preventDefault();
 
   const username = document.getElementById('username').value;
@@ -74,7 +74,7 @@ async function access(data) {
 
     if (result.success) {
       localStorage.setItem('accessToken', result.token);
-      window.location.assign("posts.html");
+      window.location.assign("dashboard.html");
     }
   } catch (error) {
     throw new Error("Error: " + error);
