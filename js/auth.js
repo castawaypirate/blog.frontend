@@ -8,16 +8,15 @@ export default class Auth {
         if (!accessToken) {
             throw new Error("Access token not found.");
         }
-        let responseStatus;
         try {
-            const response = await this.sendToken(accessToken);
-            if (response.success) {
-                return response;
+            const result = await this.sendToken(accessToken);
+            if (result.success) {
+                return result;
             } else {
-                responseStatus = "Unsuccessful\n";
+                console.log(response);
             }
         } catch (error) {
-            throw new Error("Response status: " + responseStatus +
+            throw new Error("Response status: " + response.status +
                 "Token validation failed due to an error:" + error.message);
         }
     }
@@ -31,17 +30,16 @@ export default class Auth {
             },
         };
 
-        let responseStatus;
         try {
             const response = await fetch(`${config.apiUrl}/users/validateUser`, options);
-            const result = await response.json();
             if (response.ok) {
+                const result = await response.json();
                 return result;
             } else {
-                responseStatus = "Not ok\n";
+                console.log(response);
             }
         } catch (error) {
-            throw new Error("Response status: " + responseStatus +
+            throw new Error("Response status: " + response.status +
                 "Failed to fetch data from the server:" + error.message);
         }
     }

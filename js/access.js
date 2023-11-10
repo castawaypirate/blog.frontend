@@ -70,12 +70,18 @@ async function access(data) {
 
   try {
     const response = await fetch(`${config.apiUrl}/users/access`, options);
-    const result = await response.json();
-
-    if (result.success) {
-      localStorage.setItem('accessToken', result.token);
-      window.location.assign("dashboard.html");
+    if (response.ok) {
+      const result = await response.json();
+      if (result.success) {
+        localStorage.setItem('accessToken', result.token);
+        window.location.assign("dashboard.html");
+      } else {
+        console.log(result);
+      }
+    } else {
+      console.log(response);
     }
+    
   } catch (error) {
     throw new Error("Error: " + error);
   }

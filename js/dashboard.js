@@ -1,4 +1,5 @@
 import Auth from './auth.js';
+import config from './config.js';
 
 async function checkUserLoginStatus() {
   let loggedIn = false;
@@ -19,11 +20,65 @@ async function checkUserLoginStatus() {
 }
 
 document.addEventListener("DOMContentLoaded", async function() {
+  // check if user is logged in
   const loggedIn = await checkUserLoginStatus();
   if(loggedIn){
     let userButton = document.getElementById("user-button");
     userButton.style.visibility = "visible";
   }
+
+  // load posts
+  const storedPage = localStorage.getItem('currentPage');
+  loadPosts(storedPage ? Number(storedPage) : 1);
+});
+
+async function loadPosts(pageNumber = 1) {
+  const options = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json', // Set the content type to JSON
+    }
+  };
+  
+  let url = `${config.apiUrl}/posts/getPosts?pageNumber=${pageNumber}`;
+  
+  try {
+    const response = await fetch(url, options);
+    if (response.ok) {
+      const result = await response.json();
+      let totalPages = result.totalPages;
+      let currentPage = result.pageNumber;
+      localStorage.setItem('currentPage', currentPage);
+      console.log(result);
+
+      let postContainer = document.getElementById('post-container');
+      postContainer.innerHTML = ''; // Clear out the previous posts
+      for (let post of result.posts) {
+          let postTitle = document.createElement('h2');
+          postTitle.textContent = post.title;
+          postContainer.appendChild(postTitle);
+      }
+      // Enable or disable the previous and next buttons based on the current page number
+      document.getElementById('prev-button').disabled = currentPage === 1;
+      document.getElementById('next-button').disabled = currentPage === totalPages;
+    } else {
+      console.log(response);
+    }
+  } catch (error) {
+    throw new Error("Error: " + error);
+  }
+}
+
+document.getElementById("prev-button").addEventListener("click", function (event) {
+  event.preventDefault();
+  const currentPage = localStorage.getItem('currentPage');
+  loadPosts(parseInt(currentPage) - 1);
+});
+
+document.getElementById("next-button").addEventListener("click", function (event) {
+  event.preventDefault();
+  const currentPage = localStorage.getItem('currentPage');
+  loadPosts(parseInt(currentPage) + 1);
 });
 
 document.getElementById("add-button").addEventListener("click", async function (event) {
@@ -64,3 +119,4 @@ document.getElementById("messages-link").addEventListener("click", function (eve
   event.preventDefault();
   window.location.assign("messages.html")
 });
+

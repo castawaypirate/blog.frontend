@@ -60,9 +60,15 @@ async function create(data) {
 
     try {
         const response = await fetch(`${config.apiUrl}/posts/create`, options);
-        const result = await response.json();
-        if (result.success) {
-            window.location.assign("dashboard.html");
+        if (response.ok) {
+          const result = await response.json();
+          if (result.success) {
+              window.location.assign("dashboard.html");
+          } else {
+            console.log(response);
+          }
+        } else {
+          console.log(response);
         }
     } catch (error) {
         throw new Error("Error: " + error);
