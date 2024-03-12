@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>blog. access form</title>
+    <title>access.</title>
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <link rel="stylesheet" type="text/css" href="css/access.css">
 </head>
 <body>
-    <div id="popup" class="popup">you can't create if you are not logged in</div>
     <div class="container">
         <h2>blog.</h2>
-        <form id="accessForm" action="/dashboard.html">
-            <input type="text" id="username" placeholder="username" required>
-            <input type="password" id="password" placeholder="password" required>
-            <button type="submit">access</button>
-        </form>
+        <div class="form-container">
+            <form id="access-form" action="/dashboard.html">
+                <input type="text" id="username" placeholder="username" required>
+                <input type="password" id="password" placeholder="password" required>
+                <button type="submit">access</button>
+            </form>
+        </div>
     </div>
    
     <script type="module" src="js/access.js"></script>

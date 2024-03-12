@@ -1,5 +1,5 @@
-import config from './config.js';
-import Auth from './auth.js';
+import config from "./config.js";
+import Auth from "./auth.js";
 
 async function checkUserLoginStatus() {
   let loggedIn = false;
@@ -45,11 +45,11 @@ document.addEventListener("DOMContentLoaded", async function() {
 });
 
 
-document.getElementById('accessForm').addEventListener('submit', function(event) {
+document.querySelector("#access-form").addEventListener("submit", function(event) {
   event.preventDefault();
 
-  const username = document.getElementById('username').value;
-  const password = document.getElementById('password').value;
+  const username = document.querySelector("#username").value;
+  const password = document.querySelector("#password").value;
 
   const data = {
       username: username,
@@ -61,9 +61,9 @@ document.getElementById('accessForm').addEventListener('submit', function(event)
 
 async function access(data) {
   const options = {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json', // Set the content type to JSON
+      "Content-Type": "application/json", // Set the content type to JSON
     },
     body: JSON.stringify(data), // Convert the data to JSON format
   };
@@ -73,7 +73,7 @@ async function access(data) {
     if (response.ok) {
       const result = await response.json();
       if (result.success) {
-        localStorage.setItem('accessToken', result.token);
+        localStorage.setItem("accessToken", result.token);
         window.location.assign("dashboard.html");
       } else {
         console.log(result);

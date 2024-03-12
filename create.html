@@ -3,18 +3,38 @@
 <head>
     <meta charset="utf-8">
     <title>create.</title>
-    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
     <link rel="stylesheet" type="text/css" href="css/create.css">
 </head>
 <body>
+    <header>
+        <div class="menu-container">
+            <div class="user menu">
+                <a href="#" id="dashboard-link">dashboard</a>
+                <div class="divider">|</div>
+                <a href="#" id="profile-link">profile</a>
+                <div class="divider">|</div>
+                <a href="#" id="posts-link">posts</a>
+                <div class="divider">|</div>
+                <a href="#" id="logout-link">log out</a> 
+            </div>
+            <div class="anonymous menu">
+                <a href="#" id="dashboard-link">dashboard</a>
+                <div class="divider">|</div>
+                <a href="#" id="access-link">access</a>
+            </div>
+            <button id="toggle-button" class="user-button">
+                <img src="assets/user-profile-pic.png" alt="User Profile Image">
+            </button>
+        </div>
+    </header>
     <div class="container">
-        <h1 class="create">create.</h1>
-        <form id="postForm" action="/dashboard.html">
-            <input id="postTitle" rows="1" required></input>
-            <textarea id="postContent" required></textarea>
-            <button id="createButton" type="submit">create</button>
+        <form id="post-form" action="/dashboard.html">
+            <textarea id="post-title" placeholder="Title" rows="1" required></textarea>
+            <textarea id="post-body" placeholder="Body" rows="1" required></textarea>
+            <a href="#" id="post-link" class="disabled-link">post</a>
         </form>
     </div>
-    <script type="module" src="js/create.js"></script>
+    <script src="js/create.js"></script>
 </body>
 </html>

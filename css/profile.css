@@ -1,0 +1,77 @@
+body {
+    font-family: "Source Code Pro", monospace;
+    display: flex;
+    flex-direction: column;
+    min-height: 98vh;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+}
+
+.about-column {
+    flex: 1;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+}
+
+.profile-pic {
+    width: 300px;
+    height: 300px;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    outline: none;
+    margin-bottom: 1rem;
+}
+  
+.profile-pic img {
+    width: 300px;
+    height: 300px;
+    display: block;
+}
+
+#about {
+    width: 100%;
+    font-size: 1rem;
+    border: none;
+    border-bottom: 1px solid #ffffff;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    resize: none;
+}
+
+#about::placeholder {
+    font-size: 1rem;
+    font-family: "Source Code Pro", monospace;
+}
+
+#about:focus {
+    border-color: #000000;
+    outline: none; 
+}
+
+footer {
+    margin-top: auto;
+}
+
+.menu {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+  
+.menu a{
+    text-decoration: none;
+    font-size: 1.2rem;
+    color: #000000;
+}
+  
+.divider {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+}

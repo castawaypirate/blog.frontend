@@ -1,59 +1,116 @@
-html,
 body {
     font-family: "Source Code Pro", monospace;
 }
+    
+header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 0.5rem 0.5rem 0 0.5rem;
+}
+    
+.user-button {
+    width: 38px; /* Set the width of the button */
+    height: 38px; /* Set the height of the button */
+    padding: 0; /* Remove padding */
+    border: none; /* Remove border */
+    background: none; /* Remove background */
+    cursor: pointer; /* Optional: Change cursor on hover */
+    outline: none; /* Remove focus outline */
+    margin-left: 20px;
+}
+  
+.user-button img {
+    width: 100%; /* Make the image fill the button */
+    height: 100%; /* Make the image fill the button */
+    display: block; /* Remove any default image margins */
+}
+    
+.menu-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+    
+.menu {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+    
+.menu a{
+    text-decoration: none;
+    font-size: 1.2rem;
+    color: #000000;
+}
+    
+.divider {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+}
 
-.container {
+#post-form {
     display: flex;
     flex-direction: column;
-    height: 96vh;
 }
 
-.container input,
-.container textarea,
-.container button {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
-}
-
-.create {
-    padding-top: 0.1rem;
-    padding-bottom: 0.1rem;
-    margin-top: 0.1rem;
-    margin-bottom: 0.1rem;
-}
-
-#postTitle {
-    resize: none;
-    overflow: hidden;
-    padding: 0.75rem;
-}
-
-#postForm {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
-
-#postContent {
-    height: 100%;
-    padding: 0.75rem;
-}
-
-.container button {
-    background-color: #FFB6C1;
-    color: #fff;
+#post-title {
+    font-size: 1.5rem;
+    font-weight: 600;
     border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 125px;
-    padding: 0.7rem;
-    margin-top: 1rem;
+    border-bottom: 1px solid #ffffff;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    resize: none;
 }
 
-.container button:hover {
-    background-color: #ff91a1;
+#post-title::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    font-size: 1.5rem;
+    font-weight: 600;
+    font-family: "Source Code Pro", monospace;
+}
+
+#post-title:focus {
+    border-color: #000000; /* Change to the desired focus border color */
+    outline: none; /* Remove default focus outline (optional) */
+}
+
+#post-body {
+    font-size: 1rem;
+    border: none;
+    border-bottom: 1px solid #ffffff;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    padding: 0;
+    box-sizing: border-box;
+    resize: none;
+}
+
+#post-body::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    font-family: "Source Code Pro", monospace;
+}
+
+#post-body:focus {
+    border-color: #000000; /* Change to the desired focus border color */
+    outline: none; /* Remove default focus outline (optional) */
+}
+
+#post-link{
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+
+.disabled-link {
+    color: #aaa; /* Placeholder color */
+    pointer-events: none; /* Prevent clicking */
+    cursor: default; /* Default cursor to indicate it's not clickable */
+}
+
+.enabled-link {
+    color: #000000;
+    pointer-events: auto; /* Allow clicking */
+    cursor: pointer; /* Pointer cursor to indicate it's clickable */
 }
