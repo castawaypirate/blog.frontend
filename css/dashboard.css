@@ -1,7 +1,3 @@
-body {
-  font-family: "Source Code Pro", monospace;
-}
-
 header {
   display: flex;
   align-items: center;
@@ -13,51 +9,17 @@ header h1 {
   margin: 0;
 }
 
-.dashboard-link {
+#dashboard-header {
   text-decoration: none;
   color: #000000;
 }
 
-.user-button {
-  width: 38px; /* Set the width of the button */
-  height: 38px; /* Set the height of the button */
-  padding: 0; /* Remove padding */
-  border: none; /* Remove border */
-  background: none; /* Remove background */
-  cursor: pointer; /* Optional: Change cursor on hover */
-  outline: none; /* Remove focus outline */
-  margin-left: 20px;
+#dashboard-link {
+  display: none;
 }
 
-.user-button img {
-  width: 100%; /* Make the image fill the button */
-  height: 100%; /* Make the image fill the button */
-  display: block; /* Remove any default image margins */
-}
-
-.menu-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-}
-
-.menu {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-}
-
-.menu a{
-  text-decoration: none;
-  font-size: 1.2rem;
-  color: #000000;
-}
-
-.divider {
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
+#dashboard-divider {
+  display: none;
 }
 
 .container {
@@ -68,5 +30,81 @@ header h1 {
 
 .description {
   margin-top: 0.5rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+ol {
+  margin-top: -1rem;
+  padding-left: 1.8em;
+}
+
+li {
+  margin-top: -0.15rem;
+}
+
+.post-title {
+  margin-bottom: 0;
+}
+
+#post-link {
+  text-decoration: none;
+  color: #000000;
+}
+
+.post-details {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.post-details-divider {
+  font-size: 0.9rem;
+  margin: 0 1px 2px 1px;
+}
+
+.upvotes, .downvotes{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.upvotes:hover, .downvotes:hover{
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.triangle-up {
+  width: 0;
+  height: 0;
+  border-left: 4.5px solid transparent; /* Left border width determines the triangle's width */
+  border-right: 4.5px solid transparent; /* Right border width determines the triangle's width */
+  border-bottom: 9px solid #000000; /* Bottom border width determines the triangle's height, and its color */
+}
+
+.count {
+  font-size: 0.9rem;
+  margin-left: 1px;
+}
+
+.triangle-down {
+  width: 0;
+  height: 0;
+  border-left: 4.5px solid transparent; /* Left border width determines the triangle's width */
+  border-right: 4.5px solid transparent; /* Right border width determines the triangle's width */
+  border-top: 9px solid #000000; /* Bottom border width determines the triangle's height, and its color */
+}
+
+#upvote, #downvote {
+  font-size: 0.9rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#upvote:hover, #downvote:hover {
+  text-decoration: underline;
+}
+
+.created, .edited, .post-creator {
+  font-size: 0.9rem;
 }

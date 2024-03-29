@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+
+    <script type="module" src="js/index.js"></script>
+    <script type="module" src="js/router.js"></script>
+</head>
+<body>
+    <header>
+        <!-- should test this if <a> in dashboard works with router -->
+        <h1><a id="dashboard-header" href="/">dashboard.</a></h1>
+        <div class="menu-container">
+            <nav class="anonymous menu">
+                <a href="/access" id="access-link">access</a>
+            </nav>
+            <nav class="user menu">
+                <a href="/" id="dashboard-link">dashboard</a>
+                <div id="dashboard-divider" class="divider">|</div>
+                <a href="/create" id="create-link">create</a>
+                <div id="create-divider" class="divider">|</div>
+                <a href="/posts" id="posts-link">posts</a>
+                <div id="posts-divider" class="divider">|</div>
+                <a href="/profile" id="profile-link">profile</a>
+                <div id="profile-divider" class="divider">|</div>
+                <div id="logout-link">log out</a> 
+            </nav>
+            <button id="toggle-button" class="user-button">
+                <img src="assets/user-profile-pic.png" alt="User Profile Image">
+            </button>
+            
+        </div>
+    </header>
+
+    <div id="content">
+    </div>
+
+    <footer>
+    </footer>
+
+</body>
+</html>

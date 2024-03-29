@@ -1,14 +1,7 @@
 body {
   font-family: "Source Code Pro", monospace;
 }
-  
-header {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  margin: 0.5rem 0.5rem 0 0.5rem;
-}
-  
+
 .user-button {
   width: 38px; /* Set the width of the button */
   height: 38px; /* Set the height of the button */
@@ -25,32 +18,42 @@ header {
   height: 100%; /* Make the image fill the button */
   display: block; /* Remove any default image margins */
 }
-  
+
 .menu-container {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
 }
-  
+
 .menu {
-  display: flex;
+  display: none;
   flex-direction: row;
   align-items: center;
   justify-content: center;
 }
-  
+
+
 .menu a{
   text-decoration: none;
   font-size: 1.2rem;
   color: #000000;
 }
-  
+
+.menu a:hover {
+  text-decoration: underline;
+}
+
 .divider {
   margin-left: 0.5rem;
   margin-right: 0.5rem;
 }
 
-.container h2 {
-    margin: 0;
+#logout-link {
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+#logout-link:hover {
+  text-decoration: underline;
 }

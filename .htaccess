@@ -1,12 +1,5 @@
-RewriteEngine on
-RewriteBase /
-
-RewriteCond %{THE_REQUEST} /([^.]+)\.html [NC]
-RewriteRule ^ /%1 [NC,L,R]
-
-RewriteCond %{REQUEST_FILENAME}.html -f
-RewriteRule ^ %{REQUEST_URI}.html [NC,L]
-
-RewriteCond  %{REQUEST_FILENAME} !-f
-RewriteCond  %{REQUEST_FILENAME} !-d
-RewriteRule  ^(.*)$ ./404.html?param=$1 [QSA,L]
+RewriteEngine On
+    RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -f [OR]
+    RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -d
+    RewriteRule ^ - [L]
+RewriteRule ^ /index.html

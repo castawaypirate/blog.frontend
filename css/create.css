@@ -1,54 +1,20 @@
-body {
-    font-family: "Source Code Pro", monospace;
+header h1 {
+    display: none;
 }
-    
+
 header {
     display: flex;
     align-items: center;
     justify-content: flex-end;
     margin: 0.5rem 0.5rem 0 0.5rem;
 }
-    
-.user-button {
-    width: 38px; /* Set the width of the button */
-    height: 38px; /* Set the height of the button */
-    padding: 0; /* Remove padding */
-    border: none; /* Remove border */
-    background: none; /* Remove background */
-    cursor: pointer; /* Optional: Change cursor on hover */
-    outline: none; /* Remove focus outline */
-    margin-left: 20px;
+
+#create-link {
+    display: none;
 }
   
-.user-button img {
-    width: 100%; /* Make the image fill the button */
-    height: 100%; /* Make the image fill the button */
-    display: block; /* Remove any default image margins */
-}
-    
-.menu-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-}
-    
-.menu {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-}
-    
-.menu a{
-    text-decoration: none;
-    font-size: 1.2rem;
-    color: #000000;
-}
-    
-.divider {
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
+#create-divider {
+    display: none;
 }
 
 #post-form {
@@ -98,18 +64,22 @@ header {
     outline: none; /* Remove default focus outline (optional) */
 }
 
-#post-link{
+#post-button {
     text-decoration: none;
     font-size: 1.2rem;
+    border: none;
+    background-color: transparent;
+    width: fit-content;
+    padding: 0;
 }
 
-.disabled-link {
+.disabled {
     color: #aaa; /* Placeholder color */
     pointer-events: none; /* Prevent clicking */
     cursor: default; /* Default cursor to indicate it's not clickable */
 }
 
-.enabled-link {
+.enabled {
     color: #000000;
     pointer-events: auto; /* Allow clicking */
     cursor: pointer; /* Pointer cursor to indicate it's clickable */
