@@ -95,7 +95,7 @@ li {
   border-top: 9px solid #000000; /* Bottom border width determines the triangle's height, and its color */
 }
 
-#upvote, #downvote {
+/* #upvote, #downvote {
   font-size: 0.9rem;
   text-decoration: none;
   cursor: pointer;
@@ -103,7 +103,7 @@ li {
 
 #upvote:hover, #downvote:hover {
   text-decoration: underline;
-}
+} */
 
 .created, .edited, .post-creator {
   font-size: 0.9rem;
