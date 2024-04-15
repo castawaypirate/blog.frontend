@@ -1,12 +1,29 @@
 import config from "./config.js";
 
-
 window.addEventListener("ready", function(e) {
-  loadPosts();
+  setTimeout(function() {}, 100);
+  const storedPage = localStorage.getItem("currentPage");
+  if (storedPage) {
+    loadPosts(storedPage);
+  } else {
+    loadPosts(1);
+  }
+});
+
+document.querySelector("#previous").addEventListener("click", function (event) {
+  event.preventDefault();
+  const currentPage = localStorage.getItem("currentPage");
+  loadPosts(parseInt(currentPage) - 1);
+});
+
+document.querySelector("#next").addEventListener("click", function (event) {
+  event.preventDefault();
+  const currentPage = localStorage.getItem("currentPage");
+  loadPosts(parseInt(currentPage) + 1);
 });
 
 
-async function loadPosts() {
+async function loadPosts(pageNumber) {
   const options = {
     method: "GET",
     headers: {
@@ -15,17 +32,45 @@ async function loadPosts() {
   };
 
   try {
-
     let userVotes;
     if (window.userState.isLoggedIn) {
       userVotes = await getUserVotes();
     }
     
-    const response = await fetch(`${config.apiUrl}/posts/getPosts`, options);
+    const response = await fetch(`${config.apiUrl}/posts/getPosts?pageNumber=${pageNumber}`, options);
     if (!response.ok) {
       throw new Error("Network response was not ok.");
     }
     const result = await response.json();
+
+    // will be needed for pagination
+    let totalPages = result.totalPages;
+    let currentPage = result.pageNumber;
+    localStorage.setItem("currentPage", currentPage);
+
+    let previous = document.querySelector("#previous");
+    if (previous.classList.contains("disabled")) {
+      previous.classList.remove("disabled");
+    }
+
+    let next = document.querySelector("#next");
+    if (next.classList.contains("disabled")) {
+      next.classList.remove("disabled");
+    }
+
+    let paginationDivider = document.querySelector("#pagination-divider");
+    paginationDivider.style.display = "block";
+
+    if (currentPage === 1) {
+      previous.className = "disabled";
+      paginationDivider.style.display = "none";
+    }
+
+    if (currentPage === totalPages) {
+      next.className = "disabled";
+      paginationDivider.style.display = "none";
+
+    }
 
     if (result.success) {
       // use userVotes data to mark posts
@@ -38,7 +83,13 @@ async function loadPosts() {
       };
 
       const postsContainer = document.querySelector("#posts-container");
+      // clean dashboard from previous posts
+      postsContainer.innerHTML = "";
       const ol = document.createElement("ol");
+
+      // keep counting
+      const startNumber = (pageNumber - 1) * config.postsPerPage + 1;
+      ol.setAttribute("start", startNumber);
 
       result.posts.forEach(post => {
         const li = document.createElement("li");
@@ -193,7 +244,6 @@ async function upvotePost(el, data) {
     }
     const result = await response.json();
     if (result.success) {
-      console.log(result);
       if(result.action === "upvote") {
         const countElement = el.querySelector(".count");
         const currentCount = parseInt(countElement.textContent);
