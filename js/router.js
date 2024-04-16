@@ -21,7 +21,8 @@ const urlRoutes = {
 		template: "/templates/dashboard.html",
         title: "dashboard.",
 		script: "js/dashboard.js",
-        style: "css/dashboard.css"
+        style: "css/dashboard.css",
+		onLoad: initializeDashboard
 
 	},
 	"/access": {
@@ -90,6 +91,20 @@ function loadRouteFiles(route) {
 }
 
 
+let customEvent = new CustomEvent("ready", {
+  detail: {
+     message: "index.js has been fully loaded and executed."
+  }
+});
+ 
+function initializeDashboard() {
+	setTimeout(() => {
+		window.dispatchEvent(customEvent);
+	}, 200);
+}
+  
+
+
 // create a function that handles the url location
 const urlLocationHandler = async () => {
 	const location = window.location.pathname; // get the url path
@@ -108,6 +123,11 @@ const urlLocationHandler = async () => {
 	document.title = route.title;
     // load styles and scripts
 	loadRouteFiles(route);
+
+	// execute onLoad assigned function when navigating to route
+	if (typeof route.onLoad === 'function') {
+		route.onLoad();
+	}
 };
 
 

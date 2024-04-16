@@ -60,18 +60,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     loggedIn = false;
   }
   loadMenu();
-  setTimeout(dispatchCustomEvent, 100);
 });
-
-let customEvent = new CustomEvent("ready", {
-  detail: {
-     message: "index.js has been fully loaded and executed."
-  }
- });
- 
- function dispatchCustomEvent() {
-  window.dispatchEvent(customEvent);
- }
 
 
 document.querySelector("#toggle-button").addEventListener("click", function() {
