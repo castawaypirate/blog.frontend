@@ -33,7 +33,7 @@ header {
     resize: none;
 }
 
-#post-title::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+#post-title::placeholder {
     font-size: 1.5rem;
     font-weight: 600;
     font-family: "Source Code Pro", monospace;

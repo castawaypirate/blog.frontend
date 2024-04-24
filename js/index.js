@@ -2,6 +2,17 @@ import config from "./config.js";
 let menu;
 let loggedIn = false;
 
+
+document.addEventListener("DOMContentLoaded", async function() {
+  try {
+    loggedIn = await validateUser();
+  } catch(e) {
+    loggedIn = false;
+  }
+  loadMenu();
+});
+
+
 window.userState = {
   isLoggedIn: false
 };
@@ -51,16 +62,6 @@ async function loadMenu() {
     menu = document.querySelector(".anonymous.menu");
   }
 }
-
-
-document.addEventListener("DOMContentLoaded", async function() {
-  try {
-    loggedIn = await validateUser();
-  } catch(e) {
-    loggedIn = false;
-  }
-  loadMenu();
-});
 
 
 document.querySelector("#toggle-button").addEventListener("click", function() {

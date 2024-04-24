@@ -2,6 +2,23 @@ body {
   font-family: "Source Code Pro", monospace;
 }
 
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0.5rem 0.5rem 0 0.5rem;
+}
+
+header h1 {
+  margin: 0;
+}
+
+#dashboard-header {
+  text-decoration: none;
+  color: #000000;
+}
+
+
 .user-button {
   width: 38px; /* Set the width of the button */
   height: 38px; /* Set the height of the button */

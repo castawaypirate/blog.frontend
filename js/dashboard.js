@@ -1,6 +1,6 @@
 import config from "./config.js";
 
-window.addEventListener("ready", function(e) {
+window.addEventListener("initializeDashboard", function(e) {
   setTimeout(function() {}, 100);
   const storedPage = localStorage.getItem("currentPage");
   if (storedPage) {
@@ -48,28 +48,35 @@ async function loadPosts(pageNumber) {
     let currentPage = result.pageNumber;
     localStorage.setItem("currentPage", currentPage);
 
-    let previous = document.querySelector("#previous");
-    if (previous.classList.contains("disabled")) {
-      previous.classList.remove("disabled");
-    }
+    if (totalPages > 1) {
+      let pagination = document.querySelector("#pagination");
+      if (pagination.classList.contains("disabled")) {
+        pagination.classList.remove("disabled");
+      }
 
-    let next = document.querySelector("#next");
-    if (next.classList.contains("disabled")) {
-      next.classList.remove("disabled");
-    }
+      let previous = document.querySelector("#previous");
+      let next = document.querySelector("#next");
 
-    let paginationDivider = document.querySelector("#pagination-divider");
-    paginationDivider.style.display = "block";
+      if (previous.classList.contains("disabled")) {
+        previous.classList.remove("disabled");
+      }
 
-    if (currentPage === 1) {
-      previous.className = "disabled";
-      paginationDivider.style.display = "none";
-    }
+      if (next.classList.contains("disabled")) {
+        next.classList.remove("disabled");
+      }
 
-    if (currentPage === totalPages) {
-      next.className = "disabled";
-      paginationDivider.style.display = "none";
+      let paginationDivider = document.querySelector("#pagination-divider");
+      paginationDivider.style.display = "block";
 
+      if (currentPage === 1) {
+        previous.className = "disabled";
+        paginationDivider.style.display = "none";
+      }
+
+      if (currentPage === totalPages || result.posts.length === 0) {
+        next.className = "disabled";
+        paginationDivider.style.display = "none";
+      }
     }
 
     if (result.success) {
@@ -101,7 +108,7 @@ async function loadPosts(pageNumber) {
         postTitle.className = "post-title";
         const postLink = document.createElement("a");
         postLink.id = "post-link";
-        postLink.href = "";
+        postLink.href = `/post/${post.id}`;
         postLink.textContent = post.title;
         postTitle.appendChild(postLink);
 

@@ -32,6 +32,7 @@ function access(data) {
     .then(result => {
       if (result.success) {
         localStorage.setItem("accessToken", result.token);
+        // window.location.replace("/");
         let form = document.querySelector("#access-form");
         form.submit(); //redirects to dashboard
       } else {

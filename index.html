@@ -4,11 +4,18 @@
     <meta charset="utf-8">
     <title></title>
     <meta name="description" content="">
-    <link rel="stylesheet" type="text/css" href="css/index.css">
+
+    <!-- <script>
+        let base = document.createElement('base');
+        base.href = window.location.protocol + '//' + window.location.hostname + (window.location.port ? ':' + window.location.port : '') + '/';
+        document.getElementsByTagName('head')[0].appendChild(base);
+    </script> -->
+
+    <link rel="stylesheet" type="text/css" href="/css/index.css">
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
 
-    <script type="module" src="js/index.js"></script>
-    <script type="module" src="js/router.js"></script>
+    <script type="module" src="/js/index.js"></script>
+    <script type="module" src="/js/router.js"></script>
 </head>
 <body>
     <header>
@@ -16,6 +23,8 @@
         <h1><a id="dashboard-header" href="/">dashboard.</a></h1>
         <div class="menu-container">
             <nav class="anonymous menu">
+                <a href="/" id="dashboard-link">dashboard</a>
+                <div id="dashboard-divider" class="divider">|</div>
                 <a href="/access" id="access-link">access</a>
             </nav>
             <nav class="user menu">
@@ -27,10 +36,10 @@
                 <div id="posts-divider" class="divider">|</div>
                 <a href="/profile" id="profile-link">profile</a>
                 <div id="profile-divider" class="divider">|</div>
-                <div id="logout-link">log out</a> 
+                <a id="logout-link">log out</a> 
             </nav>
             <button id="toggle-button" class="user-button">
-                <img src="assets/user-profile-pic.png" alt="User Profile Image">
+                <img src="/assets/user-profile-pic.png" alt="User Profile Image">
             </button>
             
         </div>
