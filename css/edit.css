@@ -1,0 +1,78 @@
+header h1 {
+    display: none;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 0.5rem 0.5rem 0 0.5rem;
+}
+
+#update-form {
+    display: flex;
+    flex-direction: column;
+}
+
+#update-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    border: none;
+    border-bottom: 1px solid #ffffff;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    resize: none;
+}
+
+#update-title::placeholder {
+    font-size: 1.5rem;
+    font-weight: 600;
+    font-family: "Source Code Pro", monospace;
+}
+
+#update-title:focus {
+    border-color: #000000; /* Change to the desired focus border color */
+    outline: none; /* Remove default focus outline (optional) */
+}
+
+#update-body {
+    font-size: 1rem;
+    border: none;
+    border-bottom: 1px solid #ffffff;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    padding: 0;
+    box-sizing: border-box;
+    resize: none;
+}
+
+#update-body::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    font-family: "Source Code Pro", monospace;
+}
+
+#update-body:focus {
+    border-color: #000000; /* Change to the desired focus border color */
+    outline: none; /* Remove default focus outline (optional) */
+}
+
+#update-button {
+    text-decoration: none;
+    font-size: 1.2rem;
+    border: none;
+    background-color: transparent;
+    width: fit-content;
+    padding: 0;
+}
+
+.disabled {
+    color: #aaa; /* Placeholder color */
+    pointer-events: none; /* Prevent clicking */
+    cursor: default; /* Default cursor to indicate it's not clickable */
+}
+
+.enabled {
+    color: #000000;
+    pointer-events: auto; /* Allow clicking */
+    cursor: pointer; /* Pointer cursor to indicate it's clickable */
+}

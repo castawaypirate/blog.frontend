@@ -5,17 +5,15 @@ document.querySelector("#post-title").addEventListener("input", function () {
   this.style.height = (this.scrollHeight) + "px";
 });
 
-
 document.querySelector("#post-body").addEventListener("input", function () {
   this.style.height = "auto";
   this.style.height = (this.scrollHeight) + "px";
 });
 
-
 function toggleLinkState() {
-  var title = document.querySelector("#post-title").value.trim();
-  var body = document.querySelector("#post-body").value.trim();
-  var link = document.querySelector("#post-button");
+  const title = document.querySelector("#post-title").value.trim();
+  const body = document.querySelector("#post-body").value.trim();
+  const link = document.querySelector("#post-button");
 
   if (title !== "" && body !== "") {
       link.classList.remove("disabled");
@@ -26,26 +24,29 @@ function toggleLinkState() {
   }
 }
 
-
 // attach event listeners to textareas
 document.querySelector("#post-title").addEventListener("input", toggleLinkState);
 document.querySelector("#post-body").addEventListener("input", toggleLinkState);
 
-
-document.querySelector("#post-form").addEventListener("submit", function(event) {
+document.querySelector("#post-form").addEventListener("submit", async function(event) {
     event.preventDefault();
 
     const title = document.querySelector("#post-title").value;
     const body = document.querySelector("#post-body").value;
 
+    if (!title ||!body) {
+      console.log('Either title or body is empty.');
+      return;
+    }
+
     const data = {
         title: title,
         body: body
     };
-    create(data);
+    await post(data);
 });
   
-async function create(data) {
+async function post(data) {
     let accessToken = localStorage.getItem("accessToken");
     const options = {
         method: "POST",

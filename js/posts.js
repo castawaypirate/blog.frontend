@@ -1,55 +1,51 @@
 import config from "./config.js";
 
-window.addEventListener("initializeDashboard", function(e) {
+window.addEventListener("loadUserPosts", function(e) {
   setTimeout(function() {}, 100);
-  const storedPage = localStorage.getItem("currentPage");
+  const storedPage = localStorage.getItem("currentUserPage");
   if (storedPage) {
-    loadPosts(storedPage);
+    loadUserPosts(storedPage);
   } else {
-    loadPosts(1);
+    loadUserPosts(1);
   }
 });
 
 document.querySelector("#previous").addEventListener("click", function (event) {
   event.preventDefault();
-  const currentPage = localStorage.getItem("currentPage");
-  loadPosts(parseInt(currentPage) - 1);
+  const currentUserPage = localStorage.getItem("currentUserPage");
+  loadUserPosts(parseInt(currentUserPage) - 1);
 });
 
 document.querySelector("#next").addEventListener("click", function (event) {
   event.preventDefault();
-  const currentPage = localStorage.getItem("currentPage");
-  loadPosts(parseInt(currentPage) + 1);
+  const currentUserPage = localStorage.getItem("currentUserPage");
+  loadUserPosts(parseInt(currentUserPage) + 1);
 });
 
-
-async function loadPosts(pageNumber) {
-  if (pageNumber <= 0 ) {
-    pageNumber = 1;
-  }
+async function loadUserPosts(pageNumber) {
+  const accessToken = localStorage.getItem("accessToken");
   const options = {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    }
+     method: "GET",
+     headers: {
+       "Content-Type": "application/json",
+       "Authorization": "Bearer " + accessToken,
+     }
   };
 
   try {
     let userVotes;
-    if (window.userState.isLoggedIn) {
-      userVotes = await getUserVotes();
-    }
-    
-    const response = await fetch(`${config.apiUrl}/posts/getDashboardPosts?pageNumber=${pageNumber}`, options);
+
+    const response = await fetch(`${config.apiUrl}/posts/getUserPosts?pageNumber=${pageNumber}`, options);
     if (!response.ok) {
       throw new Error("Network response was not ok.");
     }
     const result = await response.json();
+    console.log(result);
 
     // will be needed for pagination
     let totalPages = result.totalPages;
-    let currentPage = result.pageNumber;
-    localStorage.setItem("currentPage", currentPage);
+    let currentUserPage = result.pageNumber;
+    localStorage.setItem("currentUserPage", currentUserPage);
 
     if (totalPages > 1) {
       let pagination = document.querySelector("#pagination");
@@ -71,12 +67,12 @@ async function loadPosts(pageNumber) {
       let paginationDivider = document.querySelector("#pagination-divider");
       paginationDivider.style.display = "block";
 
-      if (currentPage === 1) {
+      if (currentUserPage === 1) {
         previous.className = "disabled";
         paginationDivider.style.display = "none";
       }
 
-      if (currentPage === totalPages || result.posts.length === 0) {
+      if (currentUserPage === totalPages || result.posts.length === 0) {
         next.className = "disabled";
         paginationDivider.style.display = "none";
       }
@@ -90,6 +86,9 @@ async function loadPosts(pageNumber) {
         const year = date.toLocaleString("en-US", { year: "numeric" });
         return `${day} ${month} ${year}`;
       };
+
+      userVotes = await getUserVotes();
+
 
       const postsContainer = document.querySelector("#posts-container");
       // clean dashboard from previous posts
@@ -118,21 +117,17 @@ async function loadPosts(pageNumber) {
         postDetails.className = "post-details";
 
         const upvotes = document.createElement("div");
-        if (window.userState.isLoggedIn && userVotes) {
-          if(userVotes.upvotes.includes(post.id)) {
-            upvotes.className = "upvotes-voted";
-          } else {
-            upvotes.className = "upvotes";
-          }
-          upvotes.addEventListener("click", function () {
-            const data = {
-              postId: post.id
-            };
-            upvotePost(this, data);
-          });
+        if(userVotes.upvotes.includes(post.id)) {
+          upvotes.className = "upvotes-voted";
         } else {
-          upvotes.className = "upvotes-disabled";
+          upvotes.className = "upvotes";
         }
+        upvotes.addEventListener("click", function () {
+          const data = {
+            postId: post.id
+          };
+          upvotePost(this, data);
+        });
 
         const triangleUp = document.createElement("div");
         triangleUp.className = "triangle-up";
@@ -143,21 +138,17 @@ async function loadPosts(pageNumber) {
         upvotes.appendChild(countUp);
 
         const downvotes = document.createElement("div");
-        if (window.userState.isLoggedIn && userVotes) {
-          if(userVotes.downvotes.includes(post.id)) {
-            downvotes.className = "downvotes-voted";
-          } else {
-            downvotes.className = "downvotes";
-          }
-          downvotes.addEventListener("click", function () {
-            const data = {
-              postId: post.id
-            };
-            downvotePost(this, data);
-          });
+        if(userVotes.downvotes.includes(post.id)) {
+          downvotes.className = "downvotes-voted";
         } else {
-          downvotes.className = "downvotes-disabled";
+          downvotes.className = "downvotes";
         }
+        downvotes.addEventListener("click", function () {
+          const data = {
+            postId: post.id
+          };
+          downvotePost(this, data);
+        });
 
         const triangleDown = document.createElement("div");
         triangleDown.className = "triangle-down";
@@ -175,9 +166,22 @@ async function loadPosts(pageNumber) {
         edited.className = "edited";
         edited.textContent = formatDate(new Date(post.updated_at));
 
-        const postCreator = document.createElement("div");
-        postCreator.className = "post-creator";
-        postCreator.textContent = post.username;
+        const editDiv = document.createElement("div");
+        editDiv.className = "edit";
+        editDiv.textContent = "edit";
+        editDiv.addEventListener('click', function() {
+          window.location.href = `/edit/${post.id}`;
+        });
+
+        const deleteDiv = document.createElement("div");
+        deleteDiv.addEventListener("click", function () {
+          const data = {
+            postId: post.id
+          };
+          deletePost(data);
+        });
+        deleteDiv.className = "delete";
+        deleteDiv.textContent = "delete";
 
         const divider = document.createElement("div");
         divider.className = "post-details-divider";
@@ -191,7 +195,9 @@ async function loadPosts(pageNumber) {
         postDetails.appendChild(divider.cloneNode(true));
         postDetails.appendChild(edited);
         postDetails.appendChild(divider.cloneNode(true));
-        postDetails.appendChild(postCreator);
+        postDetails.appendChild(editDiv);
+        postDetails.appendChild(divider.cloneNode(true));
+        postDetails.appendChild(deleteDiv);
         
         postContainer.appendChild(postTitle);
         postContainer.appendChild(postDetails);
@@ -207,7 +213,6 @@ async function loadPosts(pageNumber) {
     console.error("Error: ", error);
  }
 }
-
 
 async function getUserVotes() {
   const accessToken = localStorage.getItem("accessToken");
@@ -233,7 +238,6 @@ async function getUserVotes() {
       console.error("Error: ", error);
   }
 }
-
 
 async function upvotePost(el, data) {
   const accessToken = localStorage.getItem("accessToken");
@@ -273,7 +277,6 @@ async function upvotePost(el, data) {
   }
 }
   
-
 async function downvotePost(el, data) {
   const accessToken = localStorage.getItem("accessToken");
   const options = {
@@ -304,6 +307,34 @@ async function downvotePost(el, data) {
         countElement.textContent = currentCount - 1;
         el.className = "downvotes";
       }
+      console.log(result);
+    } else {
+      console.log(result);
+    }
+  } catch (error) {
+      console.error("Error: ", error);
+  }
+}
+
+async function deletePost(data) {
+  const accessToken = localStorage.getItem("accessToken");
+  const options = {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + accessToken,
+      }
+  };
+
+  try {
+    const response = await fetch(`${config.apiUrl}/posts/delete?postId=${data.postId}`, options)
+    if (!response.ok) {
+      throw new Error("Network response was not ok.");
+    }
+    const result = await response.json();
+    if (result.success) {
+      const currentUserPage = localStorage.getItem("currentUserPage");
+      loadUserPosts(parseInt(currentUserPage));
       console.log(result);
     } else {
       console.log(result);

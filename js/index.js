@@ -42,14 +42,17 @@ async function validateUser() {
           return true;
         } else {
           console.log(result);
+          window.userState.isLoggedIn = false;
           return false;
         }
     } else {
         console.log(response);
+        window.userState.isLoggedIn = false;
         return false;
     }
   } catch (error) {
       console.error("Response status: " + response.status + "Failed to fetch data from the server:" + error.message);
+      window.userState.isLoggedIn = false;
       return false;
   }
 }

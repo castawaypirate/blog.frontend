@@ -1,0 +1,155 @@
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0.5rem 0.5rem 0.5rem 0.5rem;
+}
+
+header h1 {
+    margin: 0;
+}
+
+#header {
+    text-decoration: none;
+    color: #000000;
+}
+
+#posts-link {
+    display: none;
+}
+  
+#posts-divider {
+    display: none;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    margin: 0 0.5rem 0 0.5rem;
+}
+
+ol {
+    margin-top: -1rem;
+    margin-bottom: 0.4rem;
+    padding-left: 1.8em;
+}
+
+li {
+    margin-top: -0.15rem;
+}
+
+.post-title {
+    margin-bottom: 0;
+}
+
+#post-link {
+    text-decoration: none;
+    color: #000000;
+}
+
+.post-details {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.post-details-divider {
+    font-size: 0.9rem;
+    margin: 0 1px 2px 1px;
+}
+
+.upvotes, .downvotes {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.upvotes:hover, .downvotes:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.upvotes-disabled, .downvotes-disabled {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.upvotes-voted, .downvotes-voted {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    text-decoration: underline;
+}
+
+.upvotes-voted:hover, .downvotes-voted:hover {
+    cursor: pointer;
+}
+
+.triangle-up {
+    width: 0;
+    height: 0;
+    border-left: 4.5px solid transparent; /* Left border width determines the triangle's width */
+    border-right: 4.5px solid transparent; /* Right border width determines the triangle's width */
+    border-bottom: 9px solid #000000; /* Bottom border width determines the triangle's height, and its color */
+}
+
+.count {
+    font-size: 0.9rem;
+    margin-left: 1px;
+}
+
+.triangle-down {
+    width: 0;
+    height: 0;
+    border-left: 4.5px solid transparent; /* Left border width determines the triangle's width */
+    border-right: 4.5px solid transparent; /* Right border width determines the triangle's width */
+    border-top: 9px solid #000000; /* Bottom border width determines the triangle's height, and its color */
+}
+
+.created, .edited, .post-creator {
+    font-size: 0.9rem;
+}
+
+
+.pagination {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 0.5rem;
+    margin-left: 1.75rem;
+}
+
+#previous, #next {
+    font-size: 1rem;
+}
+
+#previous:hover, #next:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.disabled {
+    display: none;
+    pointer-events: none;
+}
+
+
+.pagination > .divider {
+    margin-left: 0.3rem;
+    margin-right: 0.3rem;
+}
+
+.edit, .delete{
+    font-size: 0.9rem;
+}
+
+.edit:hover, .delete:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}

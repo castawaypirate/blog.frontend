@@ -8,44 +8,55 @@ document.addEventListener("click", (e) => {
 	urlRoute();
 });
 
-
 // create an object that maps the url to the template, title, and description
 const urlRoutes = {
 	404: {
 		template: "/404.html",
-        title: "404.",
-        script: "",
-        style: "/css/404.css"
+    title: "404.",
+    script: "",
+    style: "/css/404.css"
 	},
 	"/": {
 		template: "/templates/dashboard.html",
-        title: "dashboard.",
+    title: "dashboard.",
 		script: "/js/dashboard.js",
-        style: "/css/dashboard.css",
+    style: "/css/dashboard.css",
 		onLoad: initializeDashboard
-
 	},
 	"/access": {
 		template: "/templates/access.html",
-        title: "access.",
+    title: "access.",
 		script: "/js/access.js",
-        style: "/css/access.css",
+    style: "/css/access.css"
 	},
 	"/create": {
 		template: "/templates/create.html",
-        title: "create.",
+    title: "create.",
 		script: "/js/create.js",
-        style: "/css/create.css",
+    style: "/css/create.css"
+	},
+	"/posts": {
+		template: "/templates/posts.html",
+    title: "posts.",
+		script: "/js/posts.js",
+    style: "/css/posts.css",
+		onLoad: initializeUserPosts
 	},
 	"/post/:id": {
 		template: "/templates/post.html",
 		title: "post.",
 		script: "/js/post.js",
 		style: "/css/post.css",
-		onLoad: initializePost,
+		onLoad: initializePost
+	},
+	"/edit/:id": {
+		template: "/templates/edit.html",
+		title: "edit.",
+		script: "/js/edit.js",
+		style: "/css/edit.css",
+    onLoad: fetchPostToEdit
 	},
 };
-
 
 // create a function that watches the url and calls the urlLocationHandler
 const urlRoute = (event) => {
@@ -56,21 +67,20 @@ const urlRoute = (event) => {
 	urlLocationHandler();
 };
 
-
 // function to dynamically load CSS and JS files
 function loadRouteFiles(route) {
     const head = document.getElementsByTagName("head")[0];
 
     // remove existing CSS and JS files, excluding index.css, index.js, and router.js
     Array.from(document.getElementsByTagName("link")).forEach(link => {
-        if (link.rel === "stylesheet" && !link.href.endsWith("index.css")) {
-			head.removeChild(link);
-		} 
+      if (link.rel === "stylesheet" && !link.href.endsWith("index.css")) {
+			  head.removeChild(link);
+		  } 
     });
     Array.from(document.getElementsByTagName("script")).forEach(script => {
-        if (script.src && !script.src.endsWith("index.js") && !script.src.endsWith("router.js")) {
-			head.removeChild(script);
-		}
+      if (script.src && !script.src.endsWith("index.js") && !script.src.endsWith("router.js")) {
+			  head.removeChild(script);
+		  }
     });
 
 	// make menus invisible again
@@ -81,10 +91,10 @@ function loadRouteFiles(route) {
 
     // load new CSS file, excluding index.css
     if (route.style && !route.style.endsWith("index.css")) {
-        const cssLink = document.createElement("link");
-        cssLink.rel = "stylesheet";
-        cssLink.href = route.style;
-        head.appendChild(cssLink);
+      const cssLink = document.createElement("link");
+      cssLink.rel = "stylesheet";
+      cssLink.href = route.style;
+      head.appendChild(cssLink);
     }
 
     // load new JS file, excluding index.js and router.js
@@ -92,7 +102,7 @@ function loadRouteFiles(route) {
 		const jsScript = document.createElement("script");
 		jsScript.type = "module";
 		// append a unique query parameter to the script's URL
-        jsScript.src = `${route.script}?${Date.now()}`;
+    jsScript.src = `${route.script}?${Date.now()}`;
 		head.appendChild(jsScript);
 	}
 }
@@ -102,17 +112,17 @@ function loadRouteStyles(route) {
 
     // Remove existing CSS files, excluding index.css
     Array.from(document.getElementsByTagName("link")).forEach(link => {
-        if (link.rel === "stylesheet" && !link.href.endsWith("index.css")) {
-            head.removeChild(link);
-        }
+      if (link.rel === "stylesheet" && !link.href.endsWith("index.css")) {
+        head.removeChild(link);
+      }
     });
 
     // Load new CSS file, excluding index.css
     if (route.style && !route.style.endsWith("index.css")) {
-        const cssLink = document.createElement("link");
-        cssLink.rel = "stylesheet";
-        cssLink.href = route.style;
-        head.appendChild(cssLink);
+      const cssLink = document.createElement("link");
+      cssLink.rel = "stylesheet";
+      cssLink.href = route.style;
+      head.appendChild(cssLink);
     }
 }
 
@@ -121,46 +131,74 @@ function loadRouteScripts(route) {
 
     // Remove existing JS files, excluding index.js and router.js
     Array.from(document.getElementsByTagName("script")).forEach(script => {
-        if (script.src && !script.src.endsWith("index.js") && !script.src.endsWith("router.js")) {
-            head.removeChild(script);
-        }
+      if (script.src && !script.src.endsWith("index.js") && !script.src.endsWith("router.js")) {
+        head.removeChild(script);
+      }
     });
 
     // Load new JS file, excluding index.js and router.js
     if (route.script && !route.script.endsWith("index.js") && !route.script.endsWith("router.js")) {
-        const jsScript = document.createElement("script");
-        jsScript.type = "module";
-        // Append a unique query parameter to the script's URL to force reload
-        jsScript.src = `${route.script}?${Date.now()}`;
-        head.appendChild(jsScript);
+      const jsScript = document.createElement("script");
+      jsScript.type = "module";
+      // Append a unique query parameter to the script's URL to force reload
+      jsScript.src = `${route.script}?${Date.now()}`;
+      head.appendChild(jsScript);
     }
 }
 
-
 let initializeDashboardEvent = new CustomEvent("initializeDashboard", {
-  detail: {
-     message: "index.js has been fully loaded and executed."
-  }
+	detail: {
+		message: "index.js has been fully loaded and executed."
+	}
 });
  
 function initializeDashboard() {
 	setTimeout(() => {
+		const headerLink = document.querySelector("#header");
+      headerLink.href = '/';
+      headerLink.textContent = 'dashboard.';
 		window.dispatchEvent(initializeDashboardEvent);
+	}, 200);
+}
+
+let initializeUserPostsEvent = new CustomEvent("loadUserPosts", {
+	detail: {
+		message: "Ready to fetch user posts."
+	}
+});
+ 
+function initializeUserPosts() {
+	setTimeout(() => {
+		const headerLink = document.querySelector("#header");
+      headerLink.href = '/posts';
+      headerLink.textContent = 'posts.';
+		window.dispatchEvent(initializeUserPostsEvent);
 	}, 200);
 }
 
 let initializePostEvent = new CustomEvent("loadPost", {
 	detail: {
-	   message: "Ready to fetch post."
+	  message: "Ready to fetch post."
 	}
-  });
+});
 
 function initializePost() {
 	setTimeout(() => {
 		window.dispatchEvent(initializePostEvent);
 	}, 200);
 }
-  
+
+let fetchPostToEditEvent = new CustomEvent("fetchPostToEdit", {
+	detail: {
+	  message: "Ready to fetch post."
+	}
+});
+
+function fetchPostToEdit() {
+	setTimeout(() => {
+		window.dispatchEvent(fetchPostToEditEvent);
+	}, 200);
+}
 
 // create a function that handles the url location
 const urlLocationHandler = async () => {
@@ -170,19 +208,37 @@ const urlLocationHandler = async () => {
 		location = "/";
 	}
 
-	let match = location.match(/\/post\/(\d+)/);
-    let postId = match ? match[1] : null;
-
 	let route;
-	if (location.startsWith("/post/") && postId) {
-		if (location.split("/").length > 3) {
-			route = urlRoutes["404"];
-		} else {
-			route = urlRoutes["/post/:id"];
-		}
-	} else {
-		route = urlRoutes[location] || urlRoutes["404"];
-	}
+
+    if (location.startsWith("/post/")) {
+      const postMatch = location.match(/\/post\/(\d+)/);
+      const postId = postMatch ? postMatch[1] : null;
+
+      if (postId) {
+        if (location.split("/").length > 3) {
+          route = urlRoutes["404"];
+        } else {
+          route = urlRoutes["/post/:id"];
+        }
+      } else {
+        route = urlRoutes["404"];
+      }
+    } else if (location.startsWith("/edit/")) {
+      const editMatch = location.match(/\/edit\/(\d+)/);
+      const postId = editMatch ? editMatch[1] : null;
+
+      if (postId) {
+        if (location.split("/").length > 3) {
+          route = urlRoutes["404"];
+        } else {
+          route = urlRoutes["/edit/:id"];
+        }
+      } else {
+        route = urlRoutes["404"];
+      }
+  } else {
+      route = urlRoutes[location] || urlRoutes["404"];
+    }
 
 	let template = route.template;
 	let title = route.title;
@@ -190,14 +246,17 @@ const urlLocationHandler = async () => {
 	// get the html from the template
 	const html = await fetch(template).then((response) => response.text());
 
+	const content = document.querySelector("#content");
+
 	// it doesn't make a real difference though to clear the html of the template
-	document.querySelector("#content").innerHTML = "";
+	content.style.display = "none";
 
 	// load the styles first
 	loadRouteStyles(route)
 	
 	// set the content of the content div to the html
-	document.querySelector("#content").innerHTML = html;
+	content.innerHTML = html;
+	content.style.display = "block";
 
     // set title
 	document.title = title;
@@ -205,7 +264,7 @@ const urlLocationHandler = async () => {
 	// and then load the scripts
 	loadRouteScripts(route);
 
-    // load styles and scripts
+  // load styles and scripts
 	// loadRouteFiles(route);
 
 	// execute onLoad assigned function when navigating to route
@@ -215,7 +274,7 @@ const urlLocationHandler = async () => {
 };
 
 export async function load404Template() {
-    const route = urlRoutes["404"];
+  const route = urlRoutes["404"];
 	loadRouteFiles(route);
 	setTimeout(() => {
 		// Your code here
