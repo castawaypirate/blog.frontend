@@ -24,7 +24,6 @@ function toggleLinkState() {
   }
 }
 
-// attach event listeners to textareas
 document.querySelector("#update-title").addEventListener("input", toggleLinkState);
 document.querySelector("#update-body").addEventListener("input", toggleLinkState);
 
@@ -54,8 +53,8 @@ async function loadPostToEdit(postId) {
     const body = document.querySelector("#update-body");
     title.value = result.post.title;
     body.value = result.post.body;
-    title.style.height = 'auto'; // Reset the height to auto
-    title.scrollHeight; // Trigger reflow (flushing the layout)
+    title.style.height = 'auto';
+    title.scrollHeight; // trigger reflow (flushing the layout)
     title.style.height = `${title.scrollHeight}px`;
     body.style.height = 'auto';
     body.scrollHeight;
@@ -110,7 +109,7 @@ async function update(data, postId) {
           let form = document.querySelector("#update-form");
           form.submit();
         } else {
-          console.log(response);
+          console.log(result);
         }
       } else {
         console.log(response);

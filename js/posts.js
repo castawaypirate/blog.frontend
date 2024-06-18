@@ -91,7 +91,6 @@ async function loadUserPosts(pageNumber) {
 
 
       const postsContainer = document.querySelector("#posts-container");
-      // clean dashboard from previous posts
       postsContainer.innerHTML = "";
       const ol = document.createElement("ol");
 
@@ -178,8 +177,32 @@ async function loadUserPosts(pageNumber) {
           const data = {
             postId: post.id
           };
-          deletePost(data);
+          postDetails.style.display = "none";
+
+          const approvalButtonsContainer = document.createElement("div");
+          approvalButtonsContainer.className = "post-details";
+
+          const sure = document.createElement("div");
+          sure.className = "sure-button";
+          sure.textContent = "sure";
+
+          const nah = document.createElement("div");
+          nah.className = "nah-button";
+          nah.textContent = "nah";
+
+          approvalButtonsContainer.appendChild(sure);
+          approvalButtonsContainer.appendChild(divider.cloneNode(true));
+          approvalButtonsContainer.appendChild(nah);
+          postContainer.appendChild(approvalButtonsContainer);
+
+          sure.addEventListener("click", async function(event) {
+            deletePost(data, event);
+          });
+          nah.addEventListener("click", function(event) {
+            cancel(postDetails, postContainer, approvalButtonsContainer, event);
+          });
         });
+
         deleteDiv.className = "delete";
         deleteDiv.textContent = "delete";
 
@@ -316,7 +339,8 @@ async function downvotePost(el, data) {
   }
 }
 
-async function deletePost(data) {
+async function deletePost(data, event) {
+  event.stopPropagation();
   const accessToken = localStorage.getItem("accessToken");
   const options = {
       method: "DELETE",
@@ -342,4 +366,10 @@ async function deletePost(data) {
   } catch (error) {
       console.error("Error: ", error);
   }
+}
+
+function cancel(postDetails, postContainer, approvalButtonsContainer, event) {
+  event.stopPropagation();
+  postContainer.removeChild(approvalButtonsContainer);
+  postDetails.style.display = "flex";
 }

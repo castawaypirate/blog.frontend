@@ -32,8 +32,8 @@ header {
 }
 
 #update-title:focus {
-    border-color: #000000; /* Change to the desired focus border color */
-    outline: none; /* Remove default focus outline (optional) */
+    border-color: #000000;
+    outline: none;
 }
 
 #update-body {
@@ -47,13 +47,13 @@ header {
     resize: none;
 }
 
-#update-body::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+#update-body::placeholder {
     font-family: "Source Code Pro", monospace;
 }
 
 #update-body:focus {
-    border-color: #000000; /* Change to the desired focus border color */
-    outline: none; /* Remove default focus outline (optional) */
+    border-color: #000000;
+    outline: none;
 }
 
 #update-button {
@@ -66,13 +66,13 @@ header {
 }
 
 .disabled {
-    color: #aaa; /* Placeholder color */
-    pointer-events: none; /* Prevent clicking */
-    cursor: default; /* Default cursor to indicate it's not clickable */
+    color: #aaa;
+    pointer-events: none;
+    cursor: default;
 }
 
 .enabled {
     color: #000000;
-    pointer-events: auto; /* Allow clicking */
-    cursor: pointer; /* Pointer cursor to indicate it's clickable */
+    pointer-events: auto;
+    cursor: pointer;
 }

@@ -24,7 +24,6 @@ function toggleLinkState() {
   }
 }
 
-// attach event listeners to textareas
 document.querySelector("#post-title").addEventListener("input", toggleLinkState);
 document.querySelector("#post-body").addEventListener("input", toggleLinkState);
 
@@ -51,10 +50,10 @@ async function post(data) {
     const options = {
         method: "POST",
         headers: {
-        "Content-Type": "application/json", // set the content type to JSON
+        "Content-Type": "application/json",
         "Authorization": "Bearer " + accessToken,
         },
-        body: JSON.stringify(data), // convert the data to JSON format
+        body: JSON.stringify(data),
     };
 
     try {
@@ -66,7 +65,7 @@ async function post(data) {
             let form = document.querySelector("#post-form");
             form.submit();
           } else {
-            console.log(response);
+            console.log(result);
           }
         } else {
           console.log(response);

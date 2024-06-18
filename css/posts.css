@@ -93,9 +93,9 @@ li {
 .triangle-up {
     width: 0;
     height: 0;
-    border-left: 4.5px solid transparent; /* Left border width determines the triangle's width */
-    border-right: 4.5px solid transparent; /* Right border width determines the triangle's width */
-    border-bottom: 9px solid #000000; /* Bottom border width determines the triangle's height, and its color */
+    border-left: 4.5px solid transparent;
+    border-right: 4.5px solid transparent;
+    border-bottom: 9px solid #000000;
 }
 
 .count {
@@ -106,15 +106,14 @@ li {
 .triangle-down {
     width: 0;
     height: 0;
-    border-left: 4.5px solid transparent; /* Left border width determines the triangle's width */
-    border-right: 4.5px solid transparent; /* Right border width determines the triangle's width */
-    border-top: 9px solid #000000; /* Bottom border width determines the triangle's height, and its color */
+    border-left: 4.5px solid transparent;
+    border-right: 4.5px solid transparent;
+    border-top: 9px solid #000000;
 }
 
 .created, .edited, .post-creator {
     font-size: 0.9rem;
 }
-
 
 .pagination {
     display: flex;
@@ -150,6 +149,15 @@ li {
 }
 
 .edit:hover, .delete:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.sure-button, .nah-button{
+    font-size: 0.9rem;
+}
+
+.sure-button:hover, .nah-button:hover {
     cursor: pointer;
     text-decoration: underline;
 }

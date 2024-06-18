@@ -80,10 +80,8 @@ document.querySelector("#logout-link").addEventListener("click", logout);
 
 
 async function logout() {
-  // remove the access token from local storage
   localStorage.removeItem('accessToken');
    
-  // update the application state to reflect that the user is no longer logged in
   window.userState.isLoggedIn = false;
    
   await validateUser();

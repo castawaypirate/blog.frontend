@@ -137,7 +137,7 @@ async function loadPosts(pageNumber) {
         const triangleUp = document.createElement("div");
         triangleUp.className = "triangle-up";
         const countUp = document.createElement("div");
-        countUp.className = "count";
+        countUp.className = "upvotes-count";
         countUp.textContent = post.upvotes;
         upvotes.appendChild(triangleUp);
         upvotes.appendChild(countUp);
@@ -162,7 +162,7 @@ async function loadPosts(pageNumber) {
         const triangleDown = document.createElement("div");
         triangleDown.className = "triangle-down";
         const countDown = document.createElement("div");
-        countDown.className = "count";
+        countDown.className = "downvotes-count";
         countDown.textContent = post.downvotes;
         downvotes.appendChild(triangleDown);
         downvotes.appendChild(countDown);
@@ -254,16 +254,26 @@ async function upvotePost(el, data) {
     const result = await response.json();
     if (result.success) {
       if(result.action === "upvote") {
-        const countElement = el.querySelector(".count");
+        const countElement = el.querySelector(".upvotes-count");
         const currentCount = parseInt(countElement.textContent);
         countElement.textContent = currentCount + 1;
         el.className = "upvotes-voted";
       }
-      if(result.action === "unvote") {
-        const countElement = el.querySelector(".count");
+      else if(result.action === "unvote") {
+        const countElement = el.querySelector(".upvotes-count");
         const currentCount = parseInt(countElement.textContent);
         countElement.textContent = currentCount - 1;
         el.className = "upvotes";
+      } else {
+        const downvotesCountElement = el.parentElement.querySelector(".downvotes-count");
+        const downvotesCount = parseInt(downvotesCountElement.textContent);
+        downvotesCountElement.textContent = downvotesCount - 1;
+        const downvotes = el.parentElement.querySelector(".triangle-down").parentElement;
+        downvotes.className = "downvotes";
+        const countElement = el.querySelector(".upvotes-count");
+        const currentCount = parseInt(countElement.textContent);
+        countElement.textContent = currentCount + 1;
+        el.className = "upvotes-voted";
       }
     } else {
       console.log(result);
@@ -293,16 +303,26 @@ async function downvotePost(el, data) {
     const result = await response.json();
     if (result.success) {
       if(result.action === "downvote") {
-        const countElement = el.querySelector(".count");
+        const countElement = el.querySelector(".downvotes-count");
         const currentCount = parseInt(countElement.textContent);
         countElement.textContent = currentCount + 1;
         el.className = "downvotes-voted";
       }
-      if(result.action === "unvote") {
-        const countElement = el.querySelector(".count");
+      else if(result.action === "unvote") {
+        const countElement = el.querySelector(".downvotes-count");
         const currentCount = parseInt(countElement.textContent);
         countElement.textContent = currentCount - 1;
         el.className = "downvotes";
+      } else {
+        const upvotesCountElement = el.parentElement.querySelector(".upvotes-count");
+        const upvotesCount = parseInt(upvotesCountElement.textContent);
+        upvotesCountElement.textContent = upvotesCount - 1;
+        const upvotes = el.parentElement.querySelector(".triangle-up").parentElement;
+        upvotes.className = "upvotes";
+        const countElement = el.querySelector(".downvotes-count");
+        const currentCount = parseInt(countElement.textContent);
+        countElement.textContent = currentCount + 1;
+        el.className = "downvotes-voted";
       }
       console.log(result);
     } else {

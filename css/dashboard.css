@@ -98,12 +98,17 @@ li {
 .triangle-up {
   width: 0;
   height: 0;
-  border-left: 4.5px solid transparent; /* Left border width determines the triangle's width */
-  border-right: 4.5px solid transparent; /* Right border width determines the triangle's width */
-  border-bottom: 9px solid #000000; /* Bottom border width determines the triangle's height, and its color */
+  border-left: 4.5px solid transparent;
+  border-right: 4.5px solid transparent;
+  border-bottom: 9px solid #000000;
 }
 
-.count {
+.upvotes-count {
+  font-size: 0.9rem;
+  margin-left: 1px;
+}
+
+.downvotes-count {
   font-size: 0.9rem;
   margin-left: 1px;
 }
@@ -111,9 +116,9 @@ li {
 .triangle-down {
   width: 0;
   height: 0;
-  border-left: 4.5px solid transparent; /* Left border width determines the triangle's width */
-  border-right: 4.5px solid transparent; /* Right border width determines the triangle's width */
-  border-top: 9px solid #000000; /* Bottom border width determines the triangle's height, and its color */
+  border-left: 4.5px solid transparent;
+  border-right: 4.5px solid transparent;
+  border-top: 9px solid #000000;
 }
 
 .created, .edited, .post-creator {

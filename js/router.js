@@ -67,57 +67,18 @@ const urlRoute = (event) => {
 	urlLocationHandler();
 };
 
-// function to dynamically load CSS and JS files
-function loadRouteFiles(route) {
-    const head = document.getElementsByTagName("head")[0];
-
-    // remove existing CSS and JS files, excluding index.css, index.js, and router.js
-    Array.from(document.getElementsByTagName("link")).forEach(link => {
-      if (link.rel === "stylesheet" && !link.href.endsWith("index.css")) {
-			  head.removeChild(link);
-		  } 
-    });
-    Array.from(document.getElementsByTagName("script")).forEach(script => {
-      if (script.src && !script.src.endsWith("index.js") && !script.src.endsWith("router.js")) {
-			  head.removeChild(script);
-		  }
-    });
-
-	// make menus invisible again
-	let menus = document.querySelectorAll(".menu");
-	menus.forEach(menu =>{
-		menu.style.display = "none";
-	});
-
-    // load new CSS file, excluding index.css
-    if (route.style && !route.style.endsWith("index.css")) {
-      const cssLink = document.createElement("link");
-      cssLink.rel = "stylesheet";
-      cssLink.href = route.style;
-      head.appendChild(cssLink);
-    }
-
-    // load new JS file, excluding index.js and router.js
-	if (route.script && !route.script.endsWith("index.js") && !route.script.endsWith("router.js")) {
-		const jsScript = document.createElement("script");
-		jsScript.type = "module";
-		// append a unique query parameter to the script's URL
-    jsScript.src = `${route.script}?${Date.now()}`;
-		head.appendChild(jsScript);
-	}
-}
 
 function loadRouteStyles(route) {
     const head = document.getElementsByTagName("head")[0];
 
-    // Remove existing CSS files, excluding index.css
+    // remove existing CSS files, excluding index.css
     Array.from(document.getElementsByTagName("link")).forEach(link => {
       if (link.rel === "stylesheet" && !link.href.endsWith("index.css")) {
         head.removeChild(link);
       }
     });
 
-    // Load new CSS file, excluding index.css
+    // load new CSS file, excluding index.css
     if (route.style && !route.style.endsWith("index.css")) {
       const cssLink = document.createElement("link");
       cssLink.rel = "stylesheet";
@@ -129,18 +90,18 @@ function loadRouteStyles(route) {
 function loadRouteScripts(route) {
     const head = document.getElementsByTagName("head")[0];
 
-    // Remove existing JS files, excluding index.js and router.js
+    // remove existing JS files, excluding index.js and router.js
     Array.from(document.getElementsByTagName("script")).forEach(script => {
       if (script.src && !script.src.endsWith("index.js") && !script.src.endsWith("router.js")) {
         head.removeChild(script);
       }
     });
 
-    // Load new JS file, excluding index.js and router.js
+    // load new JS file, excluding index.js and router.js
     if (route.script && !route.script.endsWith("index.js") && !route.script.endsWith("router.js")) {
       const jsScript = document.createElement("script");
       jsScript.type = "module";
-      // Append a unique query parameter to the script's URL to force reload
+      // append a unique query parameter to the script's URL to force reload
       jsScript.src = `${route.script}?${Date.now()}`;
       head.appendChild(jsScript);
     }
@@ -264,9 +225,6 @@ const urlLocationHandler = async () => {
 	// and then load the scripts
 	loadRouteScripts(route);
 
-  // load styles and scripts
-	// loadRouteFiles(route);
-
 	// execute onLoad assigned function when navigating to route
 	if (typeof route.onLoad === 'function') {
 		route.onLoad();
@@ -274,15 +232,15 @@ const urlLocationHandler = async () => {
 };
 
 export async function load404Template() {
-  const route = urlRoutes["404"];
-	loadRouteFiles(route);
+	const route = urlRoutes["404"];
+  	loadRouteStyles(route);
+  	loadRouteScripts(route);
 	setTimeout(() => {
-		// Your code here
-		console.log("This message is displayed after 2 seconds");
+			console.log("This message is displayed after 2 seconds");
 	}, 10000);
-    const html = await fetch(route.template).then((response) => response.text());
-    document.querySelector("#content").innerHTML = html;
-    document.title = route.title;
+	const html = await fetch(route.template).then((response) => response.text());
+	document.querySelector("#content").innerHTML = html;
+	document.title = route.title;
 }
 
 // add an event listener to the window that watches for url changes
