@@ -341,20 +341,13 @@ function toggleButtonState(textareaId, buttonId) {
 
 
 async function loadComments(postId) {
-
-  const commentsContainer = document.querySelector(".comments-container");
-  commentsContainer.innerHTML = "";
-
-  const commentsHeader = document.createElement("h3");
-  commentsHeader.textContent = "comments.";
-  commentsContainer.appendChild(commentsHeader);
-
   try {
     let userCommentsVotes;
     let userComments;
+    let commentForm;
     if (window.userState.isLoggedIn) {
       try {
-        const commentForm = document.createElement("form");
+        commentForm = document.createElement("form");
         commentForm.id = "comment-form";
         
         const commentBody = document.createElement("textarea");
@@ -396,8 +389,6 @@ async function loadComments(postId) {
 
         });
 
-        commentsContainer.appendChild(commentForm)
-
         userCommentsVotes = await getUserCommentsVotes();
         userComments = await getUserComments();
       } catch (error) {
@@ -426,6 +417,20 @@ async function loadComments(postId) {
         const year = date.toLocaleString("en-US", { year: "numeric" });
         return `${day} ${month} ${year}`;
       };
+
+      const commentsContainer = document.querySelector(".comments-container");
+      // Because the way the router is built, when you go back and load a route again, it will dispatch an event. Many JS scripts will have been loaded, 
+      // and they will all be triggered when the event is dispatched, so the function loadComments is executed multiple times. 
+      // We need to clear the comments container after each request, so no matter how many requests are made, it will clean its contents every time until the last one.
+      commentsContainer.innerHTML = "";
+
+      const commentsHeader = document.createElement("h3");
+      commentsHeader.textContent = "comments.";
+      commentsContainer.appendChild(commentsHeader);
+
+      if (window.userState.isLoggedIn) {
+        commentsContainer.appendChild(commentForm)
+      }
 
       result.comments.forEach(comment => {
         const commentContainer = document.createElement("div");

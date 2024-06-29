@@ -12,34 +12,34 @@ document.addEventListener("click", (e) => {
 const urlRoutes = {
 	404: {
 		template: "/404.html",
-    title: "404.",
-    script: "",
-    style: "/css/404.css"
+    	title: "404.",
+    	script: "",
+    	style: "/css/404.css"
 	},
 	"/": {
 		template: "/templates/dashboard.html",
-    title: "dashboard.",
+    	title: "dashboard.",
 		script: "/js/dashboard.js",
-    style: "/css/dashboard.css",
+    	style: "/css/dashboard.css",
 		onLoad: initializeDashboard
 	},
 	"/access": {
 		template: "/templates/access.html",
-    title: "access.",
+    	title: "access.",
 		script: "/js/access.js",
-    style: "/css/access.css"
+    	style: "/css/access.css"
 	},
 	"/create": {
 		template: "/templates/create.html",
-    title: "create.",
+    	title: "create.",
 		script: "/js/create.js",
-    style: "/css/create.css"
+    	style: "/css/create.css"
 	},
 	"/posts": {
 		template: "/templates/posts.html",
-    title: "posts.",
+    	title: "posts.",
 		script: "/js/posts.js",
-    style: "/css/posts.css",
+    	style: "/css/posts.css",
 		onLoad: initializeUserPosts
 	},
 	"/post/:id": {
@@ -54,8 +54,15 @@ const urlRoutes = {
 		title: "edit.",
 		script: "/js/edit.js",
 		style: "/css/edit.css",
-    onLoad: fetchPostToEdit
+    	onLoad: fetchPostToEdit
 	},
+	"/profile": {
+		template: "/templates/profile.html",
+		title: "profile.",
+		script: "/js/profile.js",
+		style: "/css/profile.css",
+		onLoad: initializeProfile
+	}
 };
 
 // create a function that watches the url and calls the urlLocationHandler
@@ -66,7 +73,6 @@ const urlRoute = (event) => {
 	window.history.pushState({}, "", event.target.href);
 	urlLocationHandler();
 };
-
 
 function loadRouteStyles(route) {
     const head = document.getElementsByTagName("head")[0];
@@ -116,8 +122,8 @@ let initializeDashboardEvent = new CustomEvent("initializeDashboard", {
 function initializeDashboard() {
 	setTimeout(() => {
 		const headerLink = document.querySelector("#header");
-      headerLink.href = '/';
-      headerLink.textContent = 'dashboard.';
+      	headerLink.href = '/';
+     	headerLink.textContent = 'dashboard.';
 		window.dispatchEvent(initializeDashboardEvent);
 	}, 200);
 }
@@ -131,8 +137,8 @@ let initializeUserPostsEvent = new CustomEvent("loadUserPosts", {
 function initializeUserPosts() {
 	setTimeout(() => {
 		const headerLink = document.querySelector("#header");
-      headerLink.href = '/posts';
-      headerLink.textContent = 'posts.';
+      	headerLink.href = '/posts';
+      	headerLink.textContent = 'posts.';
 		window.dispatchEvent(initializeUserPostsEvent);
 	}, 200);
 }
@@ -151,13 +157,25 @@ function initializePost() {
 
 let fetchPostToEditEvent = new CustomEvent("fetchPostToEdit", {
 	detail: {
-	  message: "Ready to fetch post."
+	  message: "Ready to fetch post to edit."
 	}
 });
 
 function fetchPostToEdit() {
 	setTimeout(() => {
 		window.dispatchEvent(fetchPostToEditEvent);
+	}, 200);
+}
+
+let initializeProfileEvent = new CustomEvent("loadProfile", {
+	detail: {
+		message: "Ready to fetch user data."
+	}
+});
+ 
+function initializeProfile() {
+	setTimeout(() => {
+		window.dispatchEvent(initializeProfileEvent);
 	}, 200);
 }
 
