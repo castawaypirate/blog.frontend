@@ -14,11 +14,11 @@ header h1 {
   color: #000000;
 }
 
-#dashboard-link {
+.dashboard-link {
   display: none;
 }
 
-#dashboard-divider {
+.dashboard-divider {
   display: none;
 }
 

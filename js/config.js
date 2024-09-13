@@ -5,5 +5,4 @@ const config = {
   userPostsPerPage : 15,
 };
 
-
 export default config;

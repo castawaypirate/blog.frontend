@@ -102,7 +102,6 @@ async function update(data, postId) {
 
   try {
       const response = await fetch(`${config.apiUrl}/posts/edit?postId=${postId}`, options);
-      console.log(response);
       if (response.ok) {
         const result = await response.json();
         if (result.success) {

@@ -82,7 +82,7 @@ async function loadPosts(pageNumber) {
       }
     }
 
-    if (result.success) {
+    if (result.success && result.posts) {
       const formatDate = (date) => {
         const options = { day: "numeric", month: "short", year: "numeric" };
         const day = date.toLocaleString("en-US", { day: "numeric" });
@@ -220,14 +220,15 @@ async function getUserVotes() {
   };
   try {
     const response = await fetch(`${config.apiUrl}/posts/getUserVotes`, options);
-    if (!response.ok) {
-      throw new Error("Network response was not ok.");
-    }
-    const result = await response.json();
-    if (result.success) {
-      return result.data;
+    if (response.ok) {
+      const result = await response.json();
+      if (result.success) {
+        return result.data;
+      } else {
+        console.log(result);
+      }
     } else {
-      console.log(result);
+      console.log(response);
     }
   } catch (error) {
       console.error("Error: ", error);
@@ -248,35 +249,35 @@ async function upvotePost(el, data) {
   
   try {
     const response = await fetch(`${config.apiUrl}/posts/upvote`, options);
-    if (!response.ok) {
-      throw new Error("Network response was not ok.");
-    }
-    const result = await response.json();
-    if (result.success) {
-      if(result.action === "upvote") {
-        const countElement = el.querySelector(".upvotes-count");
-        const currentCount = parseInt(countElement.textContent);
-        countElement.textContent = currentCount + 1;
-        el.className = "upvotes-voted";
-      }
-      else if(result.action === "unvote") {
-        const countElement = el.querySelector(".upvotes-count");
-        const currentCount = parseInt(countElement.textContent);
-        countElement.textContent = currentCount - 1;
-        el.className = "upvotes";
+    if (response.ok) {
+      const result = await response.json();
+      if (result.success) {
+        if (result.action === "upvote") {
+          const countElement = el.querySelector(".upvotes-count");
+          const currentCount = parseInt(countElement.textContent);
+          countElement.textContent = currentCount + 1;
+          el.className = "upvotes-voted";
+        } else if (result.action === "unvote") {
+          const countElement = el.querySelector(".upvotes-count");
+          const currentCount = parseInt(countElement.textContent);
+          countElement.textContent = currentCount - 1;
+          el.className = "upvotes";
+        } else {
+          const downvotesCountElement = el.parentElement.querySelector(".downvotes-count");
+          const downvotesCount = parseInt(downvotesCountElement.textContent);
+          downvotesCountElement.textContent = downvotesCount - 1;
+          const downvotes = el.parentElement.querySelector(".triangle-down").parentElement;
+          downvotes.className = "downvotes";
+          const countElement = el.querySelector(".upvotes-count");
+          const currentCount = parseInt(countElement.textContent);
+          countElement.textContent = currentCount + 1;
+          el.className = "upvotes-voted";
+        }
       } else {
-        const downvotesCountElement = el.parentElement.querySelector(".downvotes-count");
-        const downvotesCount = parseInt(downvotesCountElement.textContent);
-        downvotesCountElement.textContent = downvotesCount - 1;
-        const downvotes = el.parentElement.querySelector(".triangle-down").parentElement;
-        downvotes.className = "downvotes";
-        const countElement = el.querySelector(".upvotes-count");
-        const currentCount = parseInt(countElement.textContent);
-        countElement.textContent = currentCount + 1;
-        el.className = "upvotes-voted";
+        console.log(result);
       }
     } else {
-      console.log(result);
+      console.log(response);
     }
   } catch (error) {
       console.error("Error: ", error);
@@ -297,36 +298,36 @@ async function downvotePost(el, data) {
   
   try {
     const response = await fetch(`${config.apiUrl}/posts/downvote`, options);
-    if (!response.ok) {
-      throw new Error("Network response was not ok.");
-    }
-    const result = await response.json();
-    if (result.success) {
-      if(result.action === "downvote") {
-        const countElement = el.querySelector(".downvotes-count");
-        const currentCount = parseInt(countElement.textContent);
-        countElement.textContent = currentCount + 1;
-        el.className = "downvotes-voted";
-      }
-      else if(result.action === "unvote") {
-        const countElement = el.querySelector(".downvotes-count");
-        const currentCount = parseInt(countElement.textContent);
-        countElement.textContent = currentCount - 1;
-        el.className = "downvotes";
+    if (response.ok) {
+      const result = await response.json();
+      if (result.success) {
+        if (result.action === "downvote") {
+          const countElement = el.querySelector(".downvotes-count");
+          const currentCount = parseInt(countElement.textContent);
+          countElement.textContent = currentCount + 1;
+          el.className = "downvotes-voted";
+        } else if (result.action === "unvote") {
+          const countElement = el.querySelector(".downvotes-count");
+          const currentCount = parseInt(countElement.textContent);
+          countElement.textContent = currentCount - 1;
+          el.className = "downvotes";
+        } else {
+          const upvotesCountElement = el.parentElement.querySelector(".upvotes-count");
+          const upvotesCount = parseInt(upvotesCountElement.textContent);
+          upvotesCountElement.textContent = upvotesCount - 1;
+          const upvotes = el.parentElement.querySelector(".triangle-up").parentElement;
+          upvotes.className = "upvotes";
+          const countElement = el.querySelector(".downvotes-count");
+          const currentCount = parseInt(countElement.textContent);
+          countElement.textContent = currentCount + 1;
+          el.className = "downvotes-voted";
+        }
+        console.log(result);
       } else {
-        const upvotesCountElement = el.parentElement.querySelector(".upvotes-count");
-        const upvotesCount = parseInt(upvotesCountElement.textContent);
-        upvotesCountElement.textContent = upvotesCount - 1;
-        const upvotes = el.parentElement.querySelector(".triangle-up").parentElement;
-        upvotes.className = "upvotes";
-        const countElement = el.querySelector(".downvotes-count");
-        const currentCount = parseInt(countElement.textContent);
-        countElement.textContent = currentCount + 1;
-        el.className = "downvotes-voted";
+        console.log(result);
       }
-      console.log(result);
     } else {
-      console.log(result);
+      console.log(response);
     }
   } catch (error) {
       console.error("Error: ", error);

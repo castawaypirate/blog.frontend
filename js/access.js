@@ -37,6 +37,7 @@ function access(data) {
         form.submit(); //redirects to dashboard
       } else {
         console.log(result);
+        document.querySelector("#password").value = "";
       }
     })
     .catch(error => {

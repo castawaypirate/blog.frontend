@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <title></title>
@@ -23,13 +23,13 @@
         <h1><a id="header" href="/"></a></h1>
         <div class="menu-container">
             <nav class="anonymous menu">
-                <a href="/" id="dashboard-link">dashboard</a>
-                <div id="dashboard-divider" class="divider">|</div>
+                <a href="/" class="dashboard-link">dashboard</a>
+                <div class="divider dashboard-divider">|</div>
                 <a href="/access" id="access-link">access</a>
             </nav>
             <nav class="user menu" id="user-menu">
-                <a href="/" id="dashboard-link">dashboard</a>
-                <div id="dashboard-divider" class="divider">|</div>
+                <a href="/" class="dashboard-link">dashboard</a>
+                <div class="divider dashboard-divider">|</div>
                 <a href="/create" id="create-link">create</a>
                 <div id="create-divider" class="divider">|</div>
                 <a href="/posts" id="posts-link">posts</a>
@@ -39,7 +39,7 @@
                 <a id="logout-link">log out</a> 
             </nav>
             <button id="toggle-button" class="user-button">
-                <img src="/assets/user-profile-pic.png" alt="User Profile Image">
+                <img id="profile-pic-menu" src="/assets/user-profile-pic.png" alt="User Profile Image">
             </button>
         </div>
     </header>

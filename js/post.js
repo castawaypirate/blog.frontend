@@ -308,7 +308,6 @@ async function comment(data) {
 
   try {
       const response = await fetch(`${config.apiUrl}/comments/create`, options);
-      console.log(response);
       if (response.ok) {
         const result = await response.json();
         if (result.success) {
@@ -546,8 +545,14 @@ async function loadComments(postId) {
                 this.style.height = "auto";
                 this.style.height = (this.scrollHeight) + "px";
               });
-              
-              edittedCommentBody.value = commentBodyDiv.textContent;
+
+              // convert <br> tags to line breaks and count the number of lines
+              const commentText = commentBodyDiv.innerHTML.replace(/<br\s*\/?>/gi, "\n");
+              const lineCount = (commentText.match(/\n/g) || []).length + 1;
+              // set the number of rows based on the line count
+              edittedCommentBody.rows = lineCount;
+              edittedCommentBody.value = commentText;
+
               commentContainer.replaceChild(edittedCommentBody, commentBodyDiv);
               edittedCommentBody.focus();
 
@@ -610,7 +615,7 @@ async function loadComments(postId) {
               commentContainer.appendChild(approvalButtonsContainer);
     
               sure.addEventListener("click", async function(event) {
-                deleteComment(data, event);
+                await deleteComment(data, event);
               });
               nah.addEventListener("click", function(event) {
                 cancelDeletion(commentDetails, commentContainer, approvalButtonsContainer, event);
@@ -756,6 +761,11 @@ async function updateComment(edittedCommentBody, commentId, commentContainer, co
   }
 
   let accessToken = localStorage.getItem("accessToken");
+  if (!accessToken) {
+    console.log("No access token.");
+    return;
+  }
+
   const options = {
       method: "PUT",
       headers: {
@@ -772,7 +782,11 @@ async function updateComment(edittedCommentBody, commentId, commentContainer, co
         if (result.success) {
           commentContainer.removeChild(commentEditButtonsContainer);
           commentDetails.style.display = "flex";
-          commentBodyDiv.textContent = edittedCommentBody.value;
+
+          // replace newline characters with <br> now for the comments as well
+          const updatedCommentText = edittedCommentBody.value.replace(/\n/g, "<br>");
+          commentBodyDiv.innerHTML = updatedCommentText;
+
           commentContainer.replaceChild(commentBodyDiv, edittedCommentBody);  
           console.log(result);
         } else {
@@ -799,16 +813,18 @@ async function deleteComment(data, event) {
 
   try {
     const response = await fetch(`${config.apiUrl}/comments/delete?commentId=${data.commentId}`, options)
-    if (!response.ok) {
-      throw new Error("Network response was not ok.");
-    }
-    const result = await response.json();
-    if (result.success) {
-      const postId = window.location.pathname.split("/").pop();
-      loadComments(postId);
-      console.log(result);
+    if (response.ok) {
+      const result = await response.json();
+      if (result.success) {
+        const postId = window.location.pathname.split("/").pop();
+        await loadComments(postId);
+        console.log(result);
+      } else {
+        console.log(result);
+      }
     } else {
-      console.log(result);
+
+      console.log(response);
     }
   } catch (error) {
       console.error("Error: ", error);

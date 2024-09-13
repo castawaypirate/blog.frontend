@@ -58,7 +58,6 @@ async function post(data) {
 
     try {
         const response = await fetch(`${config.apiUrl}/posts/create`, options);
-        console.log(response);
         if (response.ok) {
           const result = await response.json();
           if (result.success) {

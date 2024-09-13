@@ -1,17 +1,44 @@
 <div class="container">
-    <div class="username-container">
-        <h2 id="username"></h2>
+    <div class="user-content">
+        <div class="profile-pic-container">
+            <img id="profile-pic" src="/assets/user-profile-pic.png" alt="User Profile Image">
+            <div class="upload-icon" id="upload-icon">
+                <label for="upload-input">
+                    <img src="/assets/upload-icon.svg" alt="Upload Icon">
+                </label>
+                <input type="file" id="upload-input" accept="image/*" style="display:none;">
+            </div>
+        </div>
+        <div class="username-container">
+            <h2 id="username"></h2>
+        </div>
     </div>
-    <div class="profile-pic-container"></div>
-    <div class="menu-container">
-        <nav class="profile menu" id="profile-menu">
-            <a href="/" id="dashboard-link">dashboard</a>
-            <div id="dashboard-divider" class="divider">|</div>
-            <a href="/create" id="create-link">create</a>
-            <div id="create-divider" class="divider">|</div>
-            <a href="/posts" id="posts-link">posts</a>
-            <div id="posts-divider" class="divider">|</div>
-            <a id="logout-link">log out</a> 
+    <div id="profile-menu-container" class="menu-container">
+        <nav id="profile-menu" class="profile menu">
+            <a href="/">dashboard</a>
+            <div class="divider">|</div>
+            <a href="/create">create</a>
+            <div class="divider">|</div>
+            <a href="/posts">posts</a>
+            <div class="divider">|</div>
+            <div id="change-username">change username</div>
+            <div class="divider">|</div>
+            <div id="change-password">change password</div>
+            <div class="divider">|</div>
+            <div id="delete-profile-pic">delete profile picture</div>
+            <div class="divider">|</div>
+            <div id="delete-account">delete account</div>
+            <div class="divider">|</div>
+            <a id="logout">log out</a>
         </nav>
+    </div>
+</div>
+
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <h2 id="modal-title"></h2>
+        <input type="text" id="modal-input-1">
+        <input type="password" id="modal-input-2" style="display: none;">
+        <button id="modal-submit" class="modal-disabled">change</button>
     </div>
 </div>

@@ -61,6 +61,7 @@ async function validateUser() {
 async function loadMenu() {
   if (loggedIn) {
     menu = document.querySelector(".user.menu");
+    await getProfilePicForMenu()
   } else {
     menu = document.querySelector(".anonymous.menu");
   }
@@ -87,4 +88,43 @@ async function logout() {
   await validateUser();
 
   window.location.href = "/";
+}
+
+window.addEventListener("profilePicUploaded", async function (e) {
+    await getProfilePicForMenu();
+});
+
+async function getProfilePicForMenu() {
+    const accessToken = localStorage.getItem("accessToken");
+    if (!accessToken) {
+        console.log("No access token.");
+        return;
+    }
+
+    const options = {
+        method: "GET",
+        headers: {
+            "Authorization": "Bearer " + accessToken,
+        },
+    };
+
+    try {
+        const response = await fetch(`${config.apiUrl}/users/getProfilePic`, options);
+        const contentType = response.headers.get("Content-Type");
+        if (response.ok) {
+            if (contentType && contentType.includes("application/json")) {
+                const result = await response.json();
+                console.log(result);
+            } else {
+                const blob = await response.blob();
+                const profilePicMenu = document.querySelector("#profile-pic-menu");
+                profilePicMenu.src = URL.createObjectURL(blob);
+                profilePicMenu.style.border = "1px solid #000000";
+            }
+        } else {
+            console.log(response);
+        }
+    } catch (error) {
+        console.error("Failed to fetch data from the server:", error.message);
+    }
 }
