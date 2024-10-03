@@ -275,7 +275,7 @@ document.querySelector("#delete-profile-pic").addEventListener("click", function
     profileMenu.style.display = "none";
 
     const approvalButtonsContainer = document.createElement("nav");
-    approvalButtonsContainer.className = "profile menu";
+    approvalButtonsContainer.className = "options";
 
     const sure = document.createElement("div");
     sure.textContent = "sure";
@@ -345,10 +345,10 @@ document.querySelector("#delete-account").addEventListener("click", function () 
     profileMenu.style.display = "none";
 
     const approvalButtonsContainer = document.createElement("nav");
-    approvalButtonsContainer.className = "profile menu";
+    approvalButtonsContainer.className = "options";
 
     const killIt = document.createElement("div");
-    killIt.textContent = "kill it in about two hours an one minute";
+    killIt.textContent = "kill it in about two hours and one minute";
 
     const spareIt = document.createElement("div");
     spareIt.textContent = "spare it";

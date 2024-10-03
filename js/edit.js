@@ -42,32 +42,32 @@ async function loadPostToEdit(postId) {
   };
 
   const response = await fetch(`${config.apiUrl}/posts/getPost?postId=${postId}`, options)
-  if (!response.ok) {
-    throw new Error("Network response was not ok.");
+  if (response.ok) {
+    const result = await response.json();
+    if (result.success) {
+      console.log(result);
+      const title = document.querySelector("#update-title");
+      const body = document.querySelector("#update-body");
+      title.value = result.post.title;
+      body.value = result.post.body;
+      title.style.height = 'auto';
+      title.scrollHeight; // trigger reflow (flushing the layout)
+      title.style.height = `${title.scrollHeight}px`;
+      body.style.height = 'auto';
+      body.scrollHeight;
+      body.style.height = `${body.scrollHeight}px`;
+    } else {
+      console.error("Post not found.");
+      load404Template().then(() => {
+        console.log("404 template loaded due to error.");
+      }).catch(error => {
+        console.error("Don't look at me bro!");
+      });
+    }
+  } else {
+    console.log(response);
   }
-  
-  const result = await response.json();
-  if (result.success) {
-    console.log(result);
-    const title = document.querySelector("#update-title");
-    const body = document.querySelector("#update-body");
-    title.value = result.post.title;
-    body.value = result.post.body;
-    title.style.height = 'auto';
-    title.scrollHeight; // trigger reflow (flushing the layout)
-    title.style.height = `${title.scrollHeight}px`;
-    body.style.height = 'auto';
-    body.scrollHeight;
-    body.style.height = `${body.scrollHeight}px`;
-  }else {
-    console.error("Post not found.");
-    load404Template().then(() => {
-      console.log("404 template loaded due to error.");
-    }).catch(error => {
-      console.error("Don't look at me bro!");
-    });
-  }
-  }
+}
 
 document.querySelector("#update-form").addEventListener("submit", async function(event) {
   event.preventDefault();

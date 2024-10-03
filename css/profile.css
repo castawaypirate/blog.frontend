@@ -69,6 +69,24 @@ h2 {
     }
 }
 
+.options {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    div {
+        text-decoration: none;
+        font-size: 1.2rem;
+        color: #000000;
+        cursor: pointer;
+    }
+
+    div:hover {
+        text-decoration: underline;
+    }
+}
+
 #modal {
     display: none;
     position: fixed;
@@ -141,3 +159,170 @@ h2 {
     pointer-events: auto;
     cursor: pointer;
 }
+
+
+
+@media screen and (max-width: 1024px) {
+    .container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    #username {
+        font-size: 3rem;
+    }
+
+    #profile-menu-container {
+        display: flex;
+        align-items: flex-start;
+    }
+
+    #profile-menu {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+
+        .divider {
+            display: none;
+        }
+
+        a, div {
+            margin-bottom: 2.25rem;
+            font-size: 1.5rem;
+        }
+    }
+
+    .options {
+        display: flex;
+        flex-direction: column;
+        text-align: right;
+
+        .divider {
+            display: none;
+        }
+
+        div {
+            margin-bottom: 2.25rem;
+            font-size: 1.5rem;
+        }
+    }
+
+    .modal-content {
+        width: 90%;
+        max-width: 500px;
+        padding: 2rem;
+    }
+
+    .modal-content h2 {
+        font-size: 3rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .modal-content input[type="text"],
+    .modal-content input[type="password"] {
+        font-size: 1rem;
+        margin-bottom: 1rem !important;;
+    }
+
+    .modal-content input::placeholder {
+        font-size: 1rem;
+        margin-bottom: 1rem !important;
+    }
+
+    #modal-submit {
+        font-size: 1rem;
+    }
+
+}
+
+@media screen and (min-width: 481px) and (max-width: 1024px) {
+    .container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding-top: 2rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    #profile-pic {
+        width: 45vw;
+        height: 45vw;
+    }
+
+    #username {
+        font-size: 5rem;
+    }
+
+    .upload-icon {
+        transform: translate(-50%, -10%);
+    }
+
+    .upload-icon img {
+        width: 7vw;
+        height: 7vw;
+    }
+
+    #profile-menu-container {
+        display: flex;
+        align-items: flex-start;
+    }
+
+    #profile-menu {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+
+        .divider {
+            display: none;
+        }
+
+        a, div {
+            margin-bottom: 3rem;
+            font-size: 2.25rem;
+        }
+    }
+
+    .options {
+        display: flex;
+        flex-direction: column;
+        text-align: right;
+
+        .divider {
+            display: none;
+        }
+
+        a, div {
+            margin-bottom: 3rem;
+            font-size: 2.25rem;
+        }
+    }
+
+    .modal-content {
+        width: 90%;
+        max-width: 600px;
+        padding: 2rem;
+    }
+
+    .modal-content h2 {
+        font-size: 3rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .modal-content input[type="text"],
+    .modal-content input[type="password"] {
+        font-size: 2rem;
+        margin-bottom: 1rem !important;;
+    }
+
+    .modal-content input::placeholder {
+        font-size: 2rem;
+        margin-bottom: 1rem !important;
+    }
+
+    #modal-submit {
+        font-size: 2rem;
+    }
+}
+

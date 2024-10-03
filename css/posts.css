@@ -98,7 +98,12 @@ li {
     border-bottom: 9px solid #000000;
 }
 
-.count {
+.upvotes-count {
+    font-size: 0.9rem;
+    margin-left: 1px;
+}
+
+.downvotes-count {
     font-size: 0.9rem;
     margin-left: 1px;
 }
@@ -160,4 +165,116 @@ li {
 .sure-button:hover, .nah-button:hover {
     cursor: pointer;
     text-decoration: underline;
+}
+
+@media screen and (max-width: 1024px) {
+    body {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    header {
+        h1 {
+            font-size: 3.5rem;
+        }
+
+        .menu a {
+            font-size: 1.75rem;
+        }
+
+        .menu div {
+            font-size: 1.75rem !important;
+        }
+
+        .user-button {
+            width: 56px;
+            height: 56px;
+        }
+    }
+
+    /*ol {*/
+    /*    font-size: rem;*/
+    /*}*/
+
+    .post-container {
+        .post-title {
+            font-size: 2rem;
+        }
+
+        .upvotes, .downvotes {
+            cursor: pointer;
+        }
+
+        .upvotes-count {
+            font-size: 1.5rem;
+            margin-left: 2px;
+        }
+
+        .downvotes-count {
+            font-size: 1.5rem;
+            margin-left: 2px;
+        }
+
+        .triangle-up {
+            width: 0;
+            height: 0;
+            border-left: 7px solid transparent;
+            border-right: 7px solid transparent;
+            border-bottom: 17px solid #000000;
+        }
+
+        .triangle-down {
+            width: 0;
+            height: 0;
+            border-left: 7px solid transparent;
+            border-right: 7px solid transparent;
+            border-top: 17px solid #000000;
+        }
+
+        .post-details-divider {
+            font-size: 1.4rem;
+            margin: 1px 1px 2px 1px;
+        }
+
+        .created, .edited, .post-creator {
+            font-size: 1.5rem;
+        }
+
+        .edit, .delete{
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+    }
+
+    .pagination {
+        margin-top: 1rem;
+    }
+
+    #previous, #next {
+        font-size: 2rem;
+        cursor: pointer;
+    }
+
+    #pagination-divider {
+        font-size: 1.5rem;
+    }
+}
+
+@media screen and (min-width: 481px) and (max-width: 1024px) {
+    ol {
+        margin-left: 3rem;
+    }
+
+    .pagination {
+        margin-top: 2rem;
+    }
+
+    #previous, #next {
+        font-size: 2.5rem;
+        cursor: pointer;
+    }
+
+    #pagination-divider {
+        font-size: 2rem;
+    }
 }

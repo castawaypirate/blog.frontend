@@ -64,6 +64,16 @@ header h1 {
   text-decoration: underline;
 }
 
+.menu div{
+  text-decoration: none;
+  font-size: 1.2rem;
+  color: #000000;
+}
+
+.menu div:hover {
+  text-decoration: underline;
+}
+
 .divider {
   margin-left: 0.5rem;
   margin-right: 0.5rem;

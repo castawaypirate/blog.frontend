@@ -24,10 +24,11 @@ function access(data) {
 
   fetch(`${config.apiUrl}/users/access`, options)
     .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok.');
+      if (response.ok) {
+        return response.json();
+      } else {
+        console.log(response);
       }
-      return response.json();
     })
     .then(result => {
       if (result.success) {
