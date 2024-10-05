@@ -1,7 +1,8 @@
 import config from "./config.js";
 
-window.addEventListener("loadProfile", function(e) {
-    setTimeout(function() {}, 100);
+window.addEventListener("loadProfile", function (e) {
+    setTimeout(function () {
+    }, 100);
     getUserData();
     getProfilePic();
 });
@@ -133,7 +134,7 @@ const modalInput1 = modal.querySelector('#modal-input-1');
 const modalInput2 = modal.querySelector('#modal-input-2');
 const modalButton = modal.querySelector('button');
 
-window.addEventListener('click', function(event) {
+window.addEventListener('click', function (event) {
     if (event.target === modal) {
         modal.style.display = 'none';
     }
@@ -293,10 +294,10 @@ document.querySelector("#delete-profile-pic").addEventListener("click", function
     menuContainer.appendChild(approvalButtonsContainer);
 
 
-    sure.addEventListener("click", async function(event) {
+    sure.addEventListener("click", async function (event) {
         await deleteProfilePic(event, menuContainer, approvalButtonsContainer, profileMenu);
     });
-    nah.addEventListener("click", function(event) {
+    nah.addEventListener("click", function (event) {
         event.stopPropagation();
         menuContainer.removeChild(approvalButtonsContainer);
         profileMenu.style.display = "flex";
@@ -363,10 +364,10 @@ document.querySelector("#delete-account").addEventListener("click", function () 
     menuContainer.appendChild(approvalButtonsContainer);
 
 
-    killIt.addEventListener("click", async function(event) {
+    killIt.addEventListener("click", async function (event) {
         await deleteAccount(event, menuContainer, approvalButtonsContainer, profileMenu);
     });
-    spareIt.addEventListener("click", function(event) {
+    spareIt.addEventListener("click", function (event) {
         event.stopPropagation();
         menuContainer.removeChild(approvalButtonsContainer);
         profileMenu.style.display = "flex";

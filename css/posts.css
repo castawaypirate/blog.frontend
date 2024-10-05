@@ -28,14 +28,18 @@ header h1 {
     margin: 0 0.5rem 0 0.5rem;
 }
 
-ol {
-    margin-top: -1rem;
-    margin-bottom: 0.4rem;
-    padding-left: 1.8em;
+table {
+    margin-top: 0.5rem;
+    h3 {
+        margin-top: 0;
+    }
 }
 
-li {
-    margin-top: -0.15rem;
+td {
+    vertical-align: top;
+    .post-container {
+        margin-bottom: 0.75rem;
+    }
 }
 
 .post-title {
@@ -120,35 +124,6 @@ li {
     font-size: 0.9rem;
 }
 
-.pagination {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    margin-top: 0.5rem;
-    margin-left: 1.75rem;
-}
-
-#previous, #next {
-    font-size: 1rem;
-}
-
-#previous:hover, #next:hover {
-    text-decoration: underline;
-    cursor: pointer;
-}
-
-.disabled {
-    display: none;
-    pointer-events: none;
-}
-
-
-.pagination > .divider {
-    margin-left: 0.3rem;
-    margin-right: 0.3rem;
-}
-
 .edit, .delete{
     font-size: 0.9rem;
 }
@@ -165,6 +140,27 @@ li {
 .sure-button:hover, .nah-button:hover {
     cursor: pointer;
     text-decoration: underline;
+}
+
+.pagination {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+#previous, #next {
+    font-size: 1rem;
+}
+
+#previous:hover, #next:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.pagination > .divider {
+    margin-left: 0.3rem;
+    margin-right: 0.3rem;
 }
 
 @media screen and (max-width: 1024px) {
@@ -192,9 +188,10 @@ li {
         }
     }
 
-    /*ol {*/
-    /*    font-size: rem;*/
-    /*}*/
+    ol {
+        margin-left: 0;
+    }
+
 
     .post-container {
         .post-title {
@@ -261,9 +258,11 @@ li {
 }
 
 @media screen and (min-width: 481px) and (max-width: 1024px) {
-    ol {
-        margin-left: 3rem;
+
+    ol li::marker {
+        font-size: 2em;
     }
+
 
     .pagination {
         margin-top: 2rem;
