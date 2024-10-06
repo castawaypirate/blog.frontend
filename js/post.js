@@ -1,5 +1,5 @@
 import config from "./config.js";
-import {load404Template} from './router.js';
+import {load404Template} from "./router.js";
 
 window.addEventListener("loadPost", function (e) {
     const postId = window.location.pathname.split("/").pop();
@@ -532,7 +532,7 @@ async function loadComments(postId) {
                             editCommentButton.className = "comment-edit";
                             editCommentButton.textContent = "edit";
 
-                            editCommentButton.addEventListener('click', function () {
+                            editCommentButton.addEventListener("click", function () {
                                 // replace div with textarea
                                 const commentBodyDiv = commentContainer.querySelector(".comment-body");
                                 const edittedCommentBody = document.createElement("textarea");

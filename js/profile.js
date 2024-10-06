@@ -128,15 +128,15 @@ function fire() {
 }
 
 
-const modal = document.querySelector('#modal');
-const modalTitle = modal.querySelector('h2');
-const modalInput1 = modal.querySelector('#modal-input-1');
-const modalInput2 = modal.querySelector('#modal-input-2');
-const modalButton = modal.querySelector('button');
+const modal = document.querySelector("#modal");
+const modalTitle = modal.querySelector("h2");
+const modalInput1 = modal.querySelector("#modal-input-1");
+const modalInput2 = modal.querySelector("#modal-input-2");
+const modalButton = modal.querySelector("button");
 
-window.addEventListener('click', function (event) {
+window.addEventListener("click", function (event) {
     if (event.target === modal) {
-        modal.style.display = 'none';
+        modal.style.display = "none";
     }
 });
 
@@ -144,49 +144,49 @@ document.querySelector("#change-username").addEventListener("click", showChangeU
 
 document.querySelector("#change-password").addEventListener("click", showChangePasswordModal);
 
-modalInput1.addEventListener('input', toggleButtonState);
-modalInput2.addEventListener('input', toggleButtonState);
+modalInput1.addEventListener("input", toggleButtonState);
+modalInput2.addEventListener("input", toggleButtonState);
 
 function toggleButtonState() {
-    const isPasswordChange = modalInput2.style.display !== 'none';
-    const isValid = modalInput1.value.trim() !== '' &&
-        (!isPasswordChange || modalInput2.value.trim() !== '');
+    const isPasswordChange = modalInput2.style.display !== "none";
+    const isValid = modalInput1.value.trim() !== "" &&
+        (!isPasswordChange || modalInput2.value.trim() !== "");
 
     if (isValid) {
-        modalButton.classList.remove('modal-disabled');
-        modalButton.classList.add('modal-enabled');
+        modalButton.classList.remove("modal-disabled");
+        modalButton.classList.add("modal-enabled");
     } else {
-        modalButton.classList.remove('modal-enabled');
-        modalButton.classList.add('modal-disabled');
+        modalButton.classList.remove("modal-enabled");
+        modalButton.classList.add("modal-disabled");
     }
 }
 
 function showChangeUsernameModal(event) {
     event.preventDefault();
-    modalTitle.textContent = 'change username';
-    modalInput1.type = 'text';
-    modalInput1.placeholder = 'new username';
-    modalInput1.value = '';
-    modalInput2.style.display = 'none';
+    modalTitle.textContent = "change username";
+    modalInput1.type = "text";
+    modalInput1.placeholder = "new username";
+    modalInput1.value = "";
+    modalInput2.style.display = "none";
     toggleButtonState();
-    modalButton.removeEventListener('click', changePassword);
-    modalButton.addEventListener('click', changeUsername);
-    modal.style.display = 'block';
+    modalButton.removeEventListener("click", changePassword);
+    modalButton.addEventListener("click", changeUsername);
+    modal.style.display = "block";
 }
 
 function showChangePasswordModal(event) {
     event.preventDefault();
-    modalTitle.textContent = 'change password';
-    modalInput1.type = 'password';
-    modalInput1.placeholder = 'current password';
-    modalInput1.value = '';
-    modalInput2.placeholder = 'new password';
-    modalInput2.value = '';
-    modalInput2.style.display = 'block';
+    modalTitle.textContent = "change password";
+    modalInput1.type = "password";
+    modalInput1.placeholder = "current password";
+    modalInput1.value = "";
+    modalInput2.placeholder = "new password";
+    modalInput2.value = "";
+    modalInput2.style.display = "block";
     toggleButtonState();
-    modalButton.removeEventListener('click', changeUsername);
-    modalButton.addEventListener('click', changePassword);
-    modal.style.display = 'block';
+    modalButton.removeEventListener("click", changeUsername);
+    modalButton.addEventListener("click", changePassword);
+    modal.style.display = "block";
 }
 
 async function changeUsername() {
@@ -226,7 +226,7 @@ async function changeUsername() {
         throw new Error("Error: " + error);
     }
 
-    modal.style.display = 'none';
+    modal.style.display = "none";
 }
 
 async function changePassword() {
@@ -266,7 +266,7 @@ async function changePassword() {
         throw new Error("Error: " + error);
     }
 
-    modal.style.display = 'none';
+    modal.style.display = "none";
 }
 
 

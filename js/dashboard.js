@@ -34,6 +34,9 @@ async function loadPosts(pageNumber) {
         let userVotes;
         if (window.userState.isLoggedIn) {
             userVotes = await getUserVotes();
+        } else {
+            const desc= document.querySelector(".description");
+            desc.style.display = "none";
         }
 
         const response = await fetch(`${config.apiUrl}/posts/getDashboardPosts?pageNumber=${pageNumber}`, options);
@@ -42,10 +45,10 @@ async function loadPosts(pageNumber) {
             console.log(result);
             if (result.success && result.posts) {
                 const formatDate = (date) => {
-                    return new Intl.DateTimeFormat('en-US', {
-                        day: 'numeric',
-                        month: 'short',
-                        year: 'numeric'
+                    return new Intl.DateTimeFormat("en-US", {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric"
                     }).format(date);
                 };
 
@@ -63,7 +66,10 @@ async function loadPosts(pageNumber) {
                 result.posts.forEach((post, index) => {
                     const tr = document.createElement("tr");
                     const numberCell = document.createElement("td");
-                    numberCell.textContent = (startNumber + index) + ". ";
+                    const number = document.createElement("h3");
+                    number.className = "number";
+                    number.textContent = (startNumber + index) + ". ";
+                    numberCell.appendChild(number);
                     const postCell = document.createElement("td");
 
                     const postContainer = document.createElement("div");

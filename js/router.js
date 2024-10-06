@@ -122,8 +122,8 @@ let initializeDashboardEvent = new CustomEvent("initializeDashboard", {
 function initializeDashboard() {
     setTimeout(() => {
         const headerLink = document.querySelector("#header");
-        headerLink.href = '/';
-        headerLink.textContent = 'dashboard.';
+        headerLink.href = "/";
+        headerLink.textContent = "dashboard.";
         window.dispatchEvent(initializeDashboardEvent);
     }, 200);
 }
@@ -137,8 +137,8 @@ let initializeUserPostsEvent = new CustomEvent("loadUserPosts", {
 function initializeUserPosts() {
     setTimeout(() => {
         const headerLink = document.querySelector("#header");
-        headerLink.href = '/posts';
-        headerLink.textContent = 'posts.';
+        headerLink.href = "/posts";
+        headerLink.textContent = "posts.";
         window.dispatchEvent(initializeUserPostsEvent);
     }, 200);
 }
@@ -244,7 +244,7 @@ const urlLocationHandler = async () => {
     loadRouteScripts(route);
 
     // execute onLoad assigned function when navigating to route
-    if (typeof route.onLoad === 'function') {
+    if (typeof route.onLoad === "function") {
         route.onLoad();
     }
 };

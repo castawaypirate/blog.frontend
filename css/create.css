@@ -84,3 +84,43 @@ header {
     pointer-events: auto;
     cursor: pointer;
 }
+
+
+@media screen and (max-width: 1024px) {
+    body {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    header {
+        .menu a {
+            font-size: 1.5rem;
+        }
+
+        .menu div {
+            font-size: 1.5rem !important;
+        }
+
+        .user-button {
+            width: 100px;
+            height: 100px;
+            margin: 10px 5px 10px 10px;
+        }
+    }
+
+    #post-title {
+        font-size: 3rem;
+    }
+
+    #post-title::placeholder {
+        font-size: 3rem;
+    }
+
+    #post-body {
+        font-size: 2rem;
+    }
+
+    #post-button {
+        font-size: 2.5rem;
+    }
+}

@@ -51,10 +51,10 @@ async function loadPostToEdit(postId) {
             const body = document.querySelector("#update-body");
             title.value = result.post.title;
             body.value = result.post.body;
-            title.style.height = 'auto';
+            title.style.height = "auto";
             title.scrollHeight; // trigger reflow (flushing the layout)
             title.style.height = `${title.scrollHeight}px`;
-            body.style.height = 'auto';
+            body.style.height = "auto";
             body.scrollHeight;
             body.style.height = `${body.scrollHeight}px`;
         } else {
@@ -77,7 +77,7 @@ document.querySelector("#update-form").addEventListener("submit", async function
     const body = document.querySelector("#update-body").value;
 
     if (!title || !body) {
-        console.log('Either title or body is empty.');
+        console.log("Either title or body is empty.");
         return;
     }
 

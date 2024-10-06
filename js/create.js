@@ -34,7 +34,7 @@ document.querySelector("#post-form").addEventListener("submit", async function (
     const body = document.querySelector("#post-body").value;
 
     if (!title || !body) {
-        console.log('Either title or body is empty.');
+        console.log("Either title or body is empty.");
         return;
     }
 

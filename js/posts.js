@@ -43,10 +43,10 @@ async function loadUserPosts(pageNumber) {
             console.log(result);
             if (result.success && result.posts) {
                 const formatDate = (date) => {
-                    return new Intl.DateTimeFormat('en-US', {
-                        day: 'numeric',
-                        month: 'short',
-                        year: 'numeric'
+                    return new Intl.DateTimeFormat("en-US", {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric"
                     }).format(date);
                 };
 
@@ -66,7 +66,10 @@ async function loadUserPosts(pageNumber) {
                 result.posts.forEach((post, index) => {
                     const tr = document.createElement("tr");
                     const numberCell = document.createElement("td");
-                    numberCell.textContent = (startNumber + index) + ". ";
+                    const number = document.createElement("h3");
+                    number.className = "number";
+                    number.textContent = (startNumber + index) + ". ";
+                    numberCell.appendChild(number);
                     const postCell = document.createElement("td");
 
                     const postContainer = document.createElement("div");
@@ -137,7 +140,7 @@ async function loadUserPosts(pageNumber) {
                     const editDiv = document.createElement("div");
                     editDiv.className = "edit";
                     editDiv.textContent = "edit";
-                    editDiv.addEventListener('click', function () {
+                    editDiv.addEventListener("click", function () {
                         window.location.href = `/edit/${post.id}`;
                     });
 

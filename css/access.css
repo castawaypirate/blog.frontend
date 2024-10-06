@@ -29,7 +29,6 @@ header {
     width: 300px;
     padding-top: 10px;
     padding-bottom: 5px;
-
 }
 
 #access-form {
@@ -48,8 +47,8 @@ header {
     margin: 15px;
     border: none;
     border-bottom: 1px solid #000000;
-    box-sizing: border-box; /* Include padding and border in the total width */
-    width: 90%; /* Set all items to occupy the full width of the container */
+    box-sizing: border-box;
+    width: 90%;
 }
 
 .form-container input[type="password"] {
@@ -63,8 +62,8 @@ header {
 
 input[type="text"]:focus,
 input[type="password"]:focus {
-    border-color: #000000; /* Change to the desired focus border color */
-    outline: none; /* Remove default focus outline (optional) */
+    border-color: #000000;
+    outline: none;
 }
 
 .form-container button {
@@ -78,4 +77,26 @@ input[type="password"]:focus {
 .form-container button:hover {
     background-color: #000000;
     color: #ffffff;
+}
+
+@media screen and (max-width: 1024px) {
+    .container h2 {
+        font-size: 3rem;
+    }
+
+    .form-container input[type="text"],
+    .form-container input[type="password"],
+    .form-container button {
+        font-size: 1.5rem;
+    }
+
+    .form-container input[type="text"]::placeholder,
+    .form-container input[type="password"]::placeholder {
+        font-size: 1.5rem;
+    }
+
+    .form-container {
+        width: 400px;
+        height: 250px;
+    }
 }

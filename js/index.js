@@ -20,7 +20,7 @@ window.userState = {
 
 
 async function validateUser() {
-    const accessToken = localStorage.getItem('accessToken');
+    const accessToken = localStorage.getItem("accessToken");
     if (!accessToken) {
         return false;
     }
@@ -65,6 +65,8 @@ async function loadMenu() {
         await getProfilePicForMenu()
     } else {
         menu = document.querySelector(".anonymous.menu");
+        const userButton = document.querySelector("#toggle-button");
+        userButton.style.display = "none";
     }
 }
 
@@ -82,7 +84,7 @@ document.querySelector("#logout-link").addEventListener("click", logout);
 
 
 async function logout() {
-    localStorage.removeItem('accessToken');
+    localStorage.removeItem("accessToken");
 
     window.userState.isLoggedIn = false;
 

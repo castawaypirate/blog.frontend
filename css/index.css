@@ -20,14 +20,14 @@ header h1 {
 
 
 .user-button {
-    width: 38px;
-    height: 38px;
-    padding: 0;
+    width: 45px;
+    height: 45px;
     border: none;
     background: none;
     cursor: pointer;
     outline: none;
     margin-left: 20px;
+    padding: 0 0 5px;
 }
 
 .user-button img {
@@ -86,4 +86,12 @@ header h1 {
 
 #logout-link:hover {
     text-decoration: underline;
+}
+
+
+@media screen and (max-width: 1024px) {
+}
+
+@media screen and (min-width: 481px) and (max-width: 1024px) {
+
 }

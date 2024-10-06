@@ -260,3 +260,141 @@ header {
     cursor: pointer;
     text-decoration: underline;
 }
+
+@media screen and (max-width: 1024px) {
+    body {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    header {
+        .menu a {
+            font-size: 1.5rem;
+        }
+
+        .menu div {
+            font-size: 1.5rem !important;
+        }
+
+        .user-button {
+            width: 100px;
+            height: 100px;
+            margin: 10px 5px 10px 10px;
+        }
+    }
+
+    #post-title {
+        font-size: 3rem;
+    }
+
+    #post-title::placeholder {
+        font-size: 3rem;
+    }
+
+    #post-body {
+        font-size: 2rem;
+    }
+
+    .post-upvotes, .post-downvotes {
+        cursor: pointer;
+    }
+
+    .post-upvotes-count {
+        font-size: 2rem;
+        margin-left: 2px;
+    }
+
+    .post-downvotes-count {
+        font-size: 2rem;
+        margin-left: 2px;
+    }
+
+    .post-votes-triangle-up {
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-bottom: 22px solid #000000;
+    }
+
+    .post-votes-triangle-down {
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-top: 22px solid #000000;
+    }
+
+    .post-votes-divider {
+        font-size: 2rem;
+    }
+
+    .comments-container h3 {
+        font-size: 2rem;
+    }
+
+    #comment-body {
+        font-size: 1.5rem;
+    }
+
+    #comment-body::placeholder {
+        font-size: 1.5rem;
+    }
+
+    #comment-button {
+        font-size: 1.5rem;
+    }
+
+    .comment-body {
+        font-size: 1.5rem;
+    }
+
+    .comment-details {
+        font-size: 1.25rem
+    }
+
+    .comment-details-divider {
+        font-size: 1rem;
+    }
+
+    .comment-downvotes-count {
+        font-size: 1.25rem
+    }
+
+    .comment-upvotes-count {
+        font-size: 1.25rem
+    }
+
+    .comment-votes-triangle-up {
+        width: 0;
+        height: 0;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-bottom: 12px solid #000000;
+    }
+
+    .comment-votes-triangle-down {
+        width: 0;
+        height: 0;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-top: 12px solid #000000;
+    }
+
+    .comment-edit, .comment-delete {
+        cursor: pointer;
+    }
+
+    .comment-edit-textarea {
+        font-size: 1.5rem;
+    }
+
+    #update-button, #cancel-button {
+        cursor: pointer;
+    }
+
+    .sure-button, .nah-button {
+        cursor: pointer;
+    }
+
+}
