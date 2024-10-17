@@ -11,7 +11,7 @@ document.addEventListener("click", (e) => {
 // create an object that maps the url to the template, title, and description
 const urlRoutes = {
     404: {
-        template: "/404.html",
+        template: "/templates/404.html",
         title: "404.",
         script: "",
         style: "/css/404.css"

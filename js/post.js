@@ -298,7 +298,7 @@ async function getUserComments() {
 }
 
 
-async function comment(data) {
+async function comment(data, commentBody, commentButton) {
     let accessToken = localStorage.getItem("accessToken");
     const options = {
         method: "POST",
@@ -314,9 +314,11 @@ async function comment(data) {
         if (response.ok) {
             const result = await response.json();
             if (result.success) {
-
                 console.log("Comment was created.")
                 loadComments(data.postId);
+                commentBody.value = "";
+                commentButton.classList.remove("enabled");
+                commentButton.classList.add("disabled");
             } else {
                 console.log(result);
             }
@@ -383,12 +385,7 @@ async function loadComments(postId) {
                         body: commentBody.value
                     };
 
-                    comment(data);
-
-                    commentBody.value = "";
-                    commentButton.classList.remove("enabled");
-                    commentButton.classList.add("disabled");
-
+                    comment(data, commentBody, commentButton);
                 });
 
                 userCommentsVotes = await getUserCommentsVotes();
@@ -441,7 +438,7 @@ async function loadComments(postId) {
 
                     const formattedBody = comment.body.replace(/\n/g, "<br>");
                     commentContainer.innerHTML = `
-            <div class="comment-body">${formattedBody}</div>`;
+                        <div class="comment-body">${formattedBody}</div>`;
 
                     const commentDetails = document.createElement("div");
                     commentDetails.className = "comment-details";
