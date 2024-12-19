@@ -32,10 +32,12 @@ async function loadPosts(pageNumber) {
 
     try {
         let userVotes;
+        const desc= document.querySelector(".description");
         if (window.userState.isLoggedIn) {
             userVotes = await getUserVotes();
+            desc.innerText = "Hello there. You found the user button. Well done! So, now let me fill you in with this blog's policy. You can post whatever you want. There is no content moderation algorithm that evaluates posts. Each post features two counters. One for upvotes and one for downvotes. Also, the same form is used for both signing in and signing up. We don't use emails here, so you'd better not lose your password. That's our policy. Thank you for joining our community.";
         } else {
-            const desc= document.querySelector(".description");
+            desc.innerText = "";
             desc.style.display = "none";
         }
 

@@ -176,15 +176,15 @@ td {
 
     header {
         h1 {
-            font-size: 4.5rem;
+            font-size: 3rem;
         }
 
         .menu a {
-            font-size: 1.5rem;
+            font-size: 1.75rem;
         }
 
         .menu div {
-            font-size: 1.5rem !important;
+            font-size: 1.75rem !important;
         }
 
         .user-button {
@@ -207,7 +207,7 @@ td {
     .post-container {
 
         .post-title {
-            font-size: 3rem;
+            font-size: 2.5rem;
         }
 
         .upvotes, .downvotes {
@@ -215,12 +215,12 @@ td {
         }
 
         .upvotes-count {
-            font-size: 2rem;
+            font-size: 1.75rem;
             margin-left: 2px;
         }
 
         .downvotes-count {
-            font-size: 2rem;
+            font-size: 1.75rem;
             margin-left: 2px;
         }
 
@@ -241,7 +241,7 @@ td {
         }
 
         .post-details-divider {
-            font-size: 2rem;
+            font-size: 1.75rem;
             margin: 1px 1px 2px 1px;
         }
 

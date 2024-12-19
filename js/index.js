@@ -61,12 +61,12 @@ async function validateUser() {
 
 async function loadMenu() {
     if (loggedIn) {
+        const userButton = document.querySelector("#toggle-button");
+        userButton.style.display = "block";
         menu = document.querySelector(".user.menu");
         await getProfilePicForMenu()
     } else {
         menu = document.querySelector(".anonymous.menu");
-        const userButton = document.querySelector("#toggle-button");
-        userButton.style.display = "none";
     }
 }
 

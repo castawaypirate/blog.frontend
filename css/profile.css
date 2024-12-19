@@ -252,9 +252,9 @@ h2 {
         height: 45vw;
     }
 
-    #username {
-        font-size: 5rem;
-    }
+    /*#username {*/
+    /*    font-size: 5rem;*/
+    /*}*/
 
     .upload-icon {
         transform: translate(-50%, -10%);

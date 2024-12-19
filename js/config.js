@@ -1,6 +1,5 @@
 const config = {
-    apiUrl: "http://localhost:8000/api", // PHP Server API base URL
-    // apiUrl: "http://backend/api" // Apache2 Server API base URL
+    apiUrl: `${window.location.origin}/api`,
     postsPerPage: 14,
     userPostsPerPage: 15,
 };

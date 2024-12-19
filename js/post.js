@@ -314,11 +314,11 @@ async function comment(data, commentBody, commentButton) {
         if (response.ok) {
             const result = await response.json();
             if (result.success) {
-                console.log("Comment was created.")
                 loadComments(data.postId);
                 commentBody.value = "";
                 commentButton.classList.remove("enabled");
                 commentButton.classList.add("disabled");
+                console.log(result);
             } else {
                 console.log(result);
             }
