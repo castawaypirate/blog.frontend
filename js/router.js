@@ -1,6 +1,6 @@
 // create document click that watches the nav links only !!!!! hmmmmmmmmm
 document.addEventListener("click", (e) => {
-    const {target} = e;
+    const { target } = e;
     if (!target.matches("a")) {
         return;
     }
@@ -62,6 +62,13 @@ const urlRoutes = {
         script: "/js/profile.js",
         style: "/css/profile.css",
         onLoad: initializeProfile
+    },
+    "/messages": {
+        template: "/templates/messages.html",
+        title: "messages.",
+        script: "/js/messages.js",
+        style: "/css/messages.css",
+        onLoad: initializeMessages
     }
 };
 
@@ -176,6 +183,21 @@ let initializeProfileEvent = new CustomEvent("loadProfile", {
 function initializeProfile() {
     setTimeout(() => {
         window.dispatchEvent(initializeProfileEvent);
+    }, 200);
+}
+
+let initializeMessagesEvent = new CustomEvent("initializeMessages", {
+    detail: {
+        message: "Ready to load messages."
+    }
+});
+
+function initializeMessages() {
+    setTimeout(() => {
+        const headerLink = document.querySelector("#header");
+        headerLink.href = "/messages";
+        headerLink.textContent = "messages.";
+        window.dispatchEvent(initializeMessagesEvent);
     }, 200);
 }
 
