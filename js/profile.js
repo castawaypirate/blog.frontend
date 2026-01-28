@@ -29,6 +29,11 @@ async function getUserData() {
             if (result.success) {
                 console.log(result);
                 document.querySelector("#username").textContent = result.user.username;
+
+                if (result.user.has_sent_messages) {
+                    document.querySelector("#messages-link").style.display = "block";
+                    document.querySelector("#messages-divider").style.display = "block";
+                }
             } else {
                 console.log(result);
             }
