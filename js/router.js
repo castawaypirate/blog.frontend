@@ -95,7 +95,7 @@ function loadRouteStyles(route) {
     if (route.style && !route.style.endsWith("index.css")) {
         const cssLink = document.createElement("link");
         cssLink.rel = "stylesheet";
-        cssLink.href = route.style;
+        cssLink.href = `${route.style}?${Date.now()}`;
         head.appendChild(cssLink);
     }
 }
