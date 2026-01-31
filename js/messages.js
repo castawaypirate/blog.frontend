@@ -14,7 +14,6 @@ function initializeMockMessages() {
     const usersList = document.getElementById('users-list');
     const userSearch = document.getElementById('user-search');
 
-    // Mock Data
     const mockUsers = [
         { id: 1, username: 'test1', profilePic: '/assets/user-profile-pic.png' },
         { id: 2, username: 'test2', profilePic: '/assets/user-profile-pic.png' },
@@ -23,36 +22,81 @@ function initializeMockMessages() {
         { id: 5, username: 'bob', profilePic: '/assets/user-profile-pic.png' },
     ];
 
+
+    const mockMessages = {
+        1: [
+            { sender: 'them', content: 'Hey, how are you?' },
+            { sender: 'me', content: 'I am good, thanks! And you?' },
+            { sender: 'them', content: 'Pretty good as well.' }
+        ],
+        2: [
+            { sender: 'me', content: 'Did you see the new post?' }
+        ],
+        4: [
+            { sender: 'them', content: 'Hello Alice here.' },
+            { sender: 'me', content: 'Hi Alice!' }
+        ]
+    };
+
     function renderUsers(users) {
-        usersList.innerHTML = ''; // Clear list
+        usersList.innerHTML = '';
         users.forEach(user => {
             const userItem = document.createElement('div');
             userItem.className = 'user-item';
-
-            // Mock profile picture logic (using default if path is same as template default)
-            // In a real app we might fallback to default if image load fails
-
             userItem.innerHTML = `
                 <img src="${user.profilePic}" alt="${user.username}" class="user-item-pic">
                 <div class="user-item-username">${user.username}</div>
             `;
 
-            // Add click event for navigation (mock)
             userItem.addEventListener('click', () => {
                 console.log(`Clicked on user: ${user.username}`);
-                // Future: Navigate to conversation
-                // window.history.pushState({}, "", `/messages/${user.id}`);
-                // urlLocationHandler();
+                renderConversation(user);
             });
 
             usersList.appendChild(userItem);
         });
     }
 
-    // Initial render
+    function renderConversation(user) {
+        const conversationPanel = document.getElementById('conversation-panel');
+        conversationPanel.innerHTML = '';
+
+        const header = document.createElement('div');
+        header.className = 'conversation-header';
+        header.innerHTML = `<h3>${user.username}</h3>`;
+        conversationPanel.appendChild(header);
+
+        const messages = mockMessages[user.id] || [];
+
+        if (messages.length === 0) {
+            const emptyMsg = document.createElement('div');
+            emptyMsg.className = 'message-placeholder';
+            emptyMsg.textContent = 'No messages yet.';
+            conversationPanel.appendChild(emptyMsg);
+            return;
+        }
+
+        const messagesList = document.createElement('div');
+        messagesList.className = 'messages-list';
+
+        messages.forEach(msg => {
+            const msgDiv = document.createElement('div');
+            msgDiv.textContent = msg.content;
+            msgDiv.classList.add('message-text');
+
+            if (msg.sender === 'me') {
+                msgDiv.classList.add('message-me');
+            } else {
+                msgDiv.classList.add('message-them');
+            }
+            messagesList.appendChild(msgDiv);
+        });
+
+        conversationPanel.appendChild(messagesList);
+    }
+
     renderUsers(mockUsers);
 
-    // Search functionality
     userSearch.addEventListener('input', (e) => {
         const query = e.target.value.toLowerCase();
         const filteredUsers = mockUsers.filter(user =>
