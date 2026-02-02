@@ -6,7 +6,14 @@
         <div id="users-list" class="users-list">
         </div>
     </div>
+    <div class="vertical-divider"></div>
     <div class="conversation-panel" id="conversation-panel">
-        <div class="message-placeholder">Select a user to start messaging</div>
+        <div id="messages-display-area">
+            <div class="message-placeholder">Select a user to start messaging</div>
+        </div>
+        <div class="chat-input-area" id="chat-input-area" style="display: none;">
+            <textarea id="message-input" placeholder="Type a message..."></textarea>
+            <button id="send-button">Send</button>
+        </div>
     </div>
 </div>

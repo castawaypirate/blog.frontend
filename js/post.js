@@ -1,5 +1,5 @@
 import config from "./config.js";
-import {load404Template} from "./router.js";
+import { load404Template } from "./router.js";
 
 window.addEventListener("loadPost", function (e) {
     const postId = window.location.pathname.split("/").pop();
@@ -407,17 +407,16 @@ async function loadComments(postId) {
             const result = await response.json();
             if (result.success) {
                 const formatDate = (date) => {
-                    const options = {day: "numeric", month: "short", year: "numeric"};
-                    const day = date.toLocaleString("en-US", {day: "numeric"});
-                    const month = date.toLocaleString("en-US", {month: "short"});
-                    const year = date.toLocaleString("en-US", {year: "numeric"});
+                    const options = { day: "numeric", month: "short", year: "numeric" };
+                    const day = date.toLocaleString("en-US", { day: "numeric" });
+                    const month = date.toLocaleString("en-US", { month: "short" });
+                    const year = date.toLocaleString("en-US", { year: "numeric" });
                     return `${day} ${month} ${year}`;
                 };
 
                 const commentsContainer = document.querySelector(".comments-container");
-                // Because the way the router is built, when you go back and load a route again, it will dispatch an event. Many JS scripts will have been loaded,
-                // and they will all be triggered when the event is dispatched, so the function loadComments is executed multiple times.
-                // We need to clear the comments container after each request, so no matter how many requests are made, it will clean its contents every time until the last one.
+
+                // clear comments container because loadComments is called multiple times
                 commentsContainer.innerHTML = "";
 
                 const commentsHeader = document.createElement("h3");

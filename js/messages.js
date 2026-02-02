@@ -59,12 +59,17 @@ function initializeMockMessages() {
 
     function renderConversation(user) {
         const conversationPanel = document.getElementById('conversation-panel');
-        conversationPanel.innerHTML = '';
+        const messagesDisplayArea = document.getElementById('messages-display-area');
+        const chatInputArea = document.getElementById('chat-input-area');
+
+        messagesDisplayArea.innerHTML = '';
+
+        chatInputArea.style.display = 'flex';
 
         const header = document.createElement('div');
         header.className = 'conversation-header';
         header.innerHTML = `<h3>${user.username}</h3>`;
-        conversationPanel.appendChild(header);
+        messagesDisplayArea.appendChild(header);
 
         const messages = mockMessages[user.id] || [];
 
@@ -72,7 +77,7 @@ function initializeMockMessages() {
             const emptyMsg = document.createElement('div');
             emptyMsg.className = 'message-placeholder';
             emptyMsg.textContent = 'No messages yet.';
-            conversationPanel.appendChild(emptyMsg);
+            messagesDisplayArea.appendChild(emptyMsg);
             return;
         }
 
@@ -92,7 +97,7 @@ function initializeMockMessages() {
             messagesList.appendChild(msgDiv);
         });
 
-        conversationPanel.appendChild(messagesList);
+        messagesDisplayArea.appendChild(messagesList);
     }
 
     renderUsers(mockUsers);

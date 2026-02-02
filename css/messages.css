@@ -35,10 +35,17 @@ header {
 }
 
 .conversation-panel {
-    width: 70%;
+    flex: 1;
     display: flex;
     flex-direction: column;
     padding-left: 1rem;
+}
+
+.vertical-divider {
+    width: 1px;
+    background-color: #000;
+    height: auto;
+    align-self: stretch;
 }
 
 .message-placeholder {
@@ -130,6 +137,12 @@ header {
         height: 500px;
     }
 
+    .vertical-divider {
+        width: 100%;
+        height: 4px;
+        margin-bottom: 2rem;
+    }
+
     header {
         .menu a {
             font-size: 1.5rem;
@@ -195,4 +208,39 @@ header {
 .message-them {
     align-self: flex-start;
     text-align: left;
+}
+
+.chat-input-area {
+    display: flex;
+    gap: 0.5rem;
+    padding: 1rem;
+    border-top: 1px solid #000;
+    margin-top: auto;
+    background: #fff;
+}
+
+#message-input {
+    flex: 1;
+    resize: none;
+    padding: 0.5rem;
+    font-family: inherit;
+    border: 1px solid #000;
+    border-radius: 4px;
+    height: 40px;
+    min-height: 40px;
+}
+
+#send-button {
+    padding: 0 1.5rem;
+    background: #000;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: inherit;
+    text-transform: uppercase;
+}
+
+#send-button:hover {
+    background: #333;
 }
