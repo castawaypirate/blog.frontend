@@ -213,34 +213,61 @@ header {
 .chat-input-area {
     display: flex;
     gap: 0.5rem;
-    padding: 1rem;
-    border-top: 1px solid #000;
+    padding: 1rem 0;
+    /* border-top: 1px solid #000; */
     margin-top: auto;
     background: #fff;
+    align-items: flex-end;
 }
 
 #message-input {
     flex: 1;
     resize: none;
-    padding: 0.5rem;
+    padding: 0;
     font-family: inherit;
-    border: 1px solid #000;
-    border-radius: 4px;
-    height: 40px;
-    min-height: 40px;
+    border: none;
+    border-bottom: 1px solid #ffffff;
+    border-radius: 0;
+    font-size: 1rem;
+    box-sizing: border-box;
+    margin-bottom: 0.5rem;
+    overflow-y: hidden;
+}
+
+#message-input:focus {
+    border-color: #000000;
+    outline: none;
+}
+
+#message-input::placeholder {
+    color: #888;
 }
 
 #send-button {
-    padding: 0 1.5rem;
-    background: #000;
-    color: #fff;
+    text-decoration: none;
+    font-size: 1.2rem;
     border: none;
-    cursor: pointer;
-    font-weight: bold;
+    background-color: transparent;
+    width: fit-content;
+    padding: 0;
     font-family: inherit;
-    text-transform: uppercase;
+    margin-bottom: 0.5rem;
 }
 
-#send-button:hover {
-    background: #333;
+.disabled {
+    color: #aaa !important;
+    pointer-events: none;
+    cursor: default;
+}
+
+.enabled {
+    color: #000000 !important;
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 1024px) {
+    #send-button {
+        font-size: 2.5rem;
+    }
 }

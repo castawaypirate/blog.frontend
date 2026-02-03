@@ -61,10 +61,28 @@ function initializeMockMessages() {
         const conversationPanel = document.getElementById('conversation-panel');
         const messagesDisplayArea = document.getElementById('messages-display-area');
         const chatInputArea = document.getElementById('chat-input-area');
+        const messageInput = document.getElementById('message-input');
+        const sendButton = document.getElementById('send-button');
 
         messagesDisplayArea.innerHTML = '';
 
         chatInputArea.style.display = 'flex';
+
+        sendButton.classList.add('disabled');
+        sendButton.classList.remove('enabled');
+        messageInput.value = '';
+
+        messageInput.oninput = function () {
+            if (this.value.trim() !== "") {
+                sendButton.classList.remove("disabled");
+                sendButton.classList.add("enabled");
+            } else {
+                sendButton.classList.remove("enabled");
+                sendButton.classList.add("disabled");
+            }
+            this.style.height = "auto";
+            this.style.height = (this.scrollHeight) + "px";
+        };
 
         const header = document.createElement('div');
         header.className = 'conversation-header';
