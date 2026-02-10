@@ -786,6 +786,20 @@ async function updateComment(edittedCommentBody, commentId, commentContainer, co
                 const updatedCommentText = edittedCommentBody.value.replace(/\n/g, "<br>");
                 commentBodyDiv.innerHTML = updatedCommentText;
 
+                // Update the edited date with the new updated_at from the response
+                if (result.updated_at) {
+                    const editedDiv = commentDetails.querySelector(".edited");
+                    if (editedDiv) {
+                        const formatDate = (date) => {
+                            const day = date.toLocaleString("en-US", { day: "numeric" });
+                            const month = date.toLocaleString("en-US", { month: "short" });
+                            const year = date.toLocaleString("en-US", { year: "numeric" });
+                            return `${day} ${month} ${year}`;
+                        };
+                        editedDiv.textContent = formatDate(new Date(result.updated_at));
+                    }
+                }
+
                 commentContainer.replaceChild(commentBodyDiv, edittedCommentBody);
                 console.log(result);
             } else {

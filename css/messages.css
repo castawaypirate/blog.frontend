@@ -20,25 +20,28 @@ header {
 .container {
     display: flex;
     flex-direction: row;
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
+    margin: 0 0.5rem 0 0.5rem;
     gap: 1rem;
-    height: calc(100vh - 100px);
+    min-height: calc(100vh - 80px);
 }
 
 .user-panel {
     width: 30%;
+    min-width: 30%;
+    max-width: 30%;
     display: flex;
     flex-direction: column;
     padding-right: 1rem;
-    overflow-y: auto;
+    overflow: hidden;
 }
 
 .conversation-panel {
     flex: 1;
+    min-width: 0;
     display: flex;
     flex-direction: column;
     padding-left: 1rem;
+    overflow: hidden;
 }
 
 .vertical-divider {
@@ -71,7 +74,6 @@ header {
     padding: 0;
     box-sizing: border-box;
     resize: none;
-    width: 12ch;
 }
 
 #user-search::placeholder {
@@ -94,6 +96,7 @@ header {
     align-items: center;
     margin-bottom: 1rem;
     cursor: pointer;
+    min-width: 0;
 }
 
 .user-item-pic {
@@ -113,6 +116,9 @@ header {
 .user-item-username {
     font-size: 1.25rem;
     font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 
@@ -124,17 +130,19 @@ header {
 
     .user-panel {
         width: 100%;
+        min-width: 100%;
+        max-width: 100%;
         border-right: none;
         padding-right: 0;
         margin-bottom: 2rem;
-        height: auto;
-        overflow-y: visible;
+        overflow: visible;
     }
 
     .conversation-panel {
         width: 100%;
+        min-width: 100%;
         padding-left: 0;
-        height: 500px;
+        overflow: visible;
     }
 
     .vertical-divider {
@@ -185,6 +193,9 @@ header {
 .conversation-header {
     margin-bottom: 1rem;
     padding-bottom: 0.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .messages-list {
@@ -197,12 +208,13 @@ header {
     padding: 0.5rem 0;
     border-radius: 1rem;
     max-width: 70%;
-    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 .message-me {
     align-self: flex-end;
-    text-align: right;
+    text-align: left;
 }
 
 .message-them {
@@ -212,16 +224,13 @@ header {
 
 .chat-input-area {
     display: flex;
-    gap: 0.5rem;
+    flex-direction: column;
     padding: 1rem 0;
-    /* border-top: 1px solid #000; */
     margin-top: auto;
     background: #fff;
-    align-items: flex-end;
 }
 
 #message-input {
-    flex: 1;
     resize: none;
     padding: 0;
     font-family: inherit;
@@ -230,7 +239,6 @@ header {
     border-radius: 0;
     font-size: 1rem;
     box-sizing: border-box;
-    margin-bottom: 0.5rem;
     overflow-y: hidden;
 }
 
@@ -240,18 +248,19 @@ header {
 }
 
 #message-input::placeholder {
+    font-family: "Source Code Pro", monospace;
     color: #888;
 }
 
 #send-button {
     text-decoration: none;
-    font-size: 1.2rem;
+    font-size: 1rem;
     border: none;
     background-color: transparent;
     width: fit-content;
     padding: 0;
     font-family: inherit;
-    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
 }
 
 .disabled {
@@ -267,7 +276,11 @@ header {
 }
 
 @media screen and (max-width: 1024px) {
+    #message-input {
+        font-size: 1.5rem;
+    }
+
     #send-button {
-        font-size: 2.5rem;
+        font-size: 1.5rem;
     }
 }
