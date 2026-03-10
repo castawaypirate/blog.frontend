@@ -11,6 +11,7 @@ window.addEventListener("initializeMessages", function (e) {
 });
 
 function initializeMockMessages() {
+    const messagesContainer = document.querySelector('.container');
     const usersList = document.getElementById('users-list');
     const userSearch = document.getElementById('user-search');
 
@@ -84,10 +85,52 @@ function initializeMockMessages() {
             this.style.height = (this.scrollHeight) + "px";
         };
 
+        function submitMessage() {
+            const content = messageInput.value.trim();
+            if (content !== "") {
+                console.log("Sending message: ", content);
+
+                // Clear the input area
+                messageInput.value = '';
+                messageInput.style.height = "auto";
+                sendButton.classList.remove("enabled");
+                sendButton.classList.add("disabled");
+            }
+        }
+
+        messageInput.addEventListener('keydown', function (e) {
+            // Check if Enter is pressed without Shift
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault(); // Prevent default new line
+                submitMessage();
+            }
+        });
+
+        // Ensure clicking the send button also works
+        sendButton.onclick = function () {
+            submitMessage();
+        };
+
         const header = document.createElement('div');
         header.className = 'conversation-header';
-        header.innerHTML = `<h3>${user.username}</h3>`;
+
+        const backButton = document.createElement('button');
+        backButton.className = 'back-button';
+        backButton.innerHTML = '&lt;'; // < symbol
+        backButton.addEventListener('click', () => {
+            messagesContainer.classList.remove('chat-active');
+        });
+
+        header.appendChild(backButton);
+
+        const usernameDisplay = document.createElement('h3');
+        usernameDisplay.textContent = user.username;
+        header.appendChild(usernameDisplay);
+
         messagesDisplayArea.appendChild(header);
+
+        // Switch to chat view on mobile
+        messagesContainer.classList.add('chat-active');
 
         const messages = mockMessages[user.id] || [];
 

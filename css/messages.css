@@ -136,6 +136,8 @@ header {
         padding-right: 0;
         margin-bottom: 2rem;
         overflow: visible;
+        display: flex;
+        /* Ensure it respects flex rules */
     }
 
     .conversation-panel {
@@ -143,12 +145,22 @@ header {
         min-width: 100%;
         padding-left: 0;
         overflow: visible;
+        display: none;
+        /* Hidden by default on mobile */
     }
 
     .vertical-divider {
-        width: 100%;
-        height: 4px;
-        margin-bottom: 2rem;
+        display: none;
+        /* Hide divider on mobile */
+    }
+
+    /* Container state when chat is active */
+    .container.chat-active .user-panel {
+        display: none;
+    }
+
+    .container.chat-active .conversation-panel {
+        display: flex;
     }
 
     header {
@@ -196,6 +208,30 @@ header {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    display: flex;
+    align-items: center;
+    /* Align items for the back button */
+    gap: 1rem;
+}
+
+.back-button {
+    display: none;
+    /* Hidden by default */
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    font-family: inherit;
+    color: inherit;
+}
+
+@media screen and (max-width: 1024px) {
+    .back-button {
+        display: block;
+        /* Show back button on mobile */
+    }
 }
 
 .messages-list {
@@ -282,5 +318,7 @@ header {
 
     #send-button {
         font-size: 1.5rem;
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
     }
 }
