@@ -7,10 +7,10 @@ let initializeMessagesEvent = new CustomEvent("initializeMessages", {
 
 window.addEventListener("initializeMessages", function (e) {
     console.log("Messages page initialized via router event.");
-    initializeMockMessages();
+    initMessages();
 });
 
-function initializeMockMessages() {
+function initMessages() {
     const messagesContainer = document.querySelector('.container');
     const usersList = document.getElementById('users-list');
     const userSearch = document.getElementById('user-search');
@@ -41,11 +41,20 @@ function initializeMockMessages() {
 
     function renderUsers(users) {
         usersList.innerHTML = '';
+        if (users.length === 0) {
+            usersList.innerHTML = '<div class="message-placeholder">No conversations yet</div>';
+            return;
+        }
+
         users.forEach(user => {
             const userItem = document.createElement('div');
             userItem.className = 'user-item';
+            
+            // Allow backend to set profile pic or fallback
+            const profilePicSrc = user.profile_pic_path || '/assets/user-profile-pic.png';
+
             userItem.innerHTML = `
-                <img src="${user.profilePic}" alt="${user.username}" class="user-item-pic">
+                <img src="${profilePicSrc}" alt="${user.username}" class="user-item-pic">
                 <div class="user-item-username">${user.username}</div>
             `;
 
@@ -161,13 +170,29 @@ function initializeMockMessages() {
         messagesDisplayArea.appendChild(messagesList);
     }
 
-    renderUsers(mockUsers);
+    async function loadInbox() {
+        try {
+            usersList.innerHTML = '<div class="message-placeholder">Loading...</div>';
+            const response = await fetch('/api/messages/conversations', {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('accessToken'),
+                    'Content-Type': 'application/json'
+                }
+            });
+            const data = await response.json();
 
-    userSearch.addEventListener('input', (e) => {
-        const query = e.target.value.toLowerCase();
-        const filteredUsers = mockUsers.filter(user =>
-            user.username.toLowerCase().includes(query)
-        );
-        renderUsers(filteredUsers);
-    });
+            if (data.success && data.conversations) {
+                // The API provides recent conversations. We'll inject them as the user list.
+                renderUsers(data.conversations);
+            } else {
+                console.error('Failed to load inbox:', data.message);
+                usersList.innerHTML = '<div class="message-placeholder">Error loading conversations</div>';
+            }
+        } catch (error) {
+            console.error('Error fetching inbox:', error);
+            usersList.innerHTML = '<div class="message-placeholder">Error connecting to server</div>';
+        }
+    }
+
+    loadInbox();
 }
