@@ -11,6 +11,7 @@ window.addEventListener("initializeMessages", function (e) {
 });
 
 function initMessages() {
+    let currentUserId = null;
     const messagesContainer = document.querySelector('.container');
     const usersList = document.getElementById('users-list');
     const userSearch = document.getElementById('user-search');
@@ -67,7 +68,7 @@ function initMessages() {
         });
     }
 
-    function renderConversation(user) {
+    async function renderConversation(user) {
         const conversationPanel = document.getElementById('conversation-panel');
         const messagesDisplayArea = document.getElementById('messages-display-area');
         const chatInputArea = document.getElementById('chat-input-area');
@@ -140,38 +141,95 @@ function initMessages() {
 
         // Switch to chat view on mobile
         messagesContainer.classList.add('chat-active');
+        
+        // Show loading state
+        const loadingMsg = document.createElement('div');
+        loadingMsg.className = 'message-placeholder';
+        loadingMsg.textContent = 'Loading messages...';
+        messagesDisplayArea.appendChild(loadingMsg);
 
-        const messages = mockMessages[user.id] || [];
+        try {
+            const otherUserId = user.user_id || user.id;
+            const token = localStorage.getItem('accessToken');
+            const response = await fetch(`/api/messages/conversation?otherUserId=${otherUserId}`, {
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/json'
+                }
+            });
+            const data = await response.json();
 
-        if (messages.length === 0) {
-            const emptyMsg = document.createElement('div');
-            emptyMsg.className = 'message-placeholder';
-            emptyMsg.textContent = 'No messages yet.';
-            messagesDisplayArea.appendChild(emptyMsg);
-            return;
-        }
+            loadingMsg.remove();
 
-        const messagesList = document.createElement('div');
-        messagesList.className = 'messages-list';
+            if (data.success && data.messages) {
+                const messages = data.messages;
 
-        messages.forEach(msg => {
-            const msgDiv = document.createElement('div');
-            msgDiv.textContent = msg.content;
-            msgDiv.classList.add('message-text');
+                if (messages.length === 0) {
+                    const emptyMsg = document.createElement('div');
+                    emptyMsg.className = 'message-placeholder';
+                    emptyMsg.textContent = 'No messages yet.';
+                    messagesDisplayArea.appendChild(emptyMsg);
+                    return;
+                }
 
-            if (msg.sender === 'me') {
-                msgDiv.classList.add('message-me');
+                const messagesList = document.createElement('div');
+                messagesList.className = 'messages-list';
+
+                messages.forEach(msg => {
+                    const msgDiv = document.createElement('div');
+                    msgDiv.textContent = msg.content;
+                    msgDiv.classList.add('message-text');
+
+                    // msg.sender_id is from the API. Compare it to currentUserId to set classes
+                    if (msg.sender_id == currentUserId) {
+                        msgDiv.classList.add('message-me');
+                    } else {
+                        msgDiv.classList.add('message-them');
+                    }
+                    messagesList.appendChild(msgDiv);
+                });
+
+                messagesDisplayArea.appendChild(messagesList);
+                
+                // Scroll to bottom of chat
+                messagesDisplayArea.scrollTop = messagesDisplayArea.scrollHeight;
             } else {
-                msgDiv.classList.add('message-them');
+                const errorMsg = document.createElement('div');
+                errorMsg.className = 'message-placeholder';
+                errorMsg.textContent = 'Failed to load messages.';
+                messagesDisplayArea.appendChild(errorMsg);
             }
-            messagesList.appendChild(msgDiv);
-        });
-
-        messagesDisplayArea.appendChild(messagesList);
+        } catch (error) {
+            console.error('Error fetching conversation:', error);
+            loadingMsg.remove();
+            const errorMsg = document.createElement('div');
+            errorMsg.className = 'message-placeholder';
+            errorMsg.textContent = 'Error connecting to server.';
+            messagesDisplayArea.appendChild(errorMsg);
+        }
     }
 
     async function loadInbox() {
         try {
+            const token = localStorage.getItem('accessToken');
+            
+            // Fetch current user id to determine 'me' vs 'them' in chats
+            try {
+                const userResponse = await fetch('/api/users/validateUser', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const userData = await userResponse.json();
+                if (userData.success && userData.user) {
+                    currentUserId = userData.user.user_id || userData.user.id;
+                }
+            } catch (e) {
+                console.error('Failed to validate user inside messages.js:', e);
+            }
+
             usersList.innerHTML = '<div class="message-placeholder">Loading...</div>';
             const response = await fetch('/api/messages/conversations', {
                 headers: {
