@@ -12,9 +12,46 @@ window.addEventListener("initializeMessages", function (e) {
 
 function initMessages() {
     let currentUserId = null;
+    let currentReceiverId = null;
     const messagesContainer = document.querySelector('.container');
     const usersList = document.getElementById('users-list');
     const userSearch = document.getElementById('user-search');
+
+    if (userSearch) {
+        userSearch.addEventListener('keydown', async function (e) {
+            // Initiate search on Enter (without Shift)
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                const query = this.value.trim();
+                
+                if (query === "") {
+                    loadInbox();
+                    return;
+                }
+
+                usersList.innerHTML = '<div class="message-placeholder">Searching...</div>';
+                try {
+                    const token = localStorage.getItem('accessToken');
+                    const response = await fetch(`/api/users/search?query=${encodeURIComponent(query)}`, {
+                        headers: {
+                            'Authorization': 'Bearer ' + token,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    const data = await response.json();
+                    
+                    if (data.success && data.users) {
+                        renderUsers(data.users);
+                    } else {
+                        usersList.innerHTML = '<div class="message-placeholder">No users found</div>';
+                    }
+                } catch (error) {
+                    console.error('Error searching users:', error);
+                    usersList.innerHTML = '<div class="message-placeholder">Error completing search</div>';
+                }
+            }
+        });
+    }
 
     const mockUsers = [
         { id: 1, username: 'test1', profilePic: '/assets/user-profile-pic.png' },
@@ -69,6 +106,8 @@ function initMessages() {
     }
 
     async function renderConversation(user) {
+        currentReceiverId = user.user_id || user.id;
+
         const conversationPanel = document.getElementById('conversation-panel');
         const messagesDisplayArea = document.getElementById('messages-display-area');
         const chatInputArea = document.getElementById('chat-input-area');
@@ -95,16 +134,59 @@ function initMessages() {
             this.style.height = (this.scrollHeight) + "px";
         };
 
-        function submitMessage() {
+        async function submitMessage() {
             const content = messageInput.value.trim();
-            if (content !== "") {
-                console.log("Sending message: ", content);
-
-                // Clear the input area
+            if (content !== "" && currentReceiverId) {
+                // Clear the input area immediately for responsiveness
                 messageInput.value = '';
                 messageInput.style.height = "auto";
                 sendButton.classList.remove("enabled");
                 sendButton.classList.add("disabled");
+
+                try {
+                    const token = localStorage.getItem('accessToken');
+                    const response = await fetch('/api/messages/send', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': 'Bearer ' + token,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            receiverId: currentReceiverId,
+                            content: content
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        // Dynamically inject the sent message
+                        const messagesList = messagesDisplayArea.querySelector('.messages-list') || (() => {
+                            const list = document.createElement('div');
+                            list.className = 'messages-list';
+                            messagesDisplayArea.appendChild(list);
+                            // Also clear the placeholder if it exists
+                            const placeholder = messagesDisplayArea.querySelector('.message-placeholder');
+                            if (placeholder) placeholder.remove();
+                            return list;
+                        })();
+                        
+                        const msgDiv = document.createElement('div');
+                        msgDiv.textContent = content;
+                        msgDiv.classList.add('message-text', 'message-me');
+                        messagesList.appendChild(msgDiv);
+                        messagesDisplayArea.scrollTop = messagesDisplayArea.scrollHeight;
+                        
+                        // Fire a global event that a message was successfully sent to trigger the Maze Unlock logic
+                        document.dispatchEvent(new CustomEvent('messageSentSuccessfully'));
+                    } else {
+                        console.error('Failed to send message:', data.message);
+                        alert('Failed to send message: ' + data.message);
+                    }
+                } catch (err) {
+                    console.error('Error sending message:', err);
+                    alert('An error occurred while sending the message.');
+                }
             }
         }
 
