@@ -1,3 +1,4 @@
+import config from "./config.js";
 
 let initializeMessagesEvent = new CustomEvent("initializeMessages", {
     detail: {
@@ -88,8 +89,11 @@ function initMessages() {
             const userItem = document.createElement('div');
             userItem.className = 'user-item';
             
-            // Allow backend to set profile pic or fallback
-            const profilePicSrc = user.profile_pic_path || '/assets/user-profile-pic.png';
+            // Build the absolute URL to the backend's upload folder
+            const baseUrl = config.apiUrl.replace(/\/api\/?$/, '');
+            const profilePicSrc = user.profile_pic_path 
+                ? `${baseUrl}/uploads/${user.profile_pic_path}` 
+                : '/assets/user-profile-pic.png';
 
             userItem.innerHTML = `
                 <img src="${profilePicSrc}" alt="${user.username}" class="user-item-pic">
