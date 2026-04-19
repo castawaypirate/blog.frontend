@@ -67,6 +67,11 @@ h2 {
     div:hover {
         text-decoration: underline;
     }
+
+    .divider {
+        text-decoration: none !important;
+        cursor: default !important;
+    }
 }
 
 .options {
@@ -84,6 +89,11 @@ h2 {
 
     div:hover {
         text-decoration: underline;
+    }
+
+    .divider {
+        text-decoration: none !important;
+        cursor: default !important;
     }
 }
 

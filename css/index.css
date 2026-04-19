@@ -77,6 +77,8 @@ header h1 {
 .divider {
     margin-left: 0.5rem;
     margin-right: 0.5rem;
+    text-decoration: none !important;
+    cursor: default !important;
 }
 
 #logout-link {
