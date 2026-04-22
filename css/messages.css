@@ -22,7 +22,8 @@ header {
     flex-direction: row;
     margin: 0 0.5rem 0 0.5rem;
     gap: 1rem;
-    min-height: calc(100vh - 80px);
+    height: calc(100vh - 80px);
+    overflow: hidden;
 }
 
 .user-panel {
@@ -89,6 +90,9 @@ header {
     display: flex;
     flex-direction: column;
     margin-top: 1rem;
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 0.5rem;
 }
 
 .user-item {
@@ -202,9 +206,18 @@ header {
     }
 }
 
+#messages-display-area {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 1rem;
+}
+
 .conversation-header {
     margin-bottom: 1rem;
     padding-bottom: 0.5rem;
+    padding-top: 0.5rem;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -212,6 +225,14 @@ header {
     align-items: center;
     /* Align items for the back button */
     gap: 1rem;
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 10;
+}
+
+.conversation-header h3 {
+    margin: 0;
 }
 
 .back-button {
