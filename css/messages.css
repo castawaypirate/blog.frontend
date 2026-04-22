@@ -246,6 +246,7 @@ header {
     max-width: 70%;
     overflow-wrap: anywhere;
     word-break: break-all;
+    position: relative;
 }
 
 .message-me {
@@ -256,6 +257,55 @@ header {
 .message-them {
     align-self: flex-start;
     text-align: left;
+}
+
+.message-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.message-details {
+    display: none;
+    flex-direction: row;
+    align-items: center;
+    font-size: 0.75rem;
+    gap: 2px;
+    position: absolute;
+    bottom: -0.5rem;
+    right: 0;
+    white-space: nowrap;
+}
+
+.message-text:hover .message-details {
+    display: flex;
+}
+
+.message-approval {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 0.75rem;
+    gap: 2px;
+    position: absolute;
+    bottom: -0.5rem;
+    right: 0;
+    white-space: nowrap;
+}
+
+.message-details-divider {
+    font-size: 0.6rem;
+    margin: 0 1px 2px 1px;
+}
+
+.message-delete:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.sure-button:hover,
+.nah-button:hover {
+    cursor: pointer;
+    text-decoration: underline;
 }
 
 .chat-input-area {
@@ -320,5 +370,20 @@ header {
         font-size: 1.5rem;
         margin-top: 1rem;
         margin-bottom: 0.5rem;
+    }
+
+    .message-details,
+    .message-approval {
+        font-size: 1.25rem;
+    }
+
+    .message-details-divider {
+        font-size: 1rem;
+    }
+
+    .message-delete,
+    .sure-button,
+    .nah-button {
+        cursor: pointer;
     }
 }

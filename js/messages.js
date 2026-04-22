@@ -164,24 +164,19 @@ function initMessages() {
                     const data = await response.json();
                     
                     if (data.success) {
-                        // Dynamically inject the sent message
                         const messagesList = messagesDisplayArea.querySelector('.messages-list') || (() => {
                             const list = document.createElement('div');
                             list.className = 'messages-list';
                             messagesDisplayArea.appendChild(list);
-                            // Also clear the placeholder if it exists
                             const placeholder = messagesDisplayArea.querySelector('.message-placeholder');
                             if (placeholder) placeholder.remove();
                             return list;
                         })();
-                        
-                        const msgDiv = document.createElement('div');
-                        msgDiv.textContent = content;
-                        msgDiv.classList.add('message-text', 'message-me');
-                        messagesList.appendChild(msgDiv);
+
+                        const wrapper = createMessageWrapper(content, currentUserId, true, data.messageId, data.created_at);
+                        messagesList.appendChild(wrapper);
                         messagesDisplayArea.scrollTop = messagesDisplayArea.scrollHeight;
                         
-                        // Fire a global event that a message was successfully sent to trigger the Maze Unlock logic
                         document.dispatchEvent(new CustomEvent('messageSentSuccessfully'));
                     } else {
                         console.error('Failed to send message:', data.message);
@@ -262,17 +257,9 @@ function initMessages() {
                 messagesList.className = 'messages-list';
 
                 messages.forEach(msg => {
-                    const msgDiv = document.createElement('div');
-                    msgDiv.textContent = msg.content;
-                    msgDiv.classList.add('message-text');
-
-                    // msg.sender_id is from the API. Compare it to currentUserId to set classes
-                    if (msg.sender_id == currentUserId) {
-                        msgDiv.classList.add('message-me');
-                    } else {
-                        msgDiv.classList.add('message-them');
-                    }
-                    messagesList.appendChild(msgDiv);
+                    const isMine = msg.sender_id == currentUserId;
+                    const wrapper = createMessageWrapper(msg.content, currentUserId, isMine, msg.id, msg.created_at);
+                    messagesList.appendChild(wrapper);
                 });
 
                 messagesDisplayArea.appendChild(messagesList);
@@ -293,6 +280,109 @@ function initMessages() {
             errorMsg.textContent = 'Error connecting to server.';
             messagesDisplayArea.appendChild(errorMsg);
         }
+    }
+
+    function formatDate(dateStr) {
+        const date = new Date(dateStr);
+        const day = date.toLocaleString("en-US", { day: "numeric" });
+        const month = date.toLocaleString("en-US", { month: "short" });
+        const year = date.toLocaleString("en-US", { year: "numeric" });
+        return `${day} ${month} ${year}`;
+    }
+
+    function createMessageWrapper(content, userId, isMine, messageId = null, createdAt = null) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'message-wrapper';
+
+        const msgDiv = document.createElement('div');
+        msgDiv.classList.add('message-text');
+        msgDiv.classList.add(isMine ? 'message-me' : 'message-them');
+        msgDiv.textContent = content;
+
+        wrapper.appendChild(msgDiv);
+
+        if (isMine) {
+            const details = document.createElement('div');
+            details.className = 'message-details';
+
+            const dateSent = document.createElement('div');
+            dateSent.className = 'date-sent';
+            dateSent.textContent = createdAt ? formatDate(createdAt) : '';
+
+            const divider = document.createElement('div');
+            divider.className = 'message-details-divider';
+            divider.textContent = '|';
+
+            const deleteBtn = document.createElement('div');
+            deleteBtn.className = 'message-delete';
+            deleteBtn.textContent = 'delete';
+
+            details.appendChild(dateSent);
+            details.appendChild(divider);
+            details.appendChild(deleteBtn);
+            msgDiv.appendChild(details);
+
+            deleteBtn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                details.style.display = 'none';
+
+                const approvalContainer = document.createElement('div');
+                approvalContainer.className = 'message-approval';
+
+                const sureBtn = document.createElement('div');
+                sureBtn.className = 'sure-button';
+                sureBtn.textContent = 'sure';
+
+                const dividerClone = document.createElement('div');
+                dividerClone.className = 'message-details-divider';
+                dividerClone.textContent = '|';
+
+                const nahBtn = document.createElement('div');
+                nahBtn.className = 'nah-button';
+                nahBtn.textContent = 'nah';
+
+                approvalContainer.appendChild(sureBtn);
+                approvalContainer.appendChild(dividerClone);
+                approvalContainer.appendChild(nahBtn);
+                msgDiv.appendChild(approvalContainer);
+
+                sureBtn.addEventListener('click', async function (event) {
+                    event.stopPropagation();
+                    const token = localStorage.getItem('accessToken');
+                    try {
+                        const response = await fetch(`/api/messages/delete?messageId=${messageId}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'Authorization': 'Bearer ' + token,
+                                'Content-Type': 'application/json'
+                            }
+                        });
+                        const data = await response.json();
+                        if (data.success) {
+                            wrapper.remove();
+                        } else {
+                            console.error('Failed to delete message:', data.message);
+                            alert('Failed to delete message: ' + data.message);
+                            approvalContainer.remove();
+                            details.style.display = '';
+                        }
+                    } catch (err) {
+                        console.error('Error deleting message:', err);
+                        alert('An error occurred while deleting the message.');
+                        approvalContainer.remove();
+                        details.style.display = '';
+                    }
+                });
+
+                nahBtn.addEventListener('click', function (event) {
+                    event.stopPropagation();
+                    approvalContainer.remove();
+                    details.style.display = '';
+                });
+            });
+        }
+
+        return wrapper;
     }
 
     async function loadInbox() {
