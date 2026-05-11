@@ -1,15 +1,8 @@
 import config from "./config.js";
 
-let initializeMessagesEvent = new CustomEvent("initializeMessages", {
-    detail: {
-        message: "Messages page initialized."
-    }
-});
-
-window.addEventListener("initializeMessages", function (e) {
-    console.log("Messages page initialized via router event.");
+export function init() {
     initMessages();
-});
+}
 
 function initMessages() {
     let currentUserId = null;

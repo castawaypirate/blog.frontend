@@ -1,14 +1,37 @@
 import config from "./config.js";
 
-document.querySelector("#post-title").addEventListener("input", function () {
-    this.style.height = "auto";
-    this.style.height = (this.scrollHeight) + "px";
-});
+export function init() {
+    document.querySelector("#post-title").addEventListener("input", function () {
+        this.style.height = "auto";
+        this.style.height = (this.scrollHeight) + "px";
+    });
 
-document.querySelector("#post-body").addEventListener("input", function () {
-    this.style.height = "auto";
-    this.style.height = (this.scrollHeight) + "px";
-});
+    document.querySelector("#post-body").addEventListener("input", function () {
+        this.style.height = "auto";
+        this.style.height = (this.scrollHeight) + "px";
+    });
+
+    document.querySelector("#post-title").addEventListener("input", toggleLinkState);
+    document.querySelector("#post-body").addEventListener("input", toggleLinkState);
+
+    document.querySelector("#post-form").addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const title = document.querySelector("#post-title").value;
+        const body = document.querySelector("#post-body").value;
+
+        if (!title || !body) {
+            console.log("Either title or body is empty.");
+            return;
+        }
+
+        const data = {
+            title: title,
+            body: body
+        };
+        await post(data);
+    });
+}
 
 function toggleLinkState() {
     const title = document.querySelector("#post-title").value.trim();
@@ -23,27 +46,6 @@ function toggleLinkState() {
         link.classList.add("disabled");
     }
 }
-
-document.querySelector("#post-title").addEventListener("input", toggleLinkState);
-document.querySelector("#post-body").addEventListener("input", toggleLinkState);
-
-document.querySelector("#post-form").addEventListener("submit", async function (event) {
-    event.preventDefault();
-
-    const title = document.querySelector("#post-title").value;
-    const body = document.querySelector("#post-body").value;
-
-    if (!title || !body) {
-        console.log("Either title or body is empty.");
-        return;
-    }
-
-    const data = {
-        title: title,
-        body: body
-    };
-    await post(data);
-});
 
 async function post(data) {
     let accessToken = localStorage.getItem("accessToken");

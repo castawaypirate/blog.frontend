@@ -1,11 +1,11 @@
 import config from "./config.js";
 import { load404Template } from "./router.js";
 
-window.addEventListener("loadPost", function (e) {
+export function init() {
     const postId = window.location.pathname.split("/").pop();
     loadPost(postId);
     loadComments(postId);
-});
+}
 
 async function getUserVotes() {
     const accessToken = localStorage.getItem("accessToken");

@@ -1,17 +1,19 @@
 import config from "./config.js";
 
-document.querySelector("#access-form").addEventListener("submit", function (event) {
-    event.preventDefault();
+export function init() {
+    document.querySelector("#access-form").addEventListener("submit", function (event) {
+        event.preventDefault();
 
-    const username = document.querySelector("#username").value;
-    const password = document.querySelector("#password").value;
+        const username = document.querySelector("#username").value;
+        const password = document.querySelector("#password").value;
 
-    const data = {
-        username: username,
-        password: password
-    };
-    access(data);
-});
+        const data = {
+            username: username,
+            password: password
+        };
+        access(data);
+    });
+}
 
 function access(data) {
     const options = {

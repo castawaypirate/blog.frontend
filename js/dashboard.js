@@ -1,15 +1,13 @@
 import config from "./config.js";
 
-window.addEventListener("initializeDashboard", function (e) {
-    setTimeout(function () {
-    }, 100);
+export function init() {
     const storedPage = localStorage.getItem("currentPage");
     if (storedPage) {
         loadPosts(storedPage);
     } else {
         loadPosts(1);
     }
-});
+}
 
 function goToPreviousPage() {
     const currentUserPage = localStorage.getItem("currentUserPage");

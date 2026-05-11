@@ -1,11 +1,108 @@
 import config from "./config.js";
 
-window.addEventListener("loadProfile", function (e) {
-    setTimeout(function () {
-    }, 100);
+export function init() {
     getUserData();
     getProfilePic();
-});
+
+    document.querySelector("#upload-input").addEventListener("change", uploadProfilePic);
+
+    const modal = document.querySelector("#modal");
+    const modalTitle = modal.querySelector("h2");
+    const modalInput1 = modal.querySelector("#modal-input-1");
+    const modalInput2 = modal.querySelector("#modal-input-2");
+    const modalButton = modal.querySelector("button");
+
+    window.addEventListener("click", function (event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    });
+
+    document.querySelector("#change-username").addEventListener("click", function (event) {
+        showChangeUsernameModal(event, modal, modalTitle, modalInput1, modalInput2, modalButton);
+    });
+
+    document.querySelector("#change-password").addEventListener("click", function (event) {
+        showChangePasswordModal(event, modal, modalTitle, modalInput1, modalInput2, modalButton);
+    });
+
+    modalInput1.addEventListener("input", function () {
+        toggleButtonState(modalInput1, modalInput2, modalButton);
+    });
+    modalInput2.addEventListener("input", function () {
+        toggleButtonState(modalInput1, modalInput2, modalButton);
+    });
+
+    document.querySelector("#delete-profile-pic").addEventListener("click", function () {
+        const menuContainer = document.querySelector("#profile-menu-container");
+        const profileMenu = document.querySelector("#profile-menu");
+        profileMenu.style.display = "none";
+
+        const approvalButtonsContainer = document.createElement("nav");
+        approvalButtonsContainer.className = "options";
+
+        const sure = document.createElement("div");
+        sure.textContent = "sure";
+
+        const nah = document.createElement("div");
+        nah.textContent = "nah";
+
+        const divider = document.createElement("div");
+        divider.textContent = "|";
+        divider.className = "divider";
+
+        approvalButtonsContainer.appendChild(sure);
+        approvalButtonsContainer.appendChild(divider);
+        approvalButtonsContainer.appendChild(nah);
+        menuContainer.appendChild(approvalButtonsContainer);
+
+
+        sure.addEventListener("click", async function (event) {
+            await deleteProfilePic(event, menuContainer, approvalButtonsContainer, profileMenu);
+        });
+        nah.addEventListener("click", function (event) {
+            event.stopPropagation();
+            menuContainer.removeChild(approvalButtonsContainer);
+            profileMenu.style.display = "flex";
+        });
+    });
+
+    document.querySelector("#delete-account").addEventListener("click", function () {
+        const menuContainer = document.querySelector("#profile-menu-container");
+        const profileMenu = document.querySelector("#profile-menu");
+        profileMenu.style.display = "none";
+
+        const approvalButtonsContainer = document.createElement("nav");
+        approvalButtonsContainer.className = "options";
+
+        const killIt = document.createElement("div");
+        killIt.textContent = "kill it in about two hours and one minute";
+
+        const spareIt = document.createElement("div");
+        spareIt.textContent = "spare it";
+
+        const divider = document.createElement("div");
+        divider.textContent = "|";
+        divider.className = "divider";
+
+        approvalButtonsContainer.appendChild(killIt);
+        approvalButtonsContainer.appendChild(divider);
+        approvalButtonsContainer.appendChild(spareIt);
+        menuContainer.appendChild(approvalButtonsContainer);
+
+
+        killIt.addEventListener("click", async function (event) {
+            await deleteAccount(event, menuContainer, approvalButtonsContainer, profileMenu);
+        });
+        spareIt.addEventListener("click", function (event) {
+            event.stopPropagation();
+            menuContainer.removeChild(approvalButtonsContainer);
+            profileMenu.style.display = "flex";
+        });
+    });
+
+    document.querySelector("#logout").addEventListener("click", logout);
+}
 
 
 async function getUserData() {
@@ -82,8 +179,6 @@ async function getProfilePic() {
 }
 
 
-document.querySelector("#upload-input").addEventListener("change", uploadProfilePic);
-
 async function uploadProfilePic(event) {
     try {
         const file = event.target.files[0];
@@ -133,26 +228,7 @@ function fire() {
 }
 
 
-const modal = document.querySelector("#modal");
-const modalTitle = modal.querySelector("h2");
-const modalInput1 = modal.querySelector("#modal-input-1");
-const modalInput2 = modal.querySelector("#modal-input-2");
-const modalButton = modal.querySelector("button");
-
-window.addEventListener("click", function (event) {
-    if (event.target === modal) {
-        modal.style.display = "none";
-    }
-});
-
-document.querySelector("#change-username").addEventListener("click", showChangeUsernameModal);
-
-document.querySelector("#change-password").addEventListener("click", showChangePasswordModal);
-
-modalInput1.addEventListener("input", toggleButtonState);
-modalInput2.addEventListener("input", toggleButtonState);
-
-function toggleButtonState() {
+function toggleButtonState(modalInput1, modalInput2, modalButton) {
     const isPasswordChange = modalInput2.style.display !== "none";
     const isValid = modalInput1.value.trim() !== "" &&
         (!isPasswordChange || modalInput2.value.trim() !== "");
@@ -166,20 +242,20 @@ function toggleButtonState() {
     }
 }
 
-function showChangeUsernameModal(event) {
+function showChangeUsernameModal(event, modal, modalTitle, modalInput1, modalInput2, modalButton) {
     event.preventDefault();
     modalTitle.textContent = "change username";
     modalInput1.type = "text";
     modalInput1.placeholder = "new username";
     modalInput1.value = "";
     modalInput2.style.display = "none";
-    toggleButtonState();
+    toggleButtonState(modalInput1, modalInput2, modalButton);
     modalButton.removeEventListener("click", changePassword);
     modalButton.addEventListener("click", changeUsername);
     modal.style.display = "block";
 }
 
-function showChangePasswordModal(event) {
+function showChangePasswordModal(event, modal, modalTitle, modalInput1, modalInput2, modalButton) {
     event.preventDefault();
     modalTitle.textContent = "change password";
     modalInput1.type = "password";
@@ -188,7 +264,7 @@ function showChangePasswordModal(event) {
     modalInput2.placeholder = "new password";
     modalInput2.value = "";
     modalInput2.style.display = "block";
-    toggleButtonState();
+    toggleButtonState(modalInput1, modalInput2, modalButton);
     modalButton.removeEventListener("click", changeUsername);
     modalButton.addEventListener("click", changePassword);
     modal.style.display = "block";
@@ -231,7 +307,7 @@ async function changeUsername() {
         throw new Error("Error: " + error);
     }
 
-    modal.style.display = "none";
+    document.querySelector("#modal").style.display = "none";
 }
 
 async function changePassword() {
@@ -271,43 +347,8 @@ async function changePassword() {
         throw new Error("Error: " + error);
     }
 
-    modal.style.display = "none";
+    document.querySelector("#modal").style.display = "none";
 }
-
-
-document.querySelector("#delete-profile-pic").addEventListener("click", function () {
-    const menuContainer = document.querySelector("#profile-menu-container");
-    const profileMenu = document.querySelector("#profile-menu");
-    profileMenu.style.display = "none";
-
-    const approvalButtonsContainer = document.createElement("nav");
-    approvalButtonsContainer.className = "options";
-
-    const sure = document.createElement("div");
-    sure.textContent = "sure";
-
-    const nah = document.createElement("div");
-    nah.textContent = "nah";
-
-    const divider = document.createElement("div");
-    divider.textContent = "|";
-    divider.className = "divider";
-
-    approvalButtonsContainer.appendChild(sure);
-    approvalButtonsContainer.appendChild(divider);
-    approvalButtonsContainer.appendChild(nah);
-    menuContainer.appendChild(approvalButtonsContainer);
-
-
-    sure.addEventListener("click", async function (event) {
-        await deleteProfilePic(event, menuContainer, approvalButtonsContainer, profileMenu);
-    });
-    nah.addEventListener("click", function (event) {
-        event.stopPropagation();
-        menuContainer.removeChild(approvalButtonsContainer);
-        profileMenu.style.display = "flex";
-    });
-});
 
 async function deleteProfilePic(event, menuContainer, approvalButtonsContainer, profileMenu) {
     event.stopPropagation();
@@ -345,40 +386,6 @@ async function deleteProfilePic(event, menuContainer, approvalButtonsContainer, 
     profileMenu.style.display = "flex";
 }
 
-document.querySelector("#delete-account").addEventListener("click", function () {
-    const menuContainer = document.querySelector("#profile-menu-container");
-    const profileMenu = document.querySelector("#profile-menu");
-    profileMenu.style.display = "none";
-
-    const approvalButtonsContainer = document.createElement("nav");
-    approvalButtonsContainer.className = "options";
-
-    const killIt = document.createElement("div");
-    killIt.textContent = "kill it in about two hours and one minute";
-
-    const spareIt = document.createElement("div");
-    spareIt.textContent = "spare it";
-
-    const divider = document.createElement("div");
-    divider.textContent = "|";
-    divider.className = "divider";
-
-    approvalButtonsContainer.appendChild(killIt);
-    approvalButtonsContainer.appendChild(divider);
-    approvalButtonsContainer.appendChild(spareIt);
-    menuContainer.appendChild(approvalButtonsContainer);
-
-
-    killIt.addEventListener("click", async function (event) {
-        await deleteAccount(event, menuContainer, approvalButtonsContainer, profileMenu);
-    });
-    spareIt.addEventListener("click", function (event) {
-        event.stopPropagation();
-        menuContainer.removeChild(approvalButtonsContainer);
-        profileMenu.style.display = "flex";
-    });
-});
-
 async function deleteAccount(event, menuContainer, approvalButtonsContainer, profileMenu) {
     event.stopPropagation();
     const accessToken = localStorage.getItem("accessToken");
@@ -414,8 +421,6 @@ async function deleteAccount(event, menuContainer, approvalButtonsContainer, pro
         console.error("Error: ", error);
     }
 }
-
-document.querySelector("#logout").addEventListener("click", logout);
 
 async function logout() {
     localStorage.removeItem("accessToken");

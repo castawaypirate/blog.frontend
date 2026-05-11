@@ -13,62 +13,61 @@ const urlRoutes = {
     404: {
         template: "/templates/404.html",
         title: "404.",
-        script: "",
         style: "/css/404.css"
     },
     "/": {
         template: "/templates/dashboard.html",
         title: "dashboard.",
-        script: "/js/dashboard.js",
+        module: "/js/dashboard.js",
         style: "/css/dashboard.css",
-        onLoad: initializeDashboard
+        headerText: "dashboard.",
+        headerHref: "/"
     },
     "/access": {
         template: "/templates/access.html",
         title: "access.",
-        script: "/js/access.js",
+        module: "/js/access.js",
         style: "/css/access.css"
     },
     "/create": {
         template: "/templates/create.html",
         title: "create.",
-        script: "/js/create.js",
+        module: "/js/create.js",
         style: "/css/create.css"
     },
     "/posts": {
         template: "/templates/posts.html",
         title: "posts.",
-        script: "/js/posts.js",
+        module: "/js/posts.js",
         style: "/css/posts.css",
-        onLoad: initializeUserPosts
+        headerText: "posts.",
+        headerHref: "/posts"
     },
     "/post/:id": {
         template: "/templates/post.html",
         title: "post.",
-        script: "/js/post.js",
-        style: "/css/post.css",
-        onLoad: initializePost
+        module: "/js/post.js",
+        style: "/css/post.css"
     },
     "/edit/:id": {
         template: "/templates/edit.html",
         title: "edit.",
-        script: "/js/edit.js",
-        style: "/css/edit.css",
-        onLoad: fetchPostToEdit
+        module: "/js/edit.js",
+        style: "/css/edit.css"
     },
     "/profile": {
         template: "/templates/profile.html",
         title: "profile.",
-        script: "/js/profile.js",
-        style: "/css/profile.css",
-        onLoad: initializeProfile
+        module: "/js/profile.js",
+        style: "/css/profile.css"
     },
     "/messages": {
         template: "/templates/messages.html",
         title: "messages.",
-        script: "/js/messages.js",
+        module: "/js/messages.js",
         style: "/css/messages.css",
-        onLoad: initializeMessages
+        headerText: "messages.",
+        headerHref: "/messages"
     }
 };
 
@@ -98,107 +97,6 @@ function loadRouteStyles(route) {
         cssLink.href = `${route.style}?${Date.now()}`;
         head.appendChild(cssLink);
     }
-}
-
-function loadRouteScripts(route) {
-    const head = document.getElementsByTagName("head")[0];
-
-    // remove existing JS files, excluding index.js and router.js
-    Array.from(document.getElementsByTagName("script")).forEach(script => {
-        if (script.src && !script.src.endsWith("index.js") && !script.src.endsWith("router.js")) {
-            head.removeChild(script);
-        }
-    });
-
-    // load new JS file, excluding index.js and router.js
-    if (route.script && !route.script.endsWith("index.js") && !route.script.endsWith("router.js")) {
-        const jsScript = document.createElement("script");
-        jsScript.type = "module";
-        // append a unique query parameter to the script's URL to force reload
-        jsScript.src = `${route.script}?${Date.now()}`;
-        head.appendChild(jsScript);
-    }
-}
-
-let initializeDashboardEvent = new CustomEvent("initializeDashboard", {
-    detail: {
-        message: "index.js has been fully loaded and executed."
-    }
-});
-
-function initializeDashboard() {
-    setTimeout(() => {
-        const headerLink = document.querySelector("#header");
-        headerLink.href = "/";
-        headerLink.textContent = "dashboard.";
-        window.dispatchEvent(initializeDashboardEvent);
-    }, 200);
-}
-
-let initializeUserPostsEvent = new CustomEvent("loadUserPosts", {
-    detail: {
-        message: "Ready to fetch user posts."
-    }
-});
-
-function initializeUserPosts() {
-    setTimeout(() => {
-        const headerLink = document.querySelector("#header");
-        headerLink.href = "/posts";
-        headerLink.textContent = "posts.";
-        window.dispatchEvent(initializeUserPostsEvent);
-    }, 200);
-}
-
-let initializePostEvent = new CustomEvent("loadPost", {
-    detail: {
-        message: "Ready to fetch post."
-    }
-});
-
-function initializePost() {
-    setTimeout(() => {
-        window.dispatchEvent(initializePostEvent);
-    }, 200);
-}
-
-let fetchPostToEditEvent = new CustomEvent("fetchPostToEdit", {
-    detail: {
-        message: "Ready to fetch post to edit."
-    }
-});
-
-function fetchPostToEdit() {
-    setTimeout(() => {
-        window.dispatchEvent(fetchPostToEditEvent);
-    }, 200);
-}
-
-let initializeProfileEvent = new CustomEvent("loadProfile", {
-    detail: {
-        message: "Ready to fetch user data."
-    }
-});
-
-function initializeProfile() {
-    setTimeout(() => {
-        window.dispatchEvent(initializeProfileEvent);
-    }, 200);
-}
-
-let initializeMessagesEvent = new CustomEvent("initializeMessages", {
-    detail: {
-        message: "Ready to load messages."
-    }
-});
-
-function initializeMessages() {
-    setTimeout(() => {
-        const headerLink = document.querySelector("#header");
-        headerLink.href = "/messages";
-        headerLink.textContent = "messages.";
-        window.dispatchEvent(initializeMessagesEvent);
-    }, 200);
 }
 
 // create a function that handles the url location
@@ -262,22 +160,25 @@ const urlLocationHandler = async () => {
     // set title
     document.title = title;
 
-    // and then load the scripts
-    loadRouteScripts(route);
+    // update header link if the route defines it
+    if (route.headerText) {
+        const headerLink = document.querySelector("#header");
+        headerLink.href = route.headerHref || "/";
+        headerLink.textContent = route.headerText;
+    }
 
-    // execute onLoad assigned function when navigating to route
-    if (typeof route.onLoad === "function") {
-        route.onLoad();
+    // load and initialize page module via dynamic import
+    if (route.module) {
+        const module = await import(route.module);
+        if (typeof module.init === "function") {
+            module.init();
+        }
     }
 };
 
 export async function load404Template() {
     const route = urlRoutes["404"];
     loadRouteStyles(route);
-    loadRouteScripts(route);
-    setTimeout(() => {
-        console.log("This message is displayed after 2 seconds");
-    }, 10000);
     const html = await fetch(route.template).then((response) => response.text());
     document.querySelector("#content").innerHTML = html;
     document.title = route.title;

@@ -1,14 +1,42 @@
 import config from "./config.js";
 
-document.querySelector("#update-title").addEventListener("input", function () {
-    this.style.height = "auto";
-    this.style.height = (this.scrollHeight) + "px";
-});
+export function init() {
+    document.querySelector("#update-title").addEventListener("input", function () {
+        this.style.height = "auto";
+        this.style.height = (this.scrollHeight) + "px";
+    });
 
-document.querySelector("#update-body").addEventListener("input", function () {
-    this.style.height = "auto";
-    this.style.height = (this.scrollHeight) + "px";
-});
+    document.querySelector("#update-body").addEventListener("input", function () {
+        this.style.height = "auto";
+        this.style.height = (this.scrollHeight) + "px";
+    });
+
+    document.querySelector("#update-title").addEventListener("input", toggleLinkState);
+    document.querySelector("#update-body").addEventListener("input", toggleLinkState);
+
+    document.querySelector("#update-form").addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const title = document.querySelector("#update-title").value;
+        const body = document.querySelector("#update-body").value;
+
+        if (!title || !body) {
+            console.log("Either title or body is empty.");
+            return;
+        }
+
+        const data = {
+            title: title,
+            body: body
+        };
+
+        const postId = window.location.pathname.split("/").pop();
+        await update(data, postId);
+    });
+
+    const postId = window.location.pathname.split("/").pop();
+    loadPostToEdit(postId);
+}
 
 function toggleLinkState() {
     const title = document.querySelector("#update-title").value.trim();
@@ -23,16 +51,6 @@ function toggleLinkState() {
         link.classList.add("disabled");
     }
 }
-
-document.querySelector("#update-title").addEventListener("input", toggleLinkState);
-document.querySelector("#update-body").addEventListener("input", toggleLinkState);
-
-window.addEventListener("fetchPostToEdit", function (e) {
-    setTimeout(function () {
-    }, 100);
-    const postId = window.location.pathname.split("/").pop();
-    loadPostToEdit(postId);
-});
 
 async function loadPostToEdit(postId) {
     const options = {
@@ -69,26 +87,6 @@ async function loadPostToEdit(postId) {
         console.log(response);
     }
 }
-
-document.querySelector("#update-form").addEventListener("submit", async function (event) {
-    event.preventDefault();
-
-    const title = document.querySelector("#update-title").value;
-    const body = document.querySelector("#update-body").value;
-
-    if (!title || !body) {
-        console.log("Either title or body is empty.");
-        return;
-    }
-
-    const data = {
-        title: title,
-        body: body
-    };
-
-    const postId = window.location.pathname.split("/").pop();
-    await update(data, postId);
-});
 
 async function update(data, postId) {
     let accessToken = localStorage.getItem("accessToken");

@@ -1,15 +1,13 @@
 import config from "./config.js";
 
-window.addEventListener("loadUserPosts", function (e) {
-    setTimeout(function () {
-    }, 100);
+export function init() {
     const storedPage = localStorage.getItem("currentUserPage");
     if (storedPage) {
         loadUserPosts(storedPage);
     } else {
         loadUserPosts(1);
     }
-});
+}
 
 
 function goToPreviousPage() {
