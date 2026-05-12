@@ -194,10 +194,11 @@ h2 {
         align-items: flex-end;
 
         .divider {
-            display: none;
+            display: none !important;
         }
 
-        a, div {
+        a,
+        div {
             margin-bottom: 2.25rem;
             font-size: 1.5rem;
         }
@@ -210,7 +211,7 @@ h2 {
         align-items: flex-end;
 
         .divider {
-            display: none;
+            display: none !important;
         }
 
         div {
@@ -233,7 +234,8 @@ h2 {
     .modal-content input[type="text"],
     .modal-content input[type="password"] {
         font-size: 1rem;
-        margin-bottom: 1rem !important;;
+        margin-bottom: 1rem !important;
+        ;
     }
 
     .modal-content input::placeholder {
@@ -286,10 +288,11 @@ h2 {
         align-items: flex-end;
 
         .divider {
-            display: none;
+            display: none !important;
         }
 
-        a, div {
+        a,
+        div {
             margin-bottom: 3rem;
             font-size: 2.25rem;
         }
@@ -301,10 +304,11 @@ h2 {
         text-align: right;
 
         .divider {
-            display: none;
+            display: none !important;
         }
 
-        a, div {
+        a,
+        div {
             margin-bottom: 3rem;
             font-size: 2.25rem;
         }
@@ -324,7 +328,8 @@ h2 {
     .modal-content input[type="text"],
     .modal-content input[type="password"] {
         font-size: 2rem;
-        margin-bottom: 1rem !important;;
+        margin-bottom: 1rem !important;
+        ;
     }
 
     .modal-content input::placeholder {
@@ -336,4 +341,3 @@ h2 {
         font-size: 2rem;
     }
 }
-

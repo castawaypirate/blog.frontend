@@ -294,14 +294,20 @@ function initMessages() {
 
         wrapper.appendChild(msgDiv);
 
+        const details = document.createElement('div');
+        details.className = 'message-details';
+        
+        // Prevent accidental taps inside the details area from closing the menu
+        details.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+
+        const dateSent = document.createElement('div');
+        dateSent.className = 'date-sent';
+        dateSent.textContent = createdAt ? formatDate(createdAt) : '';
+        details.appendChild(dateSent);
+
         if (isMine) {
-            const details = document.createElement('div');
-            details.className = 'message-details';
-
-            const dateSent = document.createElement('div');
-            dateSent.className = 'date-sent';
-            dateSent.textContent = createdAt ? formatDate(createdAt) : '';
-
             const divider = document.createElement('div');
             divider.className = 'message-details-divider';
             divider.textContent = '|';
@@ -310,10 +316,8 @@ function initMessages() {
             deleteBtn.className = 'message-delete';
             deleteBtn.textContent = 'delete';
 
-            details.appendChild(dateSent);
             details.appendChild(divider);
             details.appendChild(deleteBtn);
-            msgDiv.appendChild(details);
 
             deleteBtn.addEventListener('click', function (e) {
                 e.stopPropagation();
@@ -321,6 +325,10 @@ function initMessages() {
 
                 const approvalContainer = document.createElement('div');
                 approvalContainer.className = 'message-approval';
+                
+                approvalContainer.addEventListener('click', function(ev) {
+                    ev.stopPropagation();
+                });
 
                 const sureBtn = document.createElement('div');
                 sureBtn.className = 'sure-button';
@@ -374,6 +382,15 @@ function initMessages() {
                 });
             });
         }
+
+        msgDiv.appendChild(details);
+
+        // Ensure tap/hover persistence on mobile devices
+        msgDiv.addEventListener('click', function (e) {
+            e.stopPropagation();
+            // Toggle active state to keep metadata options visible
+            msgDiv.classList.toggle('active');
+        });
 
         return wrapper;
     }
