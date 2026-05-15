@@ -139,8 +139,9 @@ header {
         border-right: none;
         padding-right: 0;
         margin-bottom: 2rem;
-        overflow: visible;
+        overflow: hidden;
         display: flex;
+        height: 100%;
         /* Ensure it respects flex rules */
     }
 
@@ -148,9 +149,18 @@ header {
         width: 100%;
         min-width: 100%;
         padding-left: 0;
-        overflow: visible;
+        overflow: hidden;
         display: none;
+        height: 100%;
         /* Hidden by default on mobile */
+    }
+
+    #message-input {
+        max-height: 120px; /* Tighter constraint for mobile screens */
+    }
+
+    #messages-display-area {
+        min-height: 100px;
     }
 
     .vertical-divider {
@@ -212,6 +222,7 @@ header {
     flex: 1;
     overflow-y: auto;
     padding-right: 1rem;
+    min-height: 150px;
 }
 
 .conversation-header {
@@ -269,6 +280,7 @@ header {
     overflow-wrap: anywhere;
     word-break: break-all;
     position: relative;
+    white-space: pre-wrap; /* Preserve newlines and wrap text */
 }
 
 .message-me {
@@ -354,7 +366,8 @@ header {
     border-radius: 0;
     font-size: 1rem;
     box-sizing: border-box;
-    overflow-y: hidden;
+    overflow-y: auto;
+    max-height: 200px;
 }
 
 #message-input:focus {

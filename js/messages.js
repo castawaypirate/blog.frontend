@@ -47,29 +47,6 @@ function initMessages() {
         });
     }
 
-    const mockUsers = [
-        { id: 1, username: 'test1', profilePic: '/assets/user-profile-pic.png' },
-        { id: 2, username: 'test2', profilePic: '/assets/user-profile-pic.png' },
-        { id: 3, username: 'test3', profilePic: '/assets/user-profile-pic.png' },
-        { id: 4, username: 'alice', profilePic: '/assets/user-profile-pic.png' },
-        { id: 5, username: 'bobboboboobobobobobobobobobobobobobobobobooboflgks;dflgj;sdfkg;sdfg;sdfgj;sdflkg;sdfj;gsd;fgkbobobobobobobobobobobobbobobobobobobobobobobobobobobobobdfal;sdkf;lasdjf;akjsd;faks;dfja;sdo', profilePic: '/assets/user-profile-pic.png' },
-    ];
-
-
-    const mockMessages = {
-        1: [
-            { sender: 'them', content: 'Hey, how are you?' },
-            { sender: 'me', content: 'I am good, thanks! And you?;aksdf;aksd;fka;sdkf;asd;fkj;askdjf;kas;dfkj;alsdjf;lkas;dlfkj;aslkdjf;laksjd;flkajs;dlkfj;asldkjf;laskjdf;lkasjd;flkja;sdkjf;aksdfj;asdf;kas;dfka;sdfj;asdlkf;asdkjf;askfd' },
-            { sender: 'them', content: 'Pretty good as well.;fjsa;dfljk;asldkfj;askdf;askdf;laksd;flka;sdlkfj;askdf;lkasjd;flkjas;dlkfj;aksdjf;laksdj;flkjas;dlkfj;alskdjf;kasd;lkfj;aslkdjf;laksjd;fkajs;dkfj;alskd;fka;sdf;asd;flk' }
-        ],
-        2: [
-            { sender: 'me', content: 'Did you see the new post?;flaskjdf;lajs;dflkja;sdlfj;alsjkdf;ajs;dfkj;asldkf;askdf;kasjdf;kasj;dflkj;aslkdf;laskdf;lkasjdf;lkajs;dfkj;asdkdf;askd;flkas;dfkj;asdkfj;askdf;' }
-        ],
-        4: [
-            { sender: 'them', content: 'Hello Alice here.' },
-            { sender: 'me', content: 'Hi Alice!' }
-        ]
-    };
 
     function renderUsers(users) {
         usersList.innerHTML = '';
@@ -426,7 +403,6 @@ function initMessages() {
             const data = await response.json();
 
             if (data.success && data.conversations) {
-                // The API provides recent conversations. We'll inject them as the user list.
                 renderUsers(data.conversations);
             } else {
                 console.error('Failed to load inbox:', data.message);
