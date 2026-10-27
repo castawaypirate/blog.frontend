@@ -5,3 +5,11 @@ RewriteEngine On
 RewriteRule ^ /index.html
 
 FallbackResource /index.html
+
+# Code and markup are revalidated on every load (a cheap 304 when unchanged), so after an edit or a
+# deploy the browser never mixes old cached modules with new ones. Needs mod_headers (a2enmod headers on Debian).
+<IfModule mod_headers.c>
+    <FilesMatch "\.(js|css|html)$">
+        Header set Cache-Control "no-cache"
+    </FilesMatch>
+</IfModule>

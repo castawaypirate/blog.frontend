@@ -1,4 +1,5 @@
 import config from "./config.js";
+import { navigate } from "./router.js";
 
 export function init() {
     const storedPage = localStorage.getItem("currentUserPage");
@@ -139,7 +140,7 @@ async function loadUserPosts(pageNumber) {
                     editDiv.className = "edit";
                     editDiv.textContent = "edit";
                     editDiv.addEventListener("click", function () {
-                        window.location.href = `/edit/${post.id}`;
+                        navigate(`/edit/${post.id}`);
                     });
 
                     const deleteDiv = document.createElement("div");

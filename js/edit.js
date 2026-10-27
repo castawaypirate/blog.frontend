@@ -1,5 +1,5 @@
 import config from "./config.js";
-import { load404Template } from "./router.js";
+import { load404Template, navigate } from "./router.js";
 
 export function init() {
     document.querySelector("#update-title").addEventListener("input", function () {
@@ -105,8 +105,7 @@ async function update(data, postId) {
         if (response.ok) {
             const result = await response.json();
             if (result.success) {
-                let form = document.querySelector("#update-form");
-                form.submit();
+                navigate("/posts");
             } else {
                 console.log(result);
             }

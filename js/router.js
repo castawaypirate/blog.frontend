@@ -87,23 +87,58 @@ const urlRoute = (event, href) => {
     urlLocationHandler();
 };
 
-function loadRouteStyles(route) {
-    const head = document.getElementsByTagName("head")[0];
+// one cache key per page load: CSS is downloaded once per visit, and a refresh still picks up edits
+const BOOT = Date.now();
+// route style path -> { link, ready }, so a page seen before switches without a new request
+const routeStyles = new Map();
+// template path -> promise of its html
+const templates = new Map();
+// bumped on every navigation, so a slow earlier one can't overwrite a later one
+let navId = 0;
 
-    // remove existing CSS files, excluding index.css
-    Array.from(document.getElementsByTagName("link")).forEach(link => {
-        if (link.rel === "stylesheet" && !link.href.endsWith("index.css")) {
-            head.removeChild(link);
-        }
-    });
-
-    // load new CSS file, excluding index.css
-    if (route.style && !route.style.endsWith("index.css")) {
-        const cssLink = document.createElement("link");
-        cssLink.rel = "stylesheet";
-        cssLink.href = `${route.style}?${Date.now()}`;
-        head.appendChild(cssLink);
+// load a route stylesheet and resolve once it can be applied
+function ensureStyle(style) {
+    if (!style) {
+        return Promise.resolve();
     }
+    if (!routeStyles.has(style)) {
+        const link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.href = `${style}?v=${BOOT}`;
+        // downloaded now but not applied, so it can't restyle the page still on screen
+        link.media = "not all";
+        // a missing file must not hang the page, so errors resolve too
+        const ready = new Promise(resolve => {
+            link.onload = resolve;
+            link.onerror = resolve;
+        });
+        document.head.appendChild(link);
+        routeStyles.set(style, { link, ready });
+    }
+    return routeStyles.get(style).ready;
+}
+
+// apply the route stylesheet and switch the others off (index.css is not managed here)
+function applyRouteStyle(style) {
+    routeStyles.forEach((entry, key) => {
+        entry.link.media = key === style ? "all" : "not all";
+    });
+}
+
+function getTemplate(path) {
+    if (!templates.has(path)) {
+        const html = fetch(path).then(response => response.text());
+        // a failed fetch is retried on the next visit
+        html.catch(() => templates.delete(path));
+        templates.set(path, html);
+    }
+    return templates.get(path);
+}
+
+// switch pages without a full reload
+export function navigate(path) {
+    window.history.pushState({}, "", path);
+    urlLocationHandler();
 }
 
 // create a function that handles the url location
@@ -146,26 +181,25 @@ const urlLocationHandler = async () => {
         route = urlRoutes[location] || urlRoutes["404"];
     }
 
-    let template = route.template;
-    let title = route.title;
+    const thisNav = ++navId;
 
-    // get the html from the template
-    const html = await fetch(template).then((response) => response.text());
+    // fetch the template, the stylesheet and the page module together; the current page
+    // stays on screen until all three are ready, then the new one replaces it in one step
+    const [html, , module] = await Promise.all([
+        getTemplate(route.template),
+        ensureStyle(route.style),
+        route.module ? import(route.module) : null
+    ]);
 
-    const content = document.querySelector("#content");
+    if (thisNav !== navId) {
+        return;
+    }
 
-    // it doesn't make a real difference though to clear the html of the template
-    content.style.display = "none";
-
-    // load the styles first
-    loadRouteStyles(route)
-
-    // set the content of the content div to the html
-    content.innerHTML = html;
-    content.style.display = "block";
+    applyRouteStyle(route.style);
+    document.querySelector("#content").innerHTML = html;
 
     // set title
-    document.title = title;
+    document.title = route.title;
 
     // update header link if the route defines it
     if (route.headerText) {
@@ -174,19 +208,21 @@ const urlLocationHandler = async () => {
         headerLink.textContent = route.headerText;
     }
 
-    // load and initialize page module via dynamic import
-    if (route.module) {
-        const module = await import(route.module);
-        if (typeof module.init === "function") {
-            module.init();
-        }
+    // initialize the page module
+    if (module && typeof module.init === "function") {
+        module.init();
     }
 };
 
 export async function load404Template() {
     const route = urlRoutes["404"];
-    loadRouteStyles(route);
-    const html = await fetch(route.template).then((response) => response.text());
+    const thisNav = navId;
+    const [html] = await Promise.all([getTemplate(route.template), ensureStyle(route.style)]);
+    // the user already moved on to another page
+    if (thisNav !== navId) {
+        return;
+    }
+    applyRouteStyle(route.style);
     document.querySelector("#content").innerHTML = html;
     document.title = route.title;
 }

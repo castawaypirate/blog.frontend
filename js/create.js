@@ -1,4 +1,5 @@
 import config from "./config.js";
+import { navigate } from "./router.js";
 
 export function init() {
     document.querySelector("#post-title").addEventListener("input", function () {
@@ -63,8 +64,9 @@ async function post(data) {
         if (response.ok) {
             const result = await response.json();
             if (result.success) {
-                let form = document.querySelector("#post-form");
-                form.submit();
+                // the new post is first on the dashboard's first page
+                localStorage.setItem("dashboardPage", 1);
+                navigate("/");
             } else {
                 console.log(result);
             }
