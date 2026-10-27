@@ -65,10 +65,15 @@ function initMessages() {
                 ? `${baseUrl}/uploads/${user.profile_pic_path}` 
                 : '/assets/user-profile-pic.png';
 
-            userItem.innerHTML = `
-                <img src="${profilePicSrc}" alt="${user.username}" class="user-item-pic">
-                <div class="user-item-username">${user.username}</div>
-            `;
+            // built with properties, not HTML, so a username can't inject markup
+            const userPic = document.createElement('img');
+            userPic.src = profilePicSrc;
+            userPic.alt = user.username;
+            userPic.className = 'user-item-pic';
+            const userName = document.createElement('div');
+            userName.className = 'user-item-username';
+            userName.textContent = user.username;
+            userItem.append(userPic, userName);
 
             userItem.addEventListener('click', () => {
                 console.log(`Clicked on user: ${user.username}`);

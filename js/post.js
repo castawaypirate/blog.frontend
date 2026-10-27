@@ -7,6 +7,25 @@ export function init() {
     loadComments(postId);
 }
 
+// put user text into an element as plain text, keeping line breaks as <br>
+// (never as HTML, so a post containing <script> just shows the characters)
+function setTextWithBreaks(element, text) {
+    element.replaceChildren();
+    String(text ?? "").split("\n").forEach((line, i) => {
+        if (i > 0) {
+            element.appendChild(document.createElement("br"));
+        }
+        element.appendChild(document.createTextNode(line));
+    });
+}
+
+// the reverse of setTextWithBreaks: text nodes and <br> back to a string with \n
+function getTextWithBreaks(element) {
+    return Array.from(element.childNodes)
+        .map(node => node.nodeName === "BR" ? "\n" : node.textContent)
+        .join("");
+}
+
 async function getUserVotes() {
     const accessToken = localStorage.getItem("accessToken");
     const options = {
@@ -58,12 +77,13 @@ async function loadPost(postId) {
                 const post = result.post;
                 const postContainer = document.querySelector(".post-container");
 
-                // replace newline characters with <br> tags
-                const formattedTitle = post.title.replace(/\n/g, "<br>");
-                const formattedBody = post.body.replace(/\n/g, "<br>");
-                postContainer.innerHTML = `
-          <h2 id="post-title">${formattedTitle}</h2>
-          <div id="post-body">${formattedBody}</div>`;
+                const postTitle = document.createElement("h2");
+                postTitle.id = "post-title";
+                setTextWithBreaks(postTitle, post.title);
+                const postBody = document.createElement("div");
+                postBody.id = "post-body";
+                setTextWithBreaks(postBody, post.body);
+                postContainer.replaceChildren(postTitle, postBody);
 
                 // load post votes
                 const upvotes = document.createElement("div");
@@ -434,10 +454,8 @@ async function loadComments(postId) {
 
                     const commentBody = document.createElement("div");
                     commentBody.className = "comment-body";
-
-                    const formattedBody = comment.body.replace(/\n/g, "<br>");
-                    commentContainer.innerHTML = `
-                        <div class="comment-body">${formattedBody}</div>`;
+                    setTextWithBreaks(commentBody, comment.body);
+                    commentContainer.appendChild(commentBody);
 
                     const commentDetails = document.createElement("div");
                     commentDetails.className = "comment-details";
@@ -543,7 +561,7 @@ async function loadComments(postId) {
                                 });
 
                                 // convert <br> tags to line breaks and count the number of lines
-                                const commentText = commentBodyDiv.innerHTML.replace(/<br\s*\/?>/gi, "\n");
+                                const commentText = getTextWithBreaks(commentBodyDiv);
                                 const lineCount = (commentText.match(/\n/g) || []).length + 1;
                                 // set the number of rows based on the line count
                                 edittedCommentBody.rows = lineCount;
@@ -782,9 +800,7 @@ async function updateComment(edittedCommentBody, commentId, commentContainer, co
                 commentContainer.removeChild(commentEditButtonsContainer);
                 commentDetails.style.display = "flex";
 
-                // replace newline characters with <br> now for the comments as well
-                const updatedCommentText = edittedCommentBody.value.replace(/\n/g, "<br>");
-                commentBodyDiv.innerHTML = updatedCommentText;
+                setTextWithBreaks(commentBodyDiv, edittedCommentBody.value);
 
                 // Update the edited date with the new updated_at from the response
                 if (result.updated_at) {
