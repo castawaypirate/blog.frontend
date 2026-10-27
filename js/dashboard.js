@@ -1,6 +1,7 @@
 import config from "./config.js";
 
-export function init() {
+export async function init() {
+    await window.userState.ready;
     const storedPage = localStorage.getItem("currentPage");
     if (storedPage) {
         loadPosts(storedPage);

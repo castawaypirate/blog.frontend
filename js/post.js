@@ -1,8 +1,9 @@
 import config from "./config.js";
 import { load404Template } from "./router.js";
 
-export function init() {
+export async function init() {
     const postId = window.location.pathname.split("/").pop();
+    await window.userState.ready;
     loadPost(postId);
     loadComments(postId);
 }

@@ -4,19 +4,18 @@ let menu;
 let loggedIn = false;
 
 
-document.addEventListener("DOMContentLoaded", async function () {
-    try {
-        loggedIn = await validateUser();
-    } catch (e) {
-        loggedIn = false;
-    }
-    loadMenu();
-});
-
-
 window.userState = {
     isLoggedIn: false
 };
+
+// resolves once the token has been checked; pages that depend on login state await it
+// so they don't render as "logged out" while the check is still running
+window.userState.ready = validateUser().catch(() => false);
+
+document.addEventListener("DOMContentLoaded", async function () {
+    loggedIn = await window.userState.ready;
+    loadMenu();
+});
 
 
 async function validateUser() {
