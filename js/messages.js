@@ -116,6 +116,7 @@ function initMessages() {
         async function submitMessage() {
             const content = messageInput.value.trim();
             if (content !== "" && currentReceiverId) {
+                const receiverId = currentReceiverId;
                 // Clear the input area immediately for responsiveness
                 messageInput.value = '';
                 messageInput.style.height = "auto";
@@ -131,13 +132,18 @@ function initMessages() {
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({
-                            receiverId: currentReceiverId,
+                            receiverId: receiverId,
                             content: content
                         })
                     });
-                    
+
                     const data = await response.json();
-                    
+
+                    // another conversation was opened while this was sending; it shows up when that chat is reopened
+                    if (data.success && receiverId !== currentReceiverId) {
+                        return;
+                    }
+
                     if (data.success) {
                         const messagesList = messagesDisplayArea.querySelector('.messages-list') || (() => {
                             const list = document.createElement('div');
@@ -164,13 +170,14 @@ function initMessages() {
             }
         }
 
-        messageInput.addEventListener('keydown', function (e) {
+        // assigned, not added, so opening another conversation replaces the handler instead of stacking one more
+        messageInput.onkeydown = function (e) {
             // Check if Enter is pressed without Shift
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault(); // Prevent default new line
                 submitMessage();
             }
-        });
+        };
 
         // Ensure clicking the send button also works
         sendButton.onclick = function () {
@@ -215,6 +222,11 @@ function initMessages() {
             });
             const data = await response.json();
 
+            // the user clicked another conversation while this one was loading; that one owns the panel now
+            if (otherUserId !== currentReceiverId) {
+                return;
+            }
+
             loadingMsg.remove();
 
             if (data.success && data.messages) {
@@ -249,6 +261,9 @@ function initMessages() {
             }
         } catch (error) {
             console.error('Error fetching conversation:', error);
+            if ((user.user_id || user.id) !== currentReceiverId) {
+                return;
+            }
             loadingMsg.remove();
             const errorMsg = document.createElement('div');
             errorMsg.className = 'message-placeholder';

@@ -2,7 +2,7 @@ import config from "./config.js";
 
 export async function init() {
     await window.userState.ready;
-    const storedPage = localStorage.getItem("currentPage");
+    const storedPage = localStorage.getItem("dashboardPage");
     if (storedPage) {
         loadPosts(storedPage);
     } else {
@@ -11,12 +11,12 @@ export async function init() {
 }
 
 function goToPreviousPage() {
-    const currentUserPage = localStorage.getItem("currentUserPage");
+    const currentUserPage = localStorage.getItem("dashboardPage");
     loadPosts(parseInt(currentUserPage) - 1);
 }
 
 function goToNextPage() {
-    const currentUserPage = localStorage.getItem("currentUserPage");
+    const currentUserPage = localStorage.getItem("dashboardPage");
     loadPosts(parseInt(currentUserPage) + 1);
 }
 
@@ -178,7 +178,7 @@ async function loadPosts(pageNumber) {
 
                 let totalPages = result.totalPages;
                 let currentUserPage = result.pageNumber;
-                localStorage.setItem("currentUserPage", currentUserPage);
+                localStorage.setItem("dashboardPage", currentUserPage);
 
                 if (totalPages > 1) {
                     const paginationRow = document.createElement("tr");

@@ -1,4 +1,5 @@
 import config from "./config.js";
+import { load404Template } from "./router.js";
 
 export function init() {
     document.querySelector("#update-title").addEventListener("input", function () {

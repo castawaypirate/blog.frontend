@@ -1,11 +1,18 @@
 // create document click that watches the nav links only !!!!! hmmmmmmmmm
 document.addEventListener("click", (e) => {
-    const { target } = e;
-    if (!target.matches("a")) {
+    const link = e.target.closest("a");
+    if (!link) {
+        return;
+    }
+    // leave new-tab clicks, href-less anchors (e.g. log out) and other sites to the browser
+    if (e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) {
+        return;
+    }
+    if (!link.hasAttribute("href") || link.origin !== window.location.origin) {
         return;
     }
     e.preventDefault();
-    urlRoute();
+    urlRoute(e, link.href);
 });
 
 // create an object that maps the url to the template, title, and description
@@ -72,11 +79,11 @@ const urlRoutes = {
 };
 
 // create a function that watches the url and calls the urlLocationHandler
-const urlRoute = (event) => {
+const urlRoute = (event, href) => {
     event = event || window.event; // get window.event if event argument not provided
     event.preventDefault();
     // window.history.pushState(state, unused, target link);
-    window.history.pushState({}, "", event.target.href);
+    window.history.pushState({}, "", href || event.target.closest("a").href);
     urlLocationHandler();
 };
 
